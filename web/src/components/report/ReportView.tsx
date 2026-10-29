@@ -1,5 +1,7 @@
 "use client";
 
+import { FadeUp, Stagger } from "@/components/motion/Stagger";
+import { Reveal } from "@/components/motion/Reveal";
 import type { Report } from "@/lib/report-types";
 import { display } from "@/lib/report-access";
 import { ApisA } from "./ApisA";
@@ -27,43 +29,81 @@ export function ReportView({ report, json }: { report: Report; json: string }) {
 
   return (
     <div className="space-y-6">
-      <ReportHeader report={report} />
-      <Limitations report={report} />
-      <ExposureProfile report={report} />
-      <PackageComposition indicator={indicators?.D} />
-      <SdksByCategory report={report} />
-      <HostsByAttribution indicator={indicators?.N} />
-      <CorpusPosition report={report} />
-      <TopSdks report={report} />
+      <Stagger className="space-y-6">
+        <FadeUp>
+          <ReportHeader report={report} />
+        </FadeUp>
+        <FadeUp>
+          <Limitations report={report} />
+        </FadeUp>
+        <FadeUp>
+          <ExposureProfile report={report} />
+        </FadeUp>
+      </Stagger>
+
+      <Reveal>
+        <PackageComposition indicator={indicators?.D} />
+      </Reveal>
+      <Reveal>
+        <SdksByCategory report={report} />
+      </Reveal>
+      <Reveal>
+        <HostsByAttribution indicator={indicators?.N} />
+      </Reveal>
+      <Reveal>
+        <CorpusPosition report={report} />
+      </Reveal>
+      <Reveal>
+        <TopSdks report={report} />
+      </Reveal>
 
       {report.status === "error" || errors.length > 0 ? (
-        <section aria-labelledby="errors-heading" className="card">
-          <h2 id="errors-heading" className="text-2xl">
-            Errors
-          </h2>
-          <p>Report status: {display(report.status)}</p>
-          <ul className="mt-2 list-disc pl-6">
-            {errors.map((error, index) => (
-              <li key={index}>
-                <code>{error.code}</code>: {error.message}
-              </li>
-            ))}
-          </ul>
-        </section>
+        <Reveal>
+          <section aria-labelledby="errors-heading" className="card">
+            <h2 id="errors-heading" className="text-2xl">
+              Errors
+            </h2>
+            <p>Report status: {display(report.status)}</p>
+            <ul className="mt-2 list-disc pl-6">
+              {errors.map((error, index) => (
+                <li key={index}>
+                  <code>{error.code}</code>: {error.message}
+                </li>
+              ))}
+            </ul>
+          </section>
+        </Reveal>
       ) : null}
 
-      <Frameworks report={report} />
-      <FootprintD indicator={indicators?.D} />
-      <SdkInventory report={report} />
-      <NetworkHostsN indicator={indicators?.N} />
-      <PermissionsP indicator={indicators?.P} />
-      <ApisA indicator={indicators?.A} />
-      <ManifestM indicator={indicators?.M} />
-
-      <EngineInfo report={report} />
-      <div>
-        <DownloadJson json={json} filename={filename} />
-      </div>
+      <Reveal>
+        <Frameworks report={report} />
+      </Reveal>
+      <Reveal>
+        <FootprintD indicator={indicators?.D} />
+      </Reveal>
+      <Reveal>
+        <SdkInventory report={report} />
+      </Reveal>
+      <Reveal>
+        <NetworkHostsN indicator={indicators?.N} />
+      </Reveal>
+      <Reveal>
+        <PermissionsP indicator={indicators?.P} />
+      </Reveal>
+      <Reveal>
+        <ApisA indicator={indicators?.A} />
+      </Reveal>
+      <Reveal>
+        <ManifestM indicator={indicators?.M} />
+      </Reveal>
+      <Reveal>
+        <EngineInfo report={report} />
+      </Reveal>
+      <Reveal>
+        <div>
+          <DownloadJson json={json} filename={filename} />
+        </div>
+      </Reveal>
     </div>
   );
 }

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { Anton, Source_Sans_3 } from "next/font/google";
 import Link from "next/link";
+import { MotionRoot } from "@/components/motion/MotionRoot";
 import "./globals.css";
 
 const anton = Anton({
@@ -33,7 +34,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             <span className="text-sm">Research prototype</span>
           </div>
         </header>
-        <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-8">{children}</main>
+        <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-8">
+          <MotionRoot>{children}</MotionRoot>
+        </main>
         <footer className="border-t border-charcoal/20">
           <p className="mx-auto max-w-5xl px-4 py-4 text-sm">
             MSc Cyber Security dissertation prototype. Static analysis only.

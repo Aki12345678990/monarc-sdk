@@ -2,6 +2,7 @@
 
 import { Bar, BarChart, Cell, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { CHART_PALETTE } from "@/lib/chart-palette";
+import { RECHARTS_DURATION_MS, RECHARTS_EASING } from "@/lib/motion";
 import { asArray, asRecord, asString } from "@/lib/report-access";
 import type { IndicatorResult } from "@/lib/report-types";
 import { ChartFrame, HiddenTable } from "./ChartFrame";
@@ -44,7 +45,13 @@ export function HostsByAttribution({ indicator }: { indicator: IndicatorResult |
           <XAxis dataKey="group" />
           <YAxis allowDecimals={false} />
           <Tooltip />
-          <Bar dataKey="count" isAnimationActive={false} name="distinct hosts">
+          <Bar
+            dataKey="count"
+            isAnimationActive
+            animationDuration={RECHARTS_DURATION_MS}
+            animationEasing={RECHARTS_EASING}
+            name="distinct hosts"
+          >
             {rows.map((row) => (
               <Cell key={row.group} fill={row.fill} />
             ))}

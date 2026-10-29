@@ -2,6 +2,7 @@
 
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 import { CHART_PALETTE } from "@/lib/chart-palette";
+import { RECHARTS_DURATION_MS, RECHARTS_EASING } from "@/lib/motion";
 import { PACKAGE_CATEGORIES } from "@/lib/package-categories";
 import { asNumber, asRecord } from "@/lib/report-access";
 import type { IndicatorResult } from "@/lib/report-types";
@@ -55,7 +56,9 @@ export function PackageComposition({ indicator }: { indicator: IndicatorResult |
             cy="50%"
             innerRadius={48}
             outerRadius={80}
-            isAnimationActive={false}
+            isAnimationActive
+            animationDuration={RECHARTS_DURATION_MS}
+            animationEasing={RECHARTS_EASING}
           >
             {rows.map((row) => (
               <Cell key={row.category} fill={row.fill} />

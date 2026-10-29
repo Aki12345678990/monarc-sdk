@@ -1,8 +1,11 @@
 "use client";
 
+import { motion } from "motion/react";
 import { useRouter } from "next/navigation";
 import { useId, useState, type DragEvent, type FormEvent } from "react";
+import { CountUp } from "@/components/motion/CountUp";
 import { createJob, uploadFile } from "@/lib/api";
+import { DURATION, EASE, SPRING, scaleIn } from "@/lib/motion";
 import { formatBytes } from "@/lib/report-access";
 
 type Phase = "idle" | "creating" | "uploading" | "redirecting";
@@ -78,13 +81,15 @@ export function UploadForm() {
 
   return (
     <form onSubmit={onSubmit} className="card space-y-4" aria-describedby={`${inputId}-help`}>
-      <div
+      <motion.div
         onDragOver={(event) => {
           event.preventDefault();
           if (!busy) setDragging(true);
         }}
         onDragLeave={() => setDragging(false)}
         onDrop={onDrop}
+        animate={{ scale: dragging ? 1.01 : 1 }}
+        transition={{ duration: DURATION.fast, ease: EASE }}
         className={`rounded border-2 border-dashed p-6 text-center ${
           dragging ? "border-orange" : "border-charcoal/40"
         }`}
@@ -102,11 +107,29 @@ export function UploadForm() {
           className="mx-auto block text-sm file:mr-3 file:cursor-pointer file:rounded file:border-0 file:bg-charcoal file:px-3 file:py-2 file:text-cream"
         />
         <p id={`${inputId}-help`} className="mt-2 text-sm">
-          {file ? `Selected: ${file.name} (${formatBytes(file.size)})` : "No file selected."}
+          {file ? (
+            <motion.span
+              key={file.name}
+              variants={scaleIn}
+              initial="hidden"
+              animate="show"
+              className="inline-block rounded-full border border-orange px-3 py-1"
+            >
+              Selected: {file.name} ({formatBytes(file.size)})
+            </motion.span>
+          ) : (
+            "No file selected."
+          )}
         </p>
-      </div>
+      </motion.div>
 
-      <button type="submit" disabled={!file || busy} className="btn-primary">
+      <motion.button
+        type="submit"
+        disabled={!file || busy}
+        className="btn-primary"
+        whileHover={{ y: -1 }}
+        whileTap={{ scale: 0.98 }}
+      >
         {phase === "creating"
           ? "Creating job…"
           : phase === "uploading"
@@ -114,7 +137,7 @@ export function UploadForm() {
             : phase === "redirecting"
               ? "Opening job…"
               : "Upload and analyse"}
-      </button>
+      </motion.button>
 
       {phase === "uploading" || phase === "redirecting" ? (
         <div>
@@ -126,9 +149,16 @@ export function UploadForm() {
             aria-valuenow={progress}
             className="h-3 w-full overflow-hidden rounded border border-charcoal"
           >
-            <div className="h-full bg-orange" style={{ width: `${progress}%` }} />
+            <motion.div
+              className="h-full origin-left bg-orange"
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: progress / 100 }}
+              transition={SPRING}
+            />
           </div>
-          <p className="mt-1 text-sm">{progress}% uploaded</p>
+          <p className="mt-1 text-sm">
+            <CountUp value={progress} format={(n) => `${Math.round(n)}`} />% uploaded
+          </p>
         </div>
       ) : null}
 

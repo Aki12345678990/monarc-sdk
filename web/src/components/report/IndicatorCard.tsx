@@ -1,6 +1,10 @@
+"use client";
+
+import { motion } from "motion/react";
 import type { ReactNode } from "react";
-import type { IndicatorResult } from "@/lib/report-types";
 import { INDICATOR_STATUS_LABELS } from "@/lib/labels";
+import { DURATION, EASE } from "@/lib/motion";
+import type { IndicatorResult } from "@/lib/report-types";
 
 export function IndicatorCard({
   letter,
@@ -15,7 +19,12 @@ export function IndicatorCard({
 }) {
   const headingId = `indicator-${letter}`;
   return (
-    <section aria-labelledby={headingId} className="card">
+    <motion.section
+      aria-labelledby={headingId}
+      className="card"
+      whileHover={{ y: -2, borderColor: "var(--border-strong)" }}
+      transition={{ duration: DURATION.fast, ease: EASE }}
+    >
       <h2 id={headingId} className="text-2xl">
         {letter} — {title}
       </h2>
@@ -38,6 +47,6 @@ export function IndicatorCard({
         ) : null}
       </dl>
       {children ? <div className="mt-4">{children}</div> : null}
-    </section>
+    </motion.section>
   );
 }

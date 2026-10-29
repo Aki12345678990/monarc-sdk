@@ -1,6 +1,7 @@
 "use client";
 
 import { useId, type ReactNode } from "react";
+import { CountUp } from "@/components/motion/CountUp";
 
 export const PAGE_SIZE = 100;
 
@@ -44,7 +45,8 @@ export function ShowMore({
   return (
     <div className="mt-2 flex flex-wrap items-center gap-3 text-sm">
       <span>
-        Showing {Math.min(shown, total)} of {total} {noun}
+        Showing <CountUp value={Math.min(shown, total)} format={(n) => String(Math.round(n))} /> of{" "}
+        <CountUp value={total} format={(n) => String(Math.round(n))} /> {noun}
       </span>
       {shown < total ? (
         <button type="button" onClick={onMore} className="btn-secondary">

@@ -1,5 +1,11 @@
-import { asArray, asRecord, asString, display, formatPercent1, formatPercentile } from "@/lib/report-access";
+"use client";
+
+import { motion } from "motion/react";
+import type { ReactNode } from "react";
+import { CountUp } from "@/components/motion/CountUp";
 import { INDICATOR_STATUS_LABELS } from "@/lib/labels";
+import { SPRING } from "@/lib/motion";
+import { asArray, asRecord, asString, display, formatPercent1 } from "@/lib/report-access";
 import type { Report } from "@/lib/report-types";
 
 function Tile({
@@ -7,11 +13,13 @@ function Tile({
   value,
   extra,
   testId,
+  bar,
 }: {
   label: string;
-  value: string;
-  extra?: string | null;
+  value: ReactNode;
+  extra?: ReactNode;
   testId: string;
+  bar?: number | null;
 }) {
   return (
     <div className="card">
@@ -24,8 +32,32 @@ function Tile({
           {extra}
         </p>
       ) : null}
+      {typeof bar === "number" ? (
+        <div className="mt-2 h-1 overflow-hidden rounded bg-charcoal/15">
+          <motion.div
+            className="h-full origin-left bg-orange"
+            initial={{ scaleX: 0 }}
+            animate={{ scaleX: Math.min(Math.max(bar / 100, 0), 1) }}
+            transition={SPRING}
+          />
+        </div>
+      ) : null}
     </div>
   );
+}
+
+function percentileLine(value: number | null): ReactNode {
+  if (value === null) return null;
+  return (
+    <>
+      higher than <CountUp value={value} format={(n) => n.toFixed(1)} />% of corpus apps
+    </>
+  );
+}
+
+function counted(value: number | null, format: (n: number) => string): ReactNode {
+  if (value === null) return display(value);
+  return <CountUp value={value} format={format} />;
 }
 
 export function ExposureProfile({ report }: { report: Report }) {
@@ -41,6 +73,9 @@ export function ExposureProfile({ report }: { report: Report }) {
     typeof asRecord(indicators?.D.details).n_sdk_distinct === "number"
       ? (asRecord(indicators?.D.details).n_sdk_distinct as number)
       : null;
+  const dPct = comparison?.metrics.D?.percentile ?? null;
+  const nPct = comparison?.metrics.N?.percentile ?? null;
+  const sdkPct = comparison?.metrics.n_sdk_distinct?.percentile ?? null;
 
   return (
     <section aria-labelledby="exposure-heading" className="space-y-3">
@@ -50,21 +85,24 @@ export function ExposureProfile({ report }: { report: Report }) {
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
         <Tile
           label="SDK footprint"
-          value={formatPercent1(dValue)}
-          extra={formatPercentile(comparison?.metrics.D?.percentile)}
+          value={counted(dValue, formatPercent1)}
+          extra={percentileLine(dPct)}
           testId="tile-d"
+          bar={dPct}
         />
         <Tile
           label="Distinct SDKs"
-          value={display(sdkValue)}
-          extra={formatPercentile(comparison?.metrics.n_sdk_distinct?.percentile)}
+          value={counted(sdkValue, (n) => String(Math.round(n)))}
+          extra={percentileLine(sdkPct)}
           testId="tile-sdks"
+          bar={sdkPct}
         />
         <Tile
           label="Distinct network hosts"
-          value={display(nValue)}
-          extra={formatPercentile(comparison?.metrics.N?.percentile)}
+          value={counted(nValue, (n) => String(Math.round(n)))}
+          extra={percentileLine(nPct)}
           testId="tile-n"
+          bar={nPct}
         />
         <Tile
           label="Frameworks detected"

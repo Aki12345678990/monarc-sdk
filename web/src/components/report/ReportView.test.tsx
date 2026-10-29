@@ -1,5 +1,6 @@
 import { fireEvent, render, screen, within } from "@testing-library/react";
 import { describe, expect, test } from "vitest";
+import { MotionRoot } from "@/components/motion/MotionRoot";
 import fixture from "@/test/fixtures/report.json";
 import type { Report } from "@/lib/report-types";
 import { ReportView } from "./ReportView";
@@ -11,7 +12,11 @@ const FORBIDDEN = /score|tier|verdict|malicious|\bsafe\b|critical|high risk|low 
 const ALLOWED_LIMITATION = "This is not a malware verdict.";
 
 function renderReport(value: Report = report) {
-  return render(<ReportView report={value} json={json} />);
+  return render(
+    <MotionRoot>
+      <ReportView report={value} json={json} />
+    </MotionRoot>,
+  );
 }
 
 describe("ReportView", () => {

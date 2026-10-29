@@ -1,6 +1,8 @@
 "use client";
 
+import { AnimatePresence, motion } from "motion/react";
 import { useState } from "react";
+import { DURATION, EASE } from "@/lib/motion";
 import type { Report } from "@/lib/report-types";
 import { asArray, asRecord, display, matchesFilter } from "@/lib/report-access";
 import { FilterInput } from "./controls";
@@ -64,15 +66,26 @@ export function SdkInventory({ report }: { report: Report }) {
                       >
                         {packages.length} {packages.length === 1 ? "package" : "packages"}
                       </button>
-                      {open ? (
-                        <ul id={listId} className="mt-1 list-disc pl-6 font-mono text-sm">
-                          {packages.map((pkg, i) => (
-                            <li key={i} className="break-all">
-                              {display(pkg)}
-                            </li>
-                          ))}
-                        </ul>
-                      ) : null}
+                      <AnimatePresence>
+                        {open ? (
+                          <motion.div
+                            key="packages"
+                            layout
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: DURATION.fast, ease: EASE }}
+                          >
+                            <ul id={listId} className="mt-1 list-disc pl-6 font-mono text-sm">
+                              {packages.map((pkg, i) => (
+                                <li key={i} className="break-all">
+                                  {display(pkg)}
+                                </li>
+                              ))}
+                            </ul>
+                          </motion.div>
+                        ) : null}
+                      </AnimatePresence>
                     </td>
                   </tr>
                 );

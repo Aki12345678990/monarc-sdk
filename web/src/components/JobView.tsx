@@ -1,11 +1,15 @@
 "use client";
 
+import { AnimatePresence, motion } from "motion/react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { ApiError, fetchReportText, getJob, TERMINAL_STATUSES, type JobResponse } from "@/lib/api";
 import { messageForErrorCode } from "@/lib/error-messages";
 import { jobStatusLabel } from "@/lib/labels";
+import { DURATION, EASE } from "@/lib/motion";
 import type { Report } from "@/lib/report-types";
+import { ScanCard } from "./ScanCard";
+import { StatusStepper } from "./StatusStepper";
 import { ReportView } from "./report/ReportView";
 
 const POLL_MS = 2000;
@@ -94,12 +98,23 @@ export function JobView({ jobId }: { jobId: string }) {
           {notFound ? (
             <p>This job was not found.</p>
           ) : job ? (
-            <p className="text-xl">
-              Status: <span className="font-semibold">{jobStatusLabel(job.status)}</span>
-              {running && now !== null && Number.isFinite(startedAt) ? (
-                <span> — elapsed {formatElapsed(now - startedAt)}</span>
-              ) : null}
-            </p>
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={job.status}
+                initial={{ opacity: 0.6 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: DURATION.fast, ease: EASE }}
+              >
+                <p className="text-xl">
+                  Status: <span className="font-semibold">{jobStatusLabel(job.status)}</span>
+                </p>
+                <StatusStepper status={job.status} />
+                {running && now !== null && Number.isFinite(startedAt) ? (
+                  <ScanCard elapsed={formatElapsed(now - startedAt)} />
+                ) : null}
+              </motion.div>
+            </AnimatePresence>
           ) : (
             <p>Loading job status…</p>
           )}

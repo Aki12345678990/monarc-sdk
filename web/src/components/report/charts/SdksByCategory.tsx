@@ -2,6 +2,7 @@
 
 import { Bar, BarChart, Cell, LabelList, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { CHART_PALETTE } from "@/lib/chart-palette";
+import { RECHARTS_DURATION_MS, RECHARTS_EASING } from "@/lib/motion";
 import { asArray, asRecord, asString } from "@/lib/report-access";
 import type { Report } from "@/lib/report-types";
 import { ChartFrame, HiddenTable } from "./ChartFrame";
@@ -37,7 +38,14 @@ export function SdksByCategory({ report }: { report: Report }) {
           <XAxis type="number" allowDecimals={false} />
           <YAxis type="category" dataKey="category" width={120} />
           <Tooltip />
-          <Bar dataKey="sdks" isAnimationActive={false} name="distinct SDKs">
+          <Bar
+            dataKey="sdks"
+            isAnimationActive
+            animationDuration={RECHARTS_DURATION_MS}
+            animationEasing={RECHARTS_EASING}
+            animationBegin={0}
+            name="distinct SDKs"
+          >
             {rows.map((row, index) => (
               <Cell key={row.category} fill={CHART_PALETTE[index % CHART_PALETTE.length]} />
             ))}
