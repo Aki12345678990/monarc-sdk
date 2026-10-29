@@ -5,12 +5,28 @@
   --charcoal: #303030;
   /* Interactive accents only: buttons, links, focus rings, progress. */
   --orange: #df5022;
+  --orange-tint: #f0a587;
+  --border-strong: color-mix(in srgb, var(--charcoal) 40%, transparent);
+  /* Fixed 6-tone categorical palette (brand family only). No meaning attached. */
+  --chart-1: #303030;
+  --chart-2: #5a5a5a;
+  --chart-3: #8a8a8a;
+  --chart-4: #b8b6ae;
+  --chart-5: #df5022;
+  --chart-6: #f0a587;
 }
 
 @theme inline {
   --color-cream: var(--cream);
   --color-charcoal: var(--charcoal);
   --color-orange: var(--orange);
+  --color-orange-tint: var(--orange-tint);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-chart-6: var(--chart-6);
   --font-sans: var(--font-source-sans);
   --font-display: var(--font-anton);
 }

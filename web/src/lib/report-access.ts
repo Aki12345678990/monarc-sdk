@@ -43,6 +43,16 @@ export function formatPercent(value: number | null): string {
   return `${value.toFixed(2)}%`;
 }
 
+export function formatPercent1(value: number | null): string {
+  if (value === null) return MISSING;
+  return `${value.toFixed(1)}%`;
+}
+
+export function formatPercentile(value: number | null | undefined): string | null {
+  if (value === null || value === undefined || !Number.isFinite(value)) return null;
+  return `higher than ${value.toFixed(1)}% of corpus apps`;
+}
+
 export function formatBytes(value: number | null | undefined): string {
   if (value === null || value === undefined) return MISSING;
   const mib = value / (1024 * 1024);

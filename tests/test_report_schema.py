@@ -29,19 +29,20 @@ _LIMITATIONS = [
     "This is not a malware verdict.",
 ]
 
-_FORBIDDEN_KEY = re.compile(r"score|tier|verdict|risk", re.IGNORECASE)
-_FORBIDDEN_VALUE = re.compile(r"critical|malicious|safe\b", re.IGNORECASE)
+_FORBIDDEN_KEY = re.compile(r"score|tier|verdict|risk|rating|grade", re.IGNORECASE)
+_FORBIDDEN_VALUE = re.compile(
+    r"critical|malicious|safe\b|risk score|rating|grade",
+    re.IGNORECASE,
+)
 
 
 def test_default_report_has_required_fields():
     payload = json.loads(Report().to_json())
     for key in _REQUIRED:
         assert key in payload
-    assert payload["schema_version"] == "1.0.0"
+    assert payload["schema_version"] == "1.1.0"
     assert payload["comparison"] is None
-    assert payload["comparison_reason"] == (
-        "Corpus comparison deferred until research validation is complete."
-    )
+    assert payload["comparison_reason"] is None
     assert payload["limitations"] == _LIMITATIONS
     assert set(payload["indicators"]) == {"P", "A", "N", "M", "D"}
 

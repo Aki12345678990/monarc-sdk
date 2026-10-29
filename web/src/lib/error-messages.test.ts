@@ -3,7 +3,7 @@ import { isKnownErrorCode, messageForErrorCode, SERVICE_ERROR_CODES } from "./er
 import { JOB_STATUS_LABELS } from "./labels";
 import { ENGINE_ERROR_CODES } from "./report-types";
 
-const FORBIDDEN = /score|tier|verdict|malicious|\bsafe\b|critical|high risk|low risk/i;
+const FORBIDDEN = /score|tier|verdict|malicious|\bsafe\b|critical|high risk|low risk|risk score|rating|grade/i;
 
 describe("messageForErrorCode", () => {
   test("has a specific message for every engine and service error code", () => {

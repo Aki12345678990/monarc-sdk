@@ -54,6 +54,29 @@ Normalisation rule (from `aggregate_v2.py:369` `pd.DataFrame.to_csv`, not `csv.D
 
 androguard 3.3.5 / Python 3.12.10 on both sides.
 
+## Corpus reference (univariate)
+
+Date: 2026-10-29
+
+Built by `scripts/build_corpus_reference.py` into `data/reference/corpus_v2_univariate.json`. No app identifiers are stored.
+
+| Source | Path | SHA256 |
+| --- | --- | --- |
+| `apk_level.csv` | `E:\AndroZoo\analyzer\results_v2\apk_level.csv` | `e90c4a206a6748decef335ec071a5c117c825aed0aadc36ee09e6de794a040cc` |
+| `analytic_sample.csv` | `E:\AndroZoo\analyzer\results_v2\analytic_sample.csv` | `2102eeb6f79d6e479880d652dff2190f7f0abe1f0d1776d5558a17dcbe87580d` |
+
+Filter rule: keep `apk_level` rows whose `sha256` has `included=True` in `analytic_sample.csv` (`n_apps=1260`).
+
+Metrics (non-null values, sorted ascending, floats rounded to 6 decimals):
+
+| Metric | n | min | median (index n//2) | max |
+| --- | --- | --- | --- | --- |
+| `footprint_strict_pct` | 1260 | 0.738007 | 37.5 | 95.774648 |
+| `hosts_distinct_all` | 1260 | 0.0 | 20.0 | 156.0 |
+| `n_sdk_distinct` | 1260 | 1.0 | 18.0 | 84.0 |
+
+Univariate only. No association between indicators is computed or displayed by the analyzer.
+
 ## Known v2 defects (not fixed)
 
 - D9: overlay `nsc_error` is not copied into `obj["errors"]`, so `apk_level` and `errors_long` disagree (78 vs 77).

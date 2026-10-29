@@ -188,5 +188,5 @@ def test_expired_awaiting_jobs_are_cleaned_up(settings, make_client, db, storage
 def test_health(client):
     body = client.get("/api/health").json()
     assert set(body) == {"ok", "engine_version", "androguard_version", "reference_status"}
-    assert body["engine_version"] == "0.1.0a2"
+    assert body["engine_version"] == "0.1.0a3"
     assert body["androguard_version"] == "3.3.5"

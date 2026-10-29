@@ -19,7 +19,11 @@ LIMITATIONS: list[str] = [
 ]
 
 _NOT_IMPLEMENTED_REASON = "Awaiting Phase 1B port from frozen v2 pipeline"
-_COMPARISON_REASON = "Corpus comparison deferred until research validation is complete."
+COMPARISON_NOTE = (
+    "Percentile = share of corpus apps with a lower value (ties count half). "
+    "Univariate comparison only; not a risk measure."
+)
+COMPARISON_UNAVAILABLE = "Corpus reference unavailable"
 
 
 class IndicatorResult(BaseModel):
@@ -73,6 +77,41 @@ class ReportError(BaseModel):
     message: str
 
 
+class CorpusInfo(BaseModel):
+    name: str
+    description: str
+    n_apps: int
+    reference_sha256: str
+
+
+class Histogram(BaseModel):
+    edges: list[float]
+    counts: list[int]
+    app_bin: int | None = None
+
+
+class MetricComparison(BaseModel):
+    source_field: str
+    value: int | float | None = None
+    percentile: float | None = None
+    n: int
+    histogram: Histogram
+
+
+class ComparisonMetrics(BaseModel):
+    D: MetricComparison | None = None
+    N: MetricComparison | None = None
+    n_sdk_distinct: MetricComparison | None = None
+
+
+class Comparison(BaseModel):
+    corpus: CorpusInfo
+    metrics: ComparisonMetrics
+    note: Literal[
+        "Percentile = share of corpus apps with a lower value (ties count half). Univariate comparison only; not a risk measure."
+    ] = COMPARISON_NOTE
+
+
 def _default_engine() -> EngineInfo:
     return EngineInfo(
         name="analyzer_core",
@@ -83,7 +122,7 @@ def _default_engine() -> EngineInfo:
 
 
 class Report(BaseModel):
-    schema_version: Literal["1.0.0"] = "1.0.0"
+    schema_version: Literal["1.1.0"] = "1.1.0"
     engine: EngineInfo = Field(default_factory=_default_engine)
     input: ReportInput = Field(default_factory=ReportInput)
     status: Literal["ok", "error"] = "ok"
@@ -92,10 +131,8 @@ class Report(BaseModel):
     visibility_caveat: str | None = None
     sdk_inventory: list[Any] = Field(default_factory=list)
     indicators: IndicatorBlock = Field(default_factory=IndicatorBlock.not_implemented)
-    comparison: None = None
-    comparison_reason: Literal[
-        "Corpus comparison deferred until research validation is complete."
-    ] = _COMPARISON_REASON
+    comparison: Comparison | None = None
+    comparison_reason: str | None = None
     limitations: list[str] = Field(default_factory=lambda: list(LIMITATIONS))
 
     @field_validator("limitations")

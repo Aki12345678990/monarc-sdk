@@ -6,7 +6,7 @@ It does not execute APK code. It does not produce a composite score, a 0–100 s
 
 ## Current state
 
-D and N implemented and parity-validated against the frozen v2 pipeline; A unavailable (API map not finalised); P and M not implemented (no v2 definition); report shows raw permissions and raw manifest facts.
+D and N implemented and parity-validated against the frozen v2 pipeline; A unavailable (API map not finalised); P and M not implemented (no v2 definition); report shows raw permissions and raw manifest facts. Schema 1.1.0 adds a univariate corpus comparison (percentile and histogram per metric; no pairing of indicators).
 
 ## Windows setup
 

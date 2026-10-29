@@ -18,7 +18,10 @@ BASE = os.environ.get("ANALYZER_SMOKE_BASE", "http://127.0.0.1:8000")
 ROOT = Path(__file__).resolve().parents[1]
 STAGING = Path(os.environ.get("ANALYZER_SVC_VAR_DIR") or ROOT / "var") / "staging"
 TERMINAL = {"done", "rejected", "failed", "expired"}
-FORBIDDEN = re.compile(r"score|tier|verdict|malicious|\bsafe\b|critical|high risk|low risk", re.I)
+FORBIDDEN = re.compile(
+    r"score|tier|verdict|malicious|\bsafe\b|critical|high risk|low risk|risk score|rating|grade",
+    re.I,
+)
 POLL_TIMEOUT_S = 900
 
 
@@ -94,6 +97,14 @@ def main() -> int:
         log(f"    done in {elapsed_a:.1f}s; report_url={job['report_url']}")
         log(f"    report status={data['status']} indicators={statuses}")
         log(f"    package={data['input']['package_name']} D={data['indicators']['D']['value']} N={data['indicators']['N']['value']}")
+        assert data["schema_version"] == "1.1.0"
+        comparison = data["comparison"]
+        assert comparison is not None
+        d_pct = comparison["metrics"]["D"]["percentile"]
+        n_pct = comparison["metrics"]["N"]["percentile"]
+        assert isinstance(d_pct, (int, float)) and 0.0 <= d_pct <= 100.0
+        assert isinstance(n_pct, (int, float)) and 0.0 <= n_pct <= 100.0
+        log(f"    schema={data['schema_version']} D_percentile={d_pct} N_percentile={n_pct}")
         assert data["status"] == "ok"
         assert statuses == {
             "D": "ok",

@@ -3,8 +3,10 @@
 import type { Report } from "@/lib/report-types";
 import { display } from "@/lib/report-access";
 import { ApisA } from "./ApisA";
+import { CorpusPosition } from "./CorpusPosition";
 import { DownloadJson } from "./DownloadJson";
 import { EngineInfo } from "./EngineInfo";
+import { ExposureProfile } from "./ExposureProfile";
 import { FootprintD } from "./FootprintD";
 import { Frameworks } from "./Frameworks";
 import { Limitations } from "./Limitations";
@@ -13,6 +15,10 @@ import { NetworkHostsN } from "./NetworkHostsN";
 import { PermissionsP } from "./PermissionsP";
 import { ReportHeader } from "./ReportHeader";
 import { SdkInventory } from "./SdkInventory";
+import { HostsByAttribution } from "./charts/HostsByAttribution";
+import { PackageComposition } from "./charts/PackageComposition";
+import { SdksByCategory } from "./charts/SdksByCategory";
+import { TopSdks } from "./charts/TopSdks";
 
 export function ReportView({ report, json }: { report: Report; json: string }) {
   const indicators = report.indicators;
@@ -23,6 +29,12 @@ export function ReportView({ report, json }: { report: Report; json: string }) {
     <div className="space-y-6">
       <ReportHeader report={report} />
       <Limitations report={report} />
+      <ExposureProfile report={report} />
+      <PackageComposition indicator={indicators?.D} />
+      <SdksByCategory report={report} />
+      <HostsByAttribution indicator={indicators?.N} />
+      <CorpusPosition report={report} />
+      <TopSdks report={report} />
 
       {report.status === "error" || errors.length > 0 ? (
         <section aria-labelledby="errors-heading" className="card">
@@ -47,17 +59,6 @@ export function ReportView({ report, json }: { report: Report; json: string }) {
       <PermissionsP indicator={indicators?.P} />
       <ApisA indicator={indicators?.A} />
       <ManifestM indicator={indicators?.M} />
-
-      <section aria-labelledby="comparison-heading" className="card">
-        <h2 id="comparison-heading" className="text-2xl">
-          Comparison
-        </h2>
-        {report.comparison === null || report.comparison === undefined ? (
-          <p>{display(report.comparison_reason)}</p>
-        ) : (
-          <pre className="text-sm">{JSON.stringify(report.comparison, null, 2)}</pre>
-        )}
-      </section>
 
       <EngineInfo report={report} />
       <div>

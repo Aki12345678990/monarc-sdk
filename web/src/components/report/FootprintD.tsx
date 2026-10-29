@@ -1,16 +1,8 @@
+import { PACKAGE_CATEGORIES } from "@/lib/package-categories";
 import type { IndicatorResult } from "@/lib/report-types";
+import { asNumber, asRecord, asString, formatPercent, rawFact } from "@/lib/report-access";
 import { KeyValueTable } from "./controls";
 import { IndicatorCard } from "./IndicatorCard";
-import { asNumber, asRecord, asString, formatPercent, rawFact } from "@/lib/report-access";
-
-export const PACKAGE_CATEGORIES = [
-  "toolchain",
-  "framework",
-  "sdk",
-  "first_party",
-  "obfuscated",
-  "unattributed_third_party",
-] as const;
 
 // Neutral shades of charcoal on cream; ordering only, no meaning attached.
 const SEGMENT_CLASSES = [

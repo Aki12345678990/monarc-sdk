@@ -9,8 +9,11 @@ import pytest
 from analyzer_core.pipeline import analyze
 from analyzer_core.report import LIMITATIONS
 
-_FORBIDDEN_KEY = re.compile(r"score|tier|verdict|risk", re.IGNORECASE)
-_FORBIDDEN_VALUE = re.compile(r"critical|malicious|safe\b", re.IGNORECASE)
+_FORBIDDEN_KEY = re.compile(r"score|tier|verdict|risk|rating|grade", re.IGNORECASE)
+_FORBIDDEN_VALUE = re.compile(
+    r"critical|malicious|safe\b|risk score|rating|grade",
+    re.IGNORECASE,
+)
 
 
 pytestmark = pytest.mark.skipif(
@@ -38,7 +41,13 @@ def test_analyze_test_apk():
         "limitations",
     ):
         assert key in payload
-    assert payload["comparison"] is None
+    assert payload["schema_version"] == "1.1.0"
+    assert payload["comparison"] is not None
+    assert payload["comparison_reason"] is None
+    d_pct = payload["comparison"]["metrics"]["D"]["percentile"]
+    n_pct = payload["comparison"]["metrics"]["N"]["percentile"]
+    assert isinstance(d_pct, (int, float)) and 0.0 <= d_pct <= 100.0
+    assert isinstance(n_pct, (int, float)) and 0.0 <= n_pct <= 100.0
     assert payload["limitations"] == list(LIMITATIONS)
     indicators = payload["indicators"]
     assert indicators["D"]["status"] == "ok"

@@ -95,7 +95,7 @@ def test_version_prints_androguard_pin():
     )
     assert completed.returncode == 0
     assert "3.3.5" in completed.stdout
-    assert "0.1.0a2" in completed.stdout
+    assert "0.1.0a3" in completed.stdout
 
 
 def test_schema_lists_every_top_level_report_field():

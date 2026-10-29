@@ -1,8 +1,8 @@
 {
-  "schema_version": "1.0.0",
+  "schema_version": "1.1.0",
   "engine": {
     "name": "analyzer_core",
-    "version": "0.1.0a2",
+    "version": "0.1.0a3",
     "androguard_version": "3.3.5",
     "reference_status": "OK"
   },
@@ -177,8 +177,51 @@
       }
     }
   },
-  "comparison": null,
-  "comparison_reason": "Corpus comparison deferred until research validation is complete.",
+  "comparison": {
+    "corpus": {
+      "name": "Synthetic univariate fixture corpus",
+      "description": "Hand-built fixture of 100 imaginary apps; not derived from any APK.",
+      "n_apps": 100,
+      "reference_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    },
+    "metrics": {
+      "D": {
+        "source_field": "footprint_strict_pct",
+        "value": 12.5,
+        "percentile": 22.5,
+        "n": 100,
+        "histogram": {
+          "edges": [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100],
+          "counts": [2, 3, 5, 8, 12, 10, 9, 8, 7, 6, 5, 5, 4, 4, 3, 3, 2, 2, 1, 1],
+          "app_bin": 2
+        }
+      },
+      "N": {
+        "source_field": "hosts_distinct_all",
+        "value": 4,
+        "percentile": 15.0,
+        "n": 100,
+        "histogram": {
+          "edges": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+          "counts": [2, 3, 5, 8, 12, 10, 9, 8, 7, 6, 5, 5, 4, 4, 3, 3, 2, 2, 1, 1],
+          "app_bin": 4
+        }
+      },
+      "n_sdk_distinct": {
+        "source_field": "n_sdk_distinct",
+        "value": 3,
+        "percentile": 8.0,
+        "n": 100,
+        "histogram": {
+          "edges": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+          "counts": [2, 3, 5, 8, 12, 10, 9, 8, 7, 6, 5, 5, 4, 4, 3, 3, 2, 2, 1, 1],
+          "app_bin": 3
+        }
+      }
+    },
+    "note": "Percentile = share of corpus apps with a lower value (ties count half). Univariate comparison only; not a risk measure."
+  },
+  "comparison_reason": null,
   "limitations": [
     "Static analysis only; no code was executed.",
     "SDK attribution is namespace-based.",
