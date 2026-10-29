@@ -51,10 +51,11 @@ def test_serialized_report_has_no_score_language():
     _assert_clean(payload)
 
 
-def test_indicators_not_implemented():
+def test_default_indicators_not_implemented():
     payload = json.loads(Report().to_json())
     for name in ("P", "A", "N", "M", "D"):
         indicator = payload["indicators"][name]
+        assert indicator["status"] in {"ok", "unavailable", "not_implemented"}
         assert indicator["status"] == "not_implemented"
         assert indicator["value"] is None
         assert indicator["reason"] == "Awaiting Phase 1B port from frozen v2 pipeline"

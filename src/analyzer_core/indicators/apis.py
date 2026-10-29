@@ -1,10 +1,19 @@
 """A indicator.
 
-This module will compute the A indicator from the DEX analysis object and the
-package attribution map. The computation must be ported byte-faithfully from
-the frozen v2 pipeline. No logic may be added before that port.
+Raw android.* xref extraction is ported; the SEED API map is not applied.
 """
 
 
-def compute_A(dx, attribution: dict[str, str]) -> dict:
-    raise NotImplementedError("Awaiting Phase 1B port from frozen v2 pipeline")
+def compute_A(n_call_rows: int | None) -> dict:
+    """Return A as unavailable, with n_call_rows only.
+
+    Ported from extract_v2.py:363-384 (v2).
+    """
+
+    return {
+        "status": "unavailable",
+        "value": None,
+        "reason": "Sensitive API map (API 28–33) not finalised",
+        "definition_source": "extract_v2.py:363-384",
+        "details": {"n_call_rows": n_call_rows},
+    }

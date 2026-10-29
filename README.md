@@ -6,7 +6,7 @@ It does not execute APK code. It does not produce a composite score, a 0–100 s
 
 ## Current state
 
-Phase 1A. Intake, process isolation, the report schema, and the CLI are implemented. Indicators P, A, N, M, and D, SDK attribution, and framework detection are not implemented. They stay unimplemented until the frozen v2 logic is ported in Phase 1B.
+D and N implemented and parity-validated against the frozen v2 pipeline; A unavailable (API map not finalised); P and M not implemented (no v2 definition); report shows raw permissions and raw manifest facts.
 
 ## Windows setup
 

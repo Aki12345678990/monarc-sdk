@@ -37,7 +37,14 @@ def test_analyze_missing_manifest_exits_2(tmp_path):
     assert "status: error" in markdown
 
 
-def test_verify_reference_empty():
+def test_verify_reference_empty(tmp_path):
+    (tmp_path / "MANIFEST.sha256").write_text("", encoding="utf-8")
+    completed = _verify_reference(tmp_path)
+    assert completed.returncode == 0
+    assert completed.stdout.strip() == "EMPTY: No reference data vendored yet (Phase 1B)"
+
+
+def test_verify_reference_vendored_ok():
     completed = subprocess.run(
         [sys.executable, "-m", "analyzer_core", "verify-reference"],
         check=False,
@@ -45,7 +52,7 @@ def test_verify_reference_empty():
         text=True,
     )
     assert completed.returncode == 0
-    assert completed.stdout.strip() == "EMPTY: No reference data vendored yet (Phase 1B)"
+    assert completed.stdout.strip() == "OK"
 
 
 def test_verify_reference_wrong_hash_exits_4(tmp_path):

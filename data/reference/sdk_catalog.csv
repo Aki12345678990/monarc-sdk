@@ -1,0 +1,486 @@
+# allowed_categories: ads,analytics,attribution,crash_reporting,social,networking,payments,maps_location,push_messaging,ui,game_engine,cloud_backend,utility,uncertain,media,framework_plugin
+prefix,sdk_name,category,source,match_type
+com.google.analytics.,Google Analytics,analytics,v1_config,prefix
+com.google.firebase.,Firebase Core,utility,v1_config,prefix
+com.appsflyer.,AppsFlyer,attribution,v1_config,prefix
+io.branch.,Branch,attribution,v1_config,prefix
+com.adjust.,Adjust,attribution,v1_config,prefix
+com.amplitude.,Amplitude,analytics,v1_config,prefix
+com.mixpanel.,Mixpanel,analytics,v1_config,prefix
+com.segment.,Segment,analytics,v1_config,prefix
+com.localytics.,Localytics,analytics,v1_config,prefix
+com.flurry.,Flurry,analytics,v1_config,prefix
+com.countly.,Countly,analytics,v1_config,prefix
+com.clevertap.,CleverTap,analytics,v1_config,prefix
+com.urbanairship.,Urban Airship,push_messaging,v1_config,prefix
+com.leanplum.,Leanplum,analytics,v1_config,prefix
+io.intercom.,Intercom,push_messaging,v1_config,prefix
+com.google.android.gms.ads.,Google Mobile Ads,ads,v1_config,prefix
+com.facebook.ads.,Facebook Ads,ads,v1_config,prefix
+com.mopub.,MoPub,ads,v1_config,prefix
+com.unity3d.ads.,Unity Ads,ads,v1_config,prefix
+com.ironsource.,ironSource,ads,v1_config,prefix
+com.applovin.,AppLovin,ads,v1_config,prefix
+com.chartboost.,Chartboost,ads,v1_config,prefix
+com.vungle.,Vungle,ads,v1_config,prefix
+com.inmobi.,InMobi,ads,v1_config,prefix
+com.startapp.,StartApp,ads,v1_config,prefix
+com.tapjoy.,Tapjoy,ads,v1_config,prefix
+com.adcolony.,AdColony,ads,v1_config,prefix
+com.millennialmedia.,Millennial Media,ads,v1_config,prefix
+com.crashlytics.,Crashlytics,crash_reporting,v1_config,prefix
+io.sentry.,Sentry,crash_reporting,v1_config,prefix
+com.bugsnag.,Bugsnag,crash_reporting,v1_config,prefix
+com.datadog.,Datadog,crash_reporting,v1_config,prefix
+com.instabug.,Instabug,crash_reporting,v1_config,prefix
+okhttp3.,OkHttp,networking,v1_config,prefix
+retrofit2.,Retrofit,networking,v1_config,prefix
+com.squareup.,Square,utility,v1_config,prefix
+com.android.volley.,Volley,networking,v1_config,prefix
+com.twitter.,Twitter,social,v1_config,prefix
+com.google.android.gms.auth.,Google Play Services Auth,social,v1_config,prefix
+com.linkedin.,LinkedIn,social,v1_config,prefix
+com.stripe.,Stripe,payments,v1_config,prefix
+com.braintreepayments.,Braintree,payments,v1_config,prefix
+com.paypal.,PayPal,payments,v1_config,prefix
+com.google.android.gms.maps.,Google Maps,maps_location,v1_config,prefix
+com.mapbox.,Mapbox,maps_location,v1_config,prefix
+com.onesignal.,OneSignal,push_messaging,v1_config,prefix
+io.pusher.,Pusher,push_messaging,v1_config,prefix
+com.pushwoosh.,Pushwoosh,push_messaging,v1_config,prefix
+com.bumptech.glide.,Glide,utility,v1_config,prefix
+com.squareup.picasso.,Picasso,utility,v1_config,prefix
+com.facebook.fresco.,Fresco,utility,v1_config,prefix
+com.google.dagger.,Dagger,utility,v1_config,prefix
+io.reactivex.,RxJava,utility,v1_config,prefix
+org.greenrobot.,greenrobot,utility,v1_config,prefix
+org.bouncycastle.,Bouncy Castle,utility,v1_config,prefix
+com.nimbusds.,Nimbus,utility,v1_config,prefix
+com.amazonaws.,AWS,cloud_backend,v1_config,prefix
+com.microsoft.azure.,Azure,cloud_backend,v1_config,prefix
+com.google.android.gms.,Google Play Services (other),uncertain,v1_config,prefix
+okio.,Okio,networking,v2_added,prefix
+com.facebook,Facebook SDK,social,v2_pilot_curation,exact
+com.facebook.appevents.,Facebook SDK,social,v2_pilot_curation,prefix
+com.facebook.login.,Facebook SDK,social,v2_pilot_curation,prefix
+com.facebook.share.,Facebook SDK,social,v2_pilot_curation,prefix
+com.facebook.internal.,Facebook SDK,social,v2_pilot_curation,prefix
+com.facebook.gamingservices.,Facebook SDK,social,v2_pilot_curation,prefix
+com.facebook.applinks.,Facebook SDK,social,v2_pilot_curation,prefix
+com.facebook.core.,Facebook SDK,social,v2_pilot_curation,prefix
+com.facebook.bolts.,Facebook SDK,social,v2_pilot_curation,prefix
+com.facebook.soloader.,Meta OSS libraries,utility,v2_pilot_curation,prefix
+com.facebook.fbjni.,Meta OSS libraries,utility,v2_pilot_curation,prefix
+com.facebook.jni.,Meta OSS libraries,utility,v2_pilot_curation,prefix
+com.facebook.yoga.,Meta OSS libraries,utility,v2_pilot_curation,prefix
+com.facebook.infer.,Meta OSS libraries,utility,v2_pilot_curation,prefix
+com.facebook.proguard.,Meta OSS libraries,utility,v2_pilot_curation,prefix
+com.facebook.systrace.,Meta OSS libraries,utility,v2_pilot_curation,prefix
+com.facebook.common.,Meta OSS libraries,utility,v2_pilot_curation,prefix
+com.facebook.flipper.,Flipper,utility,v2_pilot_curation,prefix
+com.google.android.exoplayer2.,ExoPlayer,media,v2_pilot_curation,prefix
+com.google.android.play.core.,Google Play Core,utility,v2_pilot_curation,prefix
+com.google.android.libraries.places.,Google Places,maps_location,v2_pilot_curation,prefix
+com.google.common.,Guava,utility,v2_pilot_curation,prefix
+com.google.thirdparty.,Guava,utility,v2_pilot_curation,prefix
+com.google.ads.,Google Mobile Ads,ads,v2_pilot_curation,prefix
+com.google.unity.ads.,Google Mobile Ads,ads,v2_pilot_curation,prefix
+com.google.gson.,Gson,utility,v2_pilot_curation,prefix
+com.google.protobuf.,Protobuf,utility,v2_pilot_curation,prefix
+com.google.zxing.,ZXing,utility,v2_pilot_curation,prefix
+com.airbnb.lottie.,Lottie,ui,v2_pilot_curation,prefix
+bolts.,Bolts,utility,v2_pilot_curation,prefix
+com.iab.omid.,IAB Open Measurement,ads,v2_pilot_curation,prefix
+com.android.installreferrer.,Play Install Referrer,attribution,v2_pilot_curation,prefix
+com.unity3d.services.,Unity Ads,ads,v2_pilot_curation,prefix
+com.unity3d.scar.,Unity Ads,ads,v2_pilot_curation,prefix
+com.android.billingclient.,Google Play Billing,payments,v2_pilot_curation,prefix
+dagger.,Dagger,utility,v2_pilot_curation,prefix
+io.grpc.,gRPC,networking,v2_pilot_curation,prefix
+org.reactivestreams.,Reactive Streams,utility,v2_pilot_curation,prefix
+org.apache.commons.,Apache Commons,utility,v2_pilot_curation,prefix
+com.google.androidgamesdk.,Android Game SDK,utility,v2_pilot_curation,prefix
+com.google.api.,Google API Common Protos,utility,v2_pilot_curation,prefix
+com.google.rpc.,Google API Common Protos,utility,v2_pilot_curation,prefix
+com.google.type.,Google API Common Protos,utility,v2_pilot_curation,prefix
+com.google.longrunning.,Google API Common Protos,utility,v2_pilot_curation,prefix
+com.google.logging.,Google API Common Protos,utility,v2_pilot_curation,prefix
+com.google.geo.,Google API Common Protos,utility,v2_pilot_curation,prefix
+com.google.cloud.,Google Cloud client,cloud_backend,v2_pilot_curation,prefix
+de.hdodenhof.circleimageview.,CircleImageView,ui,v2_pilot_curation,prefix
+com.google.maps.android.,Google Maps,maps_location,v2_pilot_curation,prefix
+firebase.com.protolitewrapper.,Firebase Core,utility,v2_pilot_curation,prefix
+com.github.mikephil.charting.,MPAndroidChart,ui,v2_pilot_curation,prefix
+com.google.mlkit.,ML Kit,utility,v2_pilot_curation,prefix
+com.yalantis.ucrop.,uCrop,ui,v2_pilot_curation,prefix
+com.google.games.,Google Play Games,cloud_backend,v2_pilot_curation,prefix
+com.reactnativecommunity.,React Native community modules,framework_plugin,v2_pilot_curation,prefix
+com.horcrux.svg.,react-native-svg,framework_plugin,v2_pilot_curation,prefix
+com.th3rdwave.safeareacontext.,react-native-safe-area-context,framework_plugin,v2_pilot_curation,prefix
+org.reactnative.maskedview.,react-native-masked-view,framework_plugin,v2_pilot_curation,prefix
+com.learnium.RNDeviceInfo.,react-native-device-info,framework_plugin,v2_pilot_curation,prefix
+com.airbnb.android.react.,Airbnb React Native modules,framework_plugin,v2_pilot_curation,prefix
+io.invertase.firebase.,React Native Firebase,framework_plugin,v2_pilot_curation,prefix
+com.pichillilorenzo.flutter_inappwebview.,flutter_inappwebview,framework_plugin,v2_pilot_curation,prefix
+com.google.android.gms.internal.ads.,Google Mobile Ads,ads,v2_curation_round2,prefix
+com.google.android.gms.ads_identifier.,Google Advertising ID,ads,v2_curation_round2,prefix
+com.google.android.gms.measurement.,Firebase Analytics,analytics,v2_curation_round2,prefix
+com.google.android.gms.internal.measurement.,Firebase Analytics,analytics,v2_curation_round2,prefix
+com.google.android.gms.internal.firebase-auth-api.,Firebase Authentication,cloud_backend,v2_curation_round2,prefix
+com.google.android.gms.location.,Google Location Services,maps_location,v2_curation_round2,prefix
+com.google.android.gms.internal.location.,Google Location Services,maps_location,v2_curation_round2,prefix
+com.google.android.gms.internal.maps.,Google Maps,maps_location,v2_curation_round2,prefix
+com.google.android.gms.internal.auth.,Google Play Services Auth,social,v2_curation_round2,prefix
+com.google.android.gms.internal.mlkit_,ML Kit,utility,v2_curation_round2,prefix
+com.google.android.gms.vision.,Mobile Vision,utility,v2_curation_round2,prefix
+com.google.android.gms.internal.vision.,Mobile Vision,utility,v2_curation_round2,prefix
+com.google.android.gms.clearcut.,Google Clearcut Logging,analytics,v2_curation_round2,prefix
+com.google.android.gms.internal.clearcut.,Google Clearcut Logging,analytics,v2_curation_round2,prefix
+com.google.android.gms.wallet.,Google Pay,payments,v2_curation_round2,prefix
+com.google.android.gms.games.,Google Play Games,cloud_backend,v2_curation_round2,prefix
+com.google.android.gms.internal.games.,Google Play Games,cloud_backend,v2_curation_round2,prefix
+com.google.android.gms.cast.,Google Cast,media,v2_curation_round2,prefix
+com.google.android.gms.internal.cast.,Google Cast,media,v2_curation_round2,prefix
+com.google.android.gms.safetynet.,SafetyNet,utility,v2_curation_round2,prefix
+com.google.android.gms.fitness.,Google Fit,cloud_backend,v2_curation_round2,prefix
+com.google.android.gms.appset.,App Set ID,attribution,v2_curation_round2,prefix
+com.google.android.gms.common.,Google Play Services Core,utility,v2_curation_round2,prefix
+com.google.android.gms.internal.common.,Google Play Services Core,utility,v2_curation_round2,prefix
+com.google.android.gms.internal.base.,Google Play Services Core,utility,v2_curation_round2,prefix
+com.google.android.gms.base.,Google Play Services Core,utility,v2_curation_round2,prefix
+com.google.android.gms.tasks.,Google Play Services Core,utility,v2_curation_round2,prefix
+com.google.android.gms.internal.tasks.,Google Play Services Core,utility,v2_curation_round2,prefix
+com.google.android.gms.dynamite.,Google Play Services Core,utility,v2_curation_round2,prefix
+com.google.android.gms.stats.,Google Play Services Core,utility,v2_curation_round2,prefix
+com.google.android.gms.flags.,Google Play Services Core,utility,v2_curation_round2,prefix
+com.google.firebase.analytics.,Firebase Analytics,analytics,v2_curation_round2,prefix
+com.google.firebase.crashlytics.,Firebase Crashlytics,crash_reporting,v2_curation_round2,prefix
+com.google.firebase.messaging.,Firebase Cloud Messaging,push_messaging,v2_curation_round2,prefix
+com.google.firebase.iid.,Firebase Cloud Messaging,push_messaging,v2_curation_round2,prefix
+com.google.firebase.inappmessaging.,Firebase In-App Messaging,push_messaging,v2_curation_round2,prefix
+com.google.firebase.firestore.,Firebase Firestore,cloud_backend,v2_curation_round2,prefix
+com.google.firebase.database.,Firebase Realtime Database,cloud_backend,v2_curation_round2,prefix
+com.google.firebase.auth.,Firebase Authentication,cloud_backend,v2_curation_round2,prefix
+com.google.firebase.storage.,Firebase Storage,cloud_backend,v2_curation_round2,prefix
+com.google.firebase.remoteconfig.,Firebase Remote Config,cloud_backend,v2_curation_round2,prefix
+com.google.firebase.functions.,Firebase Functions,cloud_backend,v2_curation_round2,prefix
+com.google.firebase.installations.,Firebase Installations,cloud_backend,v2_curation_round2,prefix
+com.google.firebase.appcheck.,Firebase App Check,cloud_backend,v2_curation_round2,prefix
+com.google.firebase.dynamiclinks.,Firebase Dynamic Links,attribution,v2_curation_round2,prefix
+com.google.firebase.perf.,Firebase Performance,analytics,v2_curation_round2,prefix
+com.google.firebase.abt.,Firebase A/B Testing,analytics,v2_curation_round2,prefix
+com.google.firebase.ml.,Firebase ML,utility,v2_curation_round2,prefix
+com.google.firebase.datatransport.,Firebase Data Transport,analytics,v2_curation_round2,prefix
+com.google.android.datatransport.,Firebase Data Transport,analytics,v2_curation_round2,prefix
+com.google.android.ads.,Google Mobile Ads,ads,v2_curation_round2,prefix
+com.google.android.ump.,Google User Messaging Platform,ads,v2_curation_round2,prefix
+com.google.android.finsky.,Play Install Referrer,attribution,v2_curation_round2,prefix
+com.google.android.play.,Google Play Core,utility,v2_curation_round2,prefix
+com.google.android.recaptcha.,reCAPTCHA,utility,v2_curation_round2,prefix
+com.google.android.flexbox.,FlexboxLayout,ui,v2_curation_round2,prefix
+com.google.android.youtube.,YouTube Player API,media,v2_curation_round2,prefix
+com.google.android.cameraview.,CameraView,ui,v2_curation_round2,prefix
+com.google.android.odml.,ML Kit,utility,v2_curation_round2,prefix
+com.google.android.instantapps.,Instant Apps,utility,v2_curation_round2,prefix
+com.google.android.libraries.barhopper.,ML Kit,utility,v2_curation_round2,prefix
+com.google.crypto.tink.,Tink,utility,v2_curation_round2,prefix
+com.google.,Google (unresolved),uncertain,v2_curation_round2,prefix
+com.facebook.imagepipeline.,Fresco,utility,v2_curation_round2,prefix
+com.facebook.imagepipelinebase.,Fresco,utility,v2_curation_round2,prefix
+com.facebook.drawee.,Fresco,utility,v2_curation_round2,prefix
+com.facebook.imageformat.,Fresco,utility,v2_curation_round2,prefix
+com.facebook.imageutils.,Fresco,utility,v2_curation_round2,prefix
+com.facebook.datasource.,Fresco,utility,v2_curation_round2,prefix
+com.facebook.binaryresource.,Fresco,utility,v2_curation_round2,prefix
+com.facebook.cache.,Fresco,utility,v2_curation_round2,prefix
+com.facebook.callercontext.,Fresco,utility,v2_curation_round2,prefix
+com.facebook.nativefilters.,Fresco,utility,v2_curation_round2,prefix
+com.facebook.nativeimagetranscoder.,Fresco,utility,v2_curation_round2,prefix
+com.facebook.animated.,Fresco,utility,v2_curation_round2,prefix
+com.facebook.drawable.,Fresco,utility,v2_curation_round2,prefix
+com.facebook.webpsupport.,Fresco,utility,v2_curation_round2,prefix
+com.facebook.fbcore.,Fresco,utility,v2_curation_round2,prefix
+com.facebook.widget.text.span.,Fresco,utility,v2_curation_round2,prefix
+com.facebook.memory.,Fresco,utility,v2_curation_round2,prefix
+com.facebook.devicerequests.,Facebook SDK,social,v2_curation_round2,prefix
+com.facebook.referrals.,Facebook SDK,social,v2_curation_round2,prefix
+com.facebook.places.,Facebook SDK,social,v2_curation_round2,prefix
+com.facebook.messenger.,Facebook SDK,social,v2_curation_round2,prefix
+com.facebook.all.,Facebook SDK,social,v2_curation_round2,prefix
+com.facebook.ppml.,Facebook SDK,social,v2_curation_round2,prefix
+com.facebook.unity.,Facebook SDK,social,v2_curation_round2,prefix
+com.facebook.reactnative.androidsdk.,react-native-fbsdk,framework_plugin,v2_curation_round2,prefix
+com.facebook.fbui.,Meta OSS libraries,utility,v2_curation_round2,prefix
+com.facebook.device.yearclass.,Meta OSS libraries,utility,v2_curation_round2,prefix
+com.facebook.rebound.,Meta OSS libraries,utility,v2_curation_round2,prefix
+com.facebook.crypto.,Conceal,utility,v2_curation_round2,prefix
+com.facebook.android.crypto.,Conceal,utility,v2_curation_round2,prefix
+com.facebook.shimmer.,Shimmer,ui,v2_curation_round2,prefix
+com.facebook.stetho.,Stetho,utility,v2_curation_round2,prefix
+com.facebook.,Meta (unresolved),uncertain,v2_curation_round2,prefix
+com.squareup.okhttp.,OkHttp,networking,v2_curation_round2,prefix
+com.squareup.retrofit.,Retrofit,networking,v2_curation_round2,prefix
+com.squareup.moshi.,Moshi,utility,v2_curation_round2,prefix
+com.squareup.wire.,Wire,utility,v2_curation_round2,prefix
+com.squareup.leakcanary.,LeakCanary,utility,v2_curation_round2,prefix
+me.leolin.shortcutbadger.,ShortcutBadger,ui,v2_curation_round2,prefix
+eightbitlab.com.blurview.,BlurView,ui,v2_curation_round2,prefix
+com.yasirkula.unity.,yasirkula Unity plugins,framework_plugin,v2_curation_round2,prefix
+timber.log.,Timber,utility,v2_curation_round2,prefix
+com.intuit.sdp.,SDP,ui,v2_curation_round2,prefix
+io.realm.,Realm,utility,v2_curation_round2,prefix
+com.safedk.android.,SafeDK (AppLovin),ads,v2_curation_round2,prefix
+org.threeten.bp.,ThreeTenBP,utility,v2_curation_round2,prefix
+com.daimajia.androidanimations.,AndroidViewAnimations,ui,v2_curation_round2,prefix
+com.karumi.dexter.,Dexter,utility,v2_curation_round2,prefix
+com.dexterous.flutterlocalnotifications.,flutter_local_notifications,framework_plugin,v2_curation_round2,prefix
+rx.,RxJava,utility,v2_curation_round2,prefix
+com.thingclips.sdk.,ThingClips (Tuya) IoT SDK,cloud_backend,v2_curation_round2,prefix
+com.tappx.,Tappx,ads,v2_curation_round2,prefix
+com.yandex.metrica.,AppMetrica,analytics,v2_curation_round2,prefix
+com.google.android.gms.dynamic.,Google Play Services Core,utility,v2_curation_round3,prefix
+com.google.android.gms.security.,Google Play Services Core,utility,v2_curation_round3,prefix
+com.google.android.gms.actions.,Google Play Services Core,utility,v2_curation_round3,prefix
+com.google.android.gms.internal.stats.,Google Play Services Core,utility,v2_curation_round3,prefix
+com.google.android.gms.phenotype.,Google Play Services Core,utility,v2_curation_round3,prefix
+com.google.android.gms.internal.phenotype.,Google Play Services Core,utility,v2_curation_round3,prefix
+com.google.android.gms.internal.flags.,Google Play Services Core,utility,v2_curation_round3,prefix
+com.google.android.gms.signin.,Google Play Services Auth,social,v2_curation_round3,prefix
+com.google.android.gms.internal.auth-api.,Google Play Services Auth,social,v2_curation_round3,prefix
+com.google.android.gms.internal.auth-api-phone.,Google Play Services Auth,social,v2_curation_round3,prefix
+com.google.android.gms.identity.,Google Play Services Auth,social,v2_curation_round3,prefix
+com.google.android.gms.internal.identity.,Google Play Services Auth,social,v2_curation_round3,prefix
+com.google.android.gms.fido.,Google Play Services Auth,social,v2_curation_round3,prefix
+com.google.android.gms.internal.fido.,Google Play Services Auth,social,v2_curation_round3,prefix
+com.google.android.gms.identity.intents.,Google Pay,payments,v2_curation_round3,prefix
+com.google.android.gms.internal.wallet.,Google Pay,payments,v2_curation_round3,prefix
+com.google.android.gms.internal.ads_identifier.,Google Advertising ID,ads,v2_curation_round3,prefix
+com.google.android.gms.ads_base.,Google Mobile Ads,ads,v2_curation_round3,prefix
+com.google.android.gms.gass.,Google Mobile Ads,ads,v2_curation_round3,prefix
+com.google.android.gms.internal.consent_sdk.,Google User Messaging Platform,ads,v2_curation_round3,prefix
+com.google.android.gms.internal.appset.,App Set ID,attribution,v2_curation_round3,prefix
+com.google.android.gms.measurement_base.,Firebase Analytics,analytics,v2_curation_round3,prefix
+com.google.android.gms.cloudmessaging.,Firebase Cloud Messaging,push_messaging,v2_curation_round3,prefix
+com.google.android.gms.internal.cloudmessaging.,Firebase Cloud Messaging,push_messaging,v2_curation_round3,prefix
+com.google.android.gms.internal.firebase_messaging.,Firebase Cloud Messaging,push_messaging,v2_curation_round3,prefix
+com.google.android.gms.iid.,Firebase Cloud Messaging,push_messaging,v2_curation_round3,prefix
+com.google.android.gms.internal.firebase-iid.,Firebase Cloud Messaging,push_messaging,v2_curation_round3,prefix
+com.google.android.gms.gcm.,Google Cloud Messaging (legacy),push_messaging,v2_curation_round3,prefix
+com.google.android.gms.internal.gcm.,Google Cloud Messaging (legacy),push_messaging,v2_curation_round3,prefix
+com.google.android.gms.internal.play_billing.,Google Play Billing,payments,v2_curation_round3,prefix
+com.google.android.gms.places_placereport.,Google Places,maps_location,v2_curation_round3,prefix
+com.google.android.gms.internal.places.,Google Places,maps_location,v2_curation_round3,prefix
+com.google.android.gms.analytics.,Google Analytics,analytics,v2_curation_round3,prefix
+com.google.android.gms.analyticsservices.,Google Analytics,analytics,v2_curation_round3,prefix
+com.google.android.gms.analyticsservices_app_library.,Google Analytics,analytics,v2_curation_round3,prefix
+com.google.android.gms.tagmanager.,Google Tag Manager,analytics,v2_curation_round3,prefix
+com.google.android.gms.tagmanager_legacy.,Google Tag Manager,analytics,v2_curation_round3,prefix
+com.google.android.gms.internal.gtm.,Google Tag Manager,analytics,v2_curation_round3,prefix
+com.google.android.gms.internal.safetynet.,SafetyNet,utility,v2_curation_round3,prefix
+com.google.android.gms.vision_common.,Mobile Vision,utility,v2_curation_round3,prefix
+com.google.android.gms.drive.,Google Drive API,cloud_backend,v2_curation_round3,prefix
+com.google.android.gms.internal.drive.,Google Drive API,cloud_backend,v2_curation_round3,prefix
+com.google.android.gms.net.,Cronet,networking,v2_curation_round3,prefix
+com.google.android.gms.cronet.,Cronet,networking,v2_curation_round3,prefix
+com.google.android.gms.internal.firebase_auth.,Firebase Authentication,cloud_backend,v2_curation_round3,prefix
+com.google.android.gms.nearby.,Google Nearby,utility,v2_curation_round3,prefix
+com.google.android.gms.internal.nearby.,Google Nearby,utility,v2_curation_round3,prefix
+com.google.android.gms.internal.icing.,Firebase App Indexing,utility,v2_curation_round3,prefix
+com.google.android.gms.appindexing.,Firebase App Indexing,utility,v2_curation_round3,prefix
+com.google.android.gms.search.,Firebase App Indexing,utility,v2_curation_round3,prefix
+com.google.android.gms.internal.fitness.,Google Fit,cloud_backend,v2_curation_round3,prefix
+com.google.firestore.,Firebase Firestore,cloud_backend,v2_curation_round3,prefix
+com.google.apphosting.datastore.,Firebase Firestore,cloud_backend,v2_curation_round3,prefix
+com.google.internal.firebase.inappmessaging.,Firebase In-App Messaging,push_messaging,v2_curation_round3,prefix
+com.google.developers.mobile.targeting.,Firebase In-App Messaging,push_messaging,v2_curation_round3,prefix
+com.google.flatbuffers.,FlatBuffers,utility,v2_curation_round3,prefix
+com.google.i18n.phonenumbers.,libphonenumber,utility,v2_curation_round3,prefix
+com.google.barhopper.,ML Kit,utility,v2_curation_round3,prefix
+com.google.photos.vision.barhopper.,ML Kit,utility,v2_curation_round3,prefix
+com.google.example.games.,Google Play Games,cloud_backend,v2_curation_round3,prefix
+com.google.accompanist.,Accompanist,ui,v2_curation_round3,prefix
+com.google.unity.ump.,Google User Messaging Platform,ads,v2_curation_round3,prefix
+com.facebook.android.,Facebook SDK,social,v2_curation_round3,prefix
+dev.fluttercommunity.plus.,Flutter Community Plus plugins,framework_plugin,v2_curation_round3,prefix
+com.mr.flutter.plugin.filepicker.,file_picker (Flutter),framework_plugin,v2_curation_round3,prefix
+com.crazecoder.openfile.,open_file (Flutter),framework_plugin,v2_curation_round3,prefix
+vn.hunghd.flutterdownloader.,flutter_downloader,framework_plugin,v2_curation_round3,prefix
+com.baseflow.geolocator.,geolocator (Flutter),framework_plugin,v2_curation_round3,prefix
+com.tekartik.sqflite.,sqflite (Flutter),framework_plugin,v2_curation_round3,prefix
+com.ryanheise.audioservice.,audio_service (Flutter),framework_plugin,v2_curation_round3,prefix
+de.mintware.barcode_scan.,barcode_scan (Flutter),framework_plugin,v2_curation_round3,prefix
+com.lyokone.location.,location (Flutter),framework_plugin,v2_curation_round3,prefix
+com.BV.LinearGradient.,react-native-linear-gradient,framework_plugin,v2_curation_round3,prefix
+com.oblador.vectoricons.,react-native-vector-icons,framework_plugin,v2_curation_round3,prefix
+com.reactcommunity.rndatetimepicker.,react-native-datetimepicker,framework_plugin,v2_curation_round3,prefix
+com.rnfs.,react-native-fs,framework_plugin,v2_curation_round3,prefix
+com.zoontek.rnpermissions.,react-native-permissions,framework_plugin,v2_curation_round3,prefix
+com.dylanvann.fastimage.,react-native-fast-image,framework_plugin,v2_curation_round3,prefix
+com.imagepicker.,react-native-image-picker,framework_plugin,v2_curation_round3,prefix
+com.reactnative.ivpusic.,react-native-image-crop-picker,framework_plugin,v2_curation_round3,prefix
+cl.json.,react-native-share,framework_plugin,v2_curation_round3,prefix
+com.dieam.reactnativepushnotification.,react-native-push-notification,framework_plugin,v2_curation_round3,prefix
+com.brentvatne.,react-native-video,framework_plugin,v2_curation_round3,prefix
+org.devio.rn.,react-native-splash-screen,framework_plugin,v2_curation_round3,prefix
+com.microsoft.codepush.,CodePush,framework_plugin,v2_curation_round3,prefix
+com.reactnativepagerview.,react-native-pager-view,framework_plugin,v2_curation_round3,prefix
+com.horcrux.rnsvg.,react-native-svg,framework_plugin,v2_curation_round3,prefix
+org.wonday.orientation.,react-native-orientation-locker,framework_plugin,v2_curation_round3,prefix
+org.wonday.pdf.,react-native-pdf,framework_plugin,v2_curation_round3,prefix
+com.RNFetchBlob.,rn-fetch-blob,framework_plugin,v2_curation_round3,prefix
+com.reactnativedocumentpicker.,react-native-document-picker,framework_plugin,v2_curation_round3,prefix
+com.vinzscam.reactnativefileviewer.,react-native-file-viewer,framework_plugin,v2_curation_round3,prefix
+org.reactnative.camera.,react-native-camera,framework_plugin,v2_curation_round3,prefix
+org.reactnative.facedetector.,react-native-camera,framework_plugin,v2_curation_round3,prefix
+com.lwansbrough.RCTCamera.,react-native-camera,framework_plugin,v2_curation_round3,prefix
+com.mkuczera.,react-native-haptic-feedback,framework_plugin,v2_curation_round3,prefix
+com.rt2zz.reactnativecontacts.,react-native-contacts,framework_plugin,v2_curation_round3,prefix
+com.reactnativegooglesignin.,react-native-google-signin,framework_plugin,v2_curation_round3,prefix
+com.agontuk.RNFusedLocation.,react-native-geolocation-service,framework_plugin,v2_curation_round3,prefix
+com.proyecto26.inappbrowser.,react-native-inappbrowser,framework_plugin,v2_curation_round3,prefix
+fr.greweb.reactnativeviewshot.,react-native-view-shot,framework_plugin,v2_curation_round3,prefix
+com.reactnativerestart.,react-native-restart,framework_plugin,v2_curation_round3,prefix
+org.linusu.,react-native-get-random-values,framework_plugin,v2_curation_round3,prefix
+com.vonovak.,React Native modules (vonovak),framework_plugin,v2_curation_round3,prefix
+com.github.douglasjunior.reactNativeGetLocation.,react-native-get-location,framework_plugin,v2_curation_round3,prefix
+com.zmxv.RNSound.,react-native-sound,framework_plugin,v2_curation_round3,prefix
+expo.,Expo modules,framework_plugin,v2_curation_round3,prefix
+com.capacitorjs.plugins.,Capacitor plugins,framework_plugin,v2_curation_round3,prefix
+nl.xservices.plugins.,Cordova plugins,framework_plugin,v2_curation_round3,prefix
+io.ionic.keyboard.,Cordova plugins,framework_plugin,v2_curation_round3,prefix
+de.appplant.cordova.,Cordova plugins,framework_plugin,v2_curation_round3,prefix
+uk.co.whiteoctober.cordova.,Cordova plugins,framework_plugin,v2_curation_round3,prefix
+com.unity.androidnotifications.,Unity Mobile Notifications,framework_plugin,v2_curation_round3,prefix
+com.unity.purchasing.,Unity IAP,payments,v2_curation_round3,prefix
+com.bytedance.sdk.,Pangle,ads,v2_curation_round3,prefix
+com.bykv.vk.,Pangle,ads,v2_curation_round3,prefix
+com.com.bytedance.,Pangle,ads,v2_curation_round3,prefix
+com.pgl.ssdk.,Pangle,ads,v2_curation_round3,prefix
+ms.bd.o.,Pangle,ads,v2_curation_round3,prefix
+com.bytedance.mobsec.,Pangle,ads,v2_curation_round3,prefix
+com.bytedance.metasec.,Pangle,ads,v2_curation_round3,prefix
+com.bytedance.frameworks.,Pangle,ads,v2_curation_round3,prefix
+com.apm.insight.,ByteDance APMInsight,crash_reporting,v2_curation_round3,prefix
+com.bytedance.crash.,ByteDance APMInsight,crash_reporting,v2_curation_round3,prefix
+com.bytedance.applog.,ByteDance AppLog,analytics,v2_curation_round3,prefix
+com.bytedance.,ByteDance (unresolved),uncertain,v2_curation_round3,prefix
+com.mbridge.msdk.,Mintegral,ads,v2_curation_round3,prefix
+com.fyber.,Fyber,ads,v2_curation_round3,prefix
+com.digitalturbine.ignite.,Digital Turbine Ignite,ads,v2_curation_round3,prefix
+com.amazon.device.ads.,Amazon Publisher Services,ads,v2_curation_round3,prefix
+com.amazon.device.iap.,Amazon In-App Purchasing,payments,v2_curation_round3,prefix
+com.amazon.device.drm.,Amazon Appstore DRM,utility,v2_curation_round3,prefix
+com.amazon.,Amazon (unresolved),uncertain,v2_curation_round3,prefix
+com.yandex.mobile.ads.,Yandex Mobile Ads,ads,v2_curation_round3,prefix
+com.yandex.div.,Yandex DivKit,ui,v2_curation_round3,prefix
+com.yandex.,Yandex (unresolved),uncertain,v2_curation_round3,prefix
+com.gameanalytics.sdk.,GameAnalytics,analytics,v2_curation_round3,prefix
+com.microsoft.appcenter.crashes.,App Center Crashes,crash_reporting,v2_curation_round3,prefix
+com.microsoft.appcenter.,App Center,analytics,v2_curation_round3,prefix
+io.fabric.sdk.,Fabric,crash_reporting,v2_curation_round3,prefix
+io.opencensus.,OpenCensus,utility,v2_curation_round3,prefix
+io.perfmark.,PerfMark,utility,v2_curation_round3,prefix
+com.chuckerteam.chucker.,Chucker,utility,v2_curation_round3,prefix
+com.intercom.,Intercom,push_messaging,v2_curation_round3,prefix
+com.freshchat.consumer.,Freshchat,push_messaging,v2_curation_round3,prefix
+io.socket.,Socket.IO client,networking,v2_curation_round3,prefix
+org.java_websocket.,Java-WebSocket,networking,v2_curation_round3,prefix
+org.webrtc.,WebRTC,media,v2_curation_round3,prefix
+net.butterflytv.rtmp_client.,LibRtmp client,media,v2_curation_round3,prefix
+com.razorpay.,Razorpay,payments,v2_curation_round3,prefix
+com.revenuecat.purchases.,RevenueCat,payments,v2_curation_round3,prefix
+io.card.payment.,card.io,payments,v2_curation_round3,prefix
+com.android.vending.,Google Play legacy billing/licensing,payments,v2_curation_round3,prefix
+com.firebase.ui.,FirebaseUI,cloud_backend,v2_curation_round3,prefix
+com.huawei.hms.location.,Huawei Location Kit,maps_location,v2_curation_round3,prefix
+com.huawei.hms.,Huawei Mobile Services,uncertain,v2_curation_round3,prefix
+com.samsung.android.,Samsung SDKs,uncertain,v2_curation_round3,prefix
+net.openid.appauth.,AppAuth,utility,v2_curation_round3,prefix
+org.apache.http.,Apache HttpClient,networking,v2_curation_round3,prefix
+cz.msebera.,HttpClient for Android,networking,v2_curation_round3,prefix
+com.loopj.android.,Android Async HTTP,networking,v2_curation_round3,prefix
+org.chromium.net.,Cronet,networking,v2_curation_round3,prefix
+com.jakewharton.retrofit2.,Retrofit,networking,v2_curation_round3,prefix
+com.downloader.,PRDownloader,networking,v2_curation_round3,prefix
+coil.,Coil,utility,v2_curation_round3,prefix
+com.shockwave.pdfium.,PdfiumAndroid,utility,v2_curation_round3,prefix
+com.github.barteksc.,AndroidPdfViewer,ui,v2_curation_round3,prefix
+butterknife.,Butter Knife,utility,v2_curation_round3,prefix
+org.slf4j.,SLF4J,utility,v2_curation_round3,prefix
+com.fasterxml.jackson.,Jackson,utility,v2_curation_round3,prefix
+org.jsoup.,jsoup,utility,v2_curation_round3,prefix
+com.theartofdev.edmodo.,Android Image Cropper,ui,v2_curation_round3,prefix
+com.canhub.cropper.,Android Image Cropper,ui,v2_curation_round3,prefix
+com.github.chrisbanes.,PhotoView,ui,v2_curation_round3,prefix
+uk.co.senab.,PhotoView,ui,v2_curation_round3,prefix
+com.journeyapps.barcodescanner.,ZXing Android Embedded,utility,v2_curation_round3,prefix
+org.joda.time.,Joda-Time,utility,v2_curation_round3,prefix
+net.danlew.android.joda.,Joda-Time Android,utility,v2_curation_round3,prefix
+org.koin.,Koin,utility,v2_curation_round3,prefix
+com.makeramen.roundedimageview.,RoundedImageView,ui,v2_curation_round3,prefix
+pl.droidsonroids.gif.,android-gif-drawable,ui,v2_curation_round3,prefix
+pl.droidsonroids.relinker.,ReLinker,utility,v2_curation_round3,prefix
+com.getkeepsafe.relinker.,ReLinker,utility,v2_curation_round3,prefix
+com.nineoldandroids.,NineOldAndroids,ui,v2_curation_round3,prefix
+io.michaelrocks.libphonenumber.,libphonenumber,utility,v2_curation_round3,prefix
+com.afollestad.materialdialogs.,Material Dialogs,ui,v2_curation_round3,prefix
+me.zhanghai.android.,MaterialProgressBar,ui,v2_curation_round3,prefix
+org.objectweb.asm.,ASM,utility,v2_curation_round3,prefix
+com.github.ybq.,SpinKit,ui,v2_curation_round3,prefix
+org.xmlpull.,XmlPull,utility,v2_curation_round3,prefix
+org.kxml2.,kXML2,utility,v2_curation_round3,prefix
+com.nostra13.universalimageloader.,Universal Image Loader,utility,v2_curation_round3,prefix
+com.futuremind.recyclerviewfastscroll.,RecyclerView FastScroll,ui,v2_curation_round3,prefix
+com.caverock.androidsvg.,AndroidSVG,ui,v2_curation_round3,prefix
+com.pierfrancescosoffritti.androidyoutubeplayer.,Android YouTube Player,media,v2_curation_round3,prefix
+com.github.clans.,FloatingActionButton (Clans),ui,v2_curation_round3,prefix
+net.minidev.,json-smart,utility,v2_curation_round3,prefix
+com.viewpagerindicator.,ViewPagerIndicator,ui,v2_curation_round3,prefix
+org.spongycastle.,Spongy Castle,utility,v2_curation_round3,prefix
+com.googlecode.mp4parser.,mp4parser,media,v2_curation_round3,prefix
+com.coremedia.iso.,mp4parser,media,v2_curation_round3,prefix
+com.mp4parser.,mp4parser,media,v2_curation_round3,prefix
+com.sothree.slidinguppanel.,SlidingUpPanel,ui,v2_curation_round3,prefix
+id.zelory.compressor.,Compressor,utility,v2_curation_round3,prefix
+com.scottyab.rootbeer.,RootBeer,utility,v2_curation_round3,prefix
+com.jakewharton.threetenabp.,ThreeTenABP,utility,v2_curation_round3,prefix
+jp.wasabeef.glide.,Glide Transformations,ui,v2_curation_round3,prefix
+pub.devrel.easypermissions.,EasyPermissions,utility,v2_curation_round3,prefix
+org.json.,JSON-java,utility,v2_curation_round3,prefix
+me.relex.circleindicator.,CircleIndicator,ui,v2_curation_round3,prefix
+com.rd.,PageIndicatorView,ui,v2_curation_round3,prefix
+org.simpleframework.xml.,Simple XML,utility,v2_curation_round3,prefix
+com.synnapps.carouselview.,CarouselView,ui,v2_curation_round3,prefix
+me.dm7.barcodescanner.,barcodescanner (dm77),utility,v2_curation_round3,prefix
+com.daimajia.swipe.,AndroidSwipeLayout,ui,v2_curation_round3,prefix
+com.yqritc.scalablevideoview.,ScalableVideoView,media,v2_curation_round3,prefix
+com.crystal.crystalrangeseekbar.,CrystalRangeSeekbar,ui,v2_curation_round3,prefix
+com.example.crystalrangeseekbar.,CrystalRangeSeekbar,ui,v2_curation_round3,prefix
+com.github.lzyzsd.,JsBridge / CircleProgress,utility,v2_curation_round3,prefix
+io.github.inflationx.,Calligraphy / ViewPump,ui,v2_curation_round3,prefix
+com.davemorrissey.labs.,SubsamplingScaleImageView,ui,v2_curation_round3,prefix
+com.balysv.materialripple.,MaterialRipple,ui,v2_curation_round3,prefix
+com.pnikosis.materialishprogress.,MaterialishProgress,ui,v2_curation_round3,prefix
+org.sufficientlysecure.htmltextview.,HtmlTextView,ui,v2_curation_round3,prefix
+com.skydoves.balloon.,Balloon,ui,v2_curation_round3,prefix
+com.amulyakhare.textdrawable.,TextDrawable,ui,v2_curation_round3,prefix
+com.j256.ormlite.,ORMLite,utility,v2_curation_round3,prefix
+com.otaliastudios.,CameraView (otaliastudios),media,v2_curation_round3,prefix
+com.github.florent37.,florent37 UI libraries,ui,v2_curation_round3,prefix
+com.hbb20.,CountryCodePicker,ui,v2_curation_round3,prefix
+com.wang.avi.,AVLoadingIndicatorView,ui,v2_curation_round3,prefix
+com.github.siyamed.,ShapeImageView,ui,v2_curation_round3,prefix
+com.intuit.ssp.,SSP,ui,v2_curation_round3,prefix
+com.andromo.,Andromo app builder,uncertain,v2_curation_round3,prefix
+io.nlopez.smartlocation.,Smart Location Library,utility,v2_curation_round3b,prefix
+net.sqlcipher.,SQLCipher,utility,v2_curation_round3b,prefix
+com.drew.,metadata-extractor,utility,v2_curation_round3b,prefix
+com.adobe.xmp.,Adobe XMP Core,utility,v2_curation_round3b,prefix
+com.unity3d.mediation.,Unity LevelPlay Mediation,ads,v2_curation_round3b,prefix
+com.tbuonomo.viewpagerdotsindicator.,ViewPager Dots Indicator,ui,v2_curation_round3b,prefix
+com.baseflow.permissionhandler.,permission_handler (Flutter),framework_plugin,v2_curation_round3b,prefix
+com.ocetnik.timer.,react-native-background-timer,framework_plugin,v2_curation_round3b,prefix
+com.lugg.ReactNativeConfig.,react-native-config,framework_plugin,v2_curation_round3b,prefix
+com.zoontek.rnlocalize.,react-native-localize,framework_plugin,v2_curation_round3b,prefix
+io.sqlc.,cordova-sqlite-storage,framework_plugin,v2_curation_round3b,prefix
+com.amazon.device.simplesignin.,Amazon Appstore SDK,payments,v2_curation_round3b,prefix
