@@ -4,12 +4,19 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "analyzer_core"
-version = "0.1.0a1"
+version = "0.1.0a2"
 description = "Static Android APK analyzer. Phase 1A implements intake, isolation, the report schema, and the CLI."
 requires-python = ">=3.12,<3.13"
 dependencies = [
     "androguard==3.3.5",
     "pydantic==2.14.1",
+]
+
+[project.optional-dependencies]
+service = [
+    "fastapi==0.162.0",
+    "uvicorn==0.54.0",
+    "httpx==0.28.1",
 ]
 
 [project.scripts]

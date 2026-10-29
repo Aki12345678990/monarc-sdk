@@ -7,3 +7,8 @@ out/
 *.log
 .env
 *.egg-info/
+var/
+web/node_modules/
+web/.next/
+web/.env.local
+web/coverage/

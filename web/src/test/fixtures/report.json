@@ -1,0 +1,190 @@
+{
+  "schema_version": "1.0.0",
+  "engine": {
+    "name": "analyzer_core",
+    "version": "0.1.0a2",
+    "androguard_version": "3.3.5",
+    "reference_status": "OK"
+  },
+  "input": {
+    "sha256": "0f1e2d3c4b5a69788796a5b4c3d2e1f00f1e2d3c4b5a69788796a5b4c3d2e1f0",
+    "file_size": 4194304,
+    "package_name": "org.example.synthetic",
+    "version_name": "1.2.3",
+    "version_code": 10203,
+    "min_sdk": 21,
+    "target_sdk": 34
+  },
+  "status": "ok",
+  "errors": [],
+  "frameworks": [
+    {
+      "name": "flutter",
+      "evidence": ["lib/arm64-v8a/libflutter.so", "io.flutter.embedding"]
+    }
+  ],
+  "visibility_caveat": "Code compiled outside DEX (Dart AOT, IL2CPP, JavaScript bundles) is not visible to the extractor; A and N are lower bounds for framework apps.",
+  "sdk_inventory": [
+    {
+      "sdk_name": "Acme Analytics",
+      "sdk_category": "analytics",
+      "packages": ["com.acme.analytics", "com.acme.analytics.internal"]
+    },
+    {
+      "sdk_name": "Contoso Maps",
+      "sdk_category": "maps",
+      "packages": ["com.contoso.maps"]
+    },
+    {
+      "sdk_name": "Fabrikam Crash Reporter",
+      "sdk_category": "crash_reporting",
+      "packages": ["com.fabrikam.crash", "com.fabrikam.crash.ndk", "com.fabrikam.common"]
+    }
+  ],
+  "indicators": {
+    "P": {
+      "status": "not_implemented",
+      "value": null,
+      "reason": "No dangerous-permission definition exists in the frozen v2 pipeline",
+      "definition_source": null,
+      "details": {
+        "permissions_requested": [
+          "android.permission.ACCESS_NETWORK_STATE",
+          "android.permission.CAMERA",
+          "android.permission.INTERNET"
+        ]
+      }
+    },
+    "A": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "Sensitive API map (API 28–33) not finalised",
+      "definition_source": "extract_v2.py:363-384",
+      "details": {
+        "n_call_rows": 412
+      }
+    },
+    "N": {
+      "status": "ok",
+      "value": 4,
+      "reason": null,
+      "definition_source": "extract_v2.py:272-304, aggregate_v2.py:201-225",
+      "details": {
+        "hosts_distinct_all": 4,
+        "hosts_distinct_sdk": 2,
+        "hosts_distinct_first_party": 1,
+        "n_urls_unparseable": 0,
+        "hosts": [
+          {
+            "host": "api.example.org",
+            "caller_package": "org.example.synthetic.net",
+            "attribution": "first_party",
+            "sdk_name": null,
+            "ip_literal": false
+          },
+          {
+            "host": "collect.acme-analytics.example",
+            "caller_package": "com.acme.analytics",
+            "attribution": "sdk",
+            "sdk_name": "Acme Analytics",
+            "ip_literal": false
+          },
+          {
+            "host": "tiles.contoso-maps.example",
+            "caller_package": "com.contoso.maps",
+            "attribution": "sdk",
+            "sdk_name": "Contoso Maps",
+            "ip_literal": false
+          },
+          {
+            "host": "203.0.113.7",
+            "caller_package": "a.b",
+            "attribution": "obfuscated",
+            "sdk_name": null,
+            "ip_literal": true
+          }
+        ]
+      }
+    },
+    "M": {
+      "status": "not_implemented",
+      "value": null,
+      "reason": "v2 records raw manifest facts only; no misconfiguration flags are defined",
+      "definition_source": null,
+      "details": {
+        "debuggable_explicit": null,
+        "allowBackup_explicit": "true",
+        "usesCleartextTraffic_explicit": null,
+        "networkSecurityConfig": "@xml/network_config",
+        "nsc_parsed": true,
+        "nsc_error": null,
+        "nsc_cleartextTrafficPermitted_true": false,
+        "nsc_resolve_call": "zip_name_@xml",
+        "ns_fallback_manifest_count": 0,
+        "components": [
+          {
+            "type": "activity",
+            "name": "org.example.synthetic.MainActivity",
+            "exported_explicit": "true",
+            "has_intent_filter": true,
+            "permission": null,
+            "readPermission": null,
+            "writePermission": null,
+            "is_launcher": true
+          },
+          {
+            "type": "service",
+            "name": "com.acme.analytics.UploadService",
+            "exported_explicit": "false",
+            "has_intent_filter": false,
+            "permission": null,
+            "readPermission": null,
+            "writePermission": null,
+            "is_launcher": false
+          },
+          {
+            "type": "receiver",
+            "name": "org.example.synthetic.BootReceiver",
+            "exported_explicit": null,
+            "has_intent_filter": true,
+            "permission": "android.permission.RECEIVE_BOOT_COMPLETED",
+            "readPermission": null,
+            "writePermission": null,
+            "is_launcher": false
+          }
+        ]
+      }
+    },
+    "D": {
+      "status": "ok",
+      "value": 12.5,
+      "reason": null,
+      "definition_source": "aggregate_v2.py:51-54,167-197,311-315",
+      "details": {
+        "n_packages_total": 48,
+        "footprint_strict_pct": 12.5,
+        "footprint_inclusive_pct": 20.833333333333332,
+        "footprint_strict_nontoolchain_pct": 18.75,
+        "footprint_service_pct": 6.25,
+        "n_sdk_distinct": 3,
+        "note": "namespace breadth, not code volume; lower bound in obfuscated apps",
+        "n_packages_toolchain": 12,
+        "n_packages_framework": 4,
+        "n_packages_sdk": 6,
+        "n_packages_first_party": 18,
+        "n_packages_obfuscated": 4,
+        "n_packages_unattributed_third_party": 4
+      }
+    }
+  },
+  "comparison": null,
+  "comparison_reason": "Corpus comparison deferred until research validation is complete.",
+  "limitations": [
+    "Static analysis only; no code was executed.",
+    "SDK attribution is namespace-based.",
+    "Obfuscation can hide SDK code, so SDK findings are a lower bound.",
+    "Cross-platform framework code may not be visible to DEX analysis.",
+    "No runtime behaviour was observed.",
+    "This is not a malware verdict."
+  ]
+}

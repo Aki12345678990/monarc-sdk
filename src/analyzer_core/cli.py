@@ -1,6 +1,7 @@
 """Command line for analyzer_core."""
 
 import argparse
+import json
 import sys
 from importlib.metadata import version as package_version
 from pathlib import Path
@@ -37,11 +38,15 @@ def main(argv: list[str] | None = None) -> int:
 
     sub.add_parser("verify-reference")
     sub.add_parser("version")
+    sub.add_parser("schema")
 
     args = parser.parse_args(argv)
     if args.command == "version":
         print(f"analyzer_core {__version__}")
         print(f"androguard {package_version('androguard')}")
+        return 0
+    if args.command == "schema":
+        sys.stdout.write(json.dumps(Report.model_json_schema(), indent=2, ensure_ascii=False) + "\n")
         return 0
     if args.command == "verify-reference":
         return _verify_reference_command()

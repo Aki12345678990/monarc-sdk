@@ -95,4 +95,33 @@ def test_version_prints_androguard_pin():
     )
     assert completed.returncode == 0
     assert "3.3.5" in completed.stdout
-    assert "0.1.0a1" in completed.stdout
+    assert "0.1.0a2" in completed.stdout
+
+
+def test_schema_lists_every_top_level_report_field():
+    from analyzer_core.report import Report
+
+    completed = subprocess.run(
+        [sys.executable, "-m", "analyzer_core", "schema"],
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    assert completed.returncode == 0
+    schema = json.loads(completed.stdout)
+    expected = {
+        "schema_version",
+        "engine",
+        "input",
+        "status",
+        "errors",
+        "frameworks",
+        "visibility_caveat",
+        "sdk_inventory",
+        "indicators",
+        "comparison",
+        "comparison_reason",
+        "limitations",
+    }
+    assert expected == set(Report.model_fields)
+    assert expected <= set(schema["properties"])
