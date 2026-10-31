@@ -2,11 +2,11 @@
 
 import { motion } from "motion/react";
 import { Bar, BarChart, Cell, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
-import { CHART_CHARCOAL, CHART_ORANGE } from "@/lib/chart-palette";
+import { CHART_ACCENT } from "@/lib/chart-palette";
 import { DURATION, EASE, STAGGER } from "@/lib/motion";
 import { formatPercentile } from "@/lib/report-access";
 import type { MetricComparison } from "@/lib/report-types";
-import { ChartFrame, HiddenTable } from "./ChartFrame";
+import { BarSilverDefs, ChartFrame, HiddenTable, useBarSilverId } from "./ChartFrame";
 
 export type CorpusHistogramProps = {
   title: string;
@@ -14,6 +14,8 @@ export type CorpusHistogramProps = {
   metric: MetricComparison | null | undefined;
   valueLabel: string;
   comparisonReason?: string | null;
+  className?: string;
+  metricKey?: string;
 };
 
 function HistogramBar({
@@ -49,7 +51,16 @@ function HistogramBar({
   );
 }
 
-export function CorpusHistogram({ title, metric, valueLabel, comparisonReason }: CorpusHistogramProps) {
+export function CorpusHistogram({
+  title,
+  metric,
+  valueLabel,
+  comparisonReason,
+  className,
+  metricKey,
+}: CorpusHistogramProps) {
+  const key = metricKey ?? title;
+  const silverId = useBarSilverId();
   const counts = metric?.histogram.counts ?? [];
   const appBin = metric?.histogram.app_bin;
   const rows = counts.map((count, index) => ({
@@ -65,7 +76,7 @@ export function CorpusHistogram({ title, metric, valueLabel, comparisonReason }:
     return (
       <section className="card">
         <h3 className="text-xl">{title}</h3>
-        <p className="mt-2" data-testid={`corpus-reason-${title}`}>
+        <p className="mt-2" data-testid={`corpus-reason-${key}`}>
           {comparisonReason}
         </p>
       </section>
@@ -79,6 +90,7 @@ export function CorpusHistogram({ title, metric, valueLabel, comparisonReason }:
         percentileText ? ` (${percentileText})` : ""
       }.`}
       empty={empty}
+      className={className}
       table={
         <HiddenTable
           caption={`${title} corpus histogram`}
@@ -86,34 +98,25 @@ export function CorpusHistogram({ title, metric, valueLabel, comparisonReason }:
           rows={rows.map((row) => [row.bin, row.count, row.highlight ? "yes" : "no"])}
         />
       }
-      legend={
-        <>
-          <motion.p
-            className="mt-2 text-sm"
-            data-testid={`corpus-label-${title}`}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: DURATION.slow, ease: EASE }}
-          >
-            This app: {valueLabel}
-            {percentileText ? ` (${percentileText})` : ""}
-          </motion.p>
-          <p className="sr-only" data-testid={`histogram-highlight-count-${title}`}>
-            {highlighted.length}
-          </p>
-        </>
-      }
     >
+      <p className="sr-only" data-testid={`histogram-highlight-count-${key}`}>
+        {highlighted.length}
+      </p>
+      <p className="sr-only" data-testid={`corpus-label-${key}`}>
+        This app: {valueLabel}
+        {percentileText ? ` (${percentileText})` : ""}
+      </p>
       <ResponsiveContainer width="100%" height="100%">
-        <BarChart data={rows}>
-          <XAxis dataKey="bin" />
-          <YAxis allowDecimals={false} />
+        <BarChart data={rows} margin={{ top: 4, right: 4, left: 0, bottom: 0 }}>
+          <BarSilverDefs id={silverId} />
+          <XAxis dataKey="bin" tick={{ fontSize: 11, fill: "var(--text-faint)" }} axisLine={false} tickLine={false} />
+          <YAxis allowDecimals={false} tick={{ fontSize: 11, fill: "var(--text-faint)" }} axisLine={false} tickLine={false} width={28} />
           <Tooltip />
           <Bar dataKey="count" isAnimationActive={false} name="corpus apps" shape={HistogramBar}>
             {rows.map((row) => (
               <Cell
                 key={row.bin}
-                fill={row.highlight ? CHART_ORANGE : CHART_CHARCOAL}
+                fill={row.highlight ? CHART_ACCENT : `url(#${silverId})`}
                 data-testid={`histogram-bin-${row.bin}`}
                 data-app-bin={row.highlight ? "true" : "false"}
               />

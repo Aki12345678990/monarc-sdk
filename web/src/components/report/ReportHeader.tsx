@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "motion/react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { DURATION, EASE } from "@/lib/motion";
 import { display, formatBytes } from "@/lib/report-access";
 import type { Report } from "@/lib/report-types";
@@ -32,7 +32,19 @@ function CheckIcon() {
   );
 }
 
-export function ReportHeader({ report }: { report: Report }) {
+function truncateSha(value: string): string {
+  return value.length <= 16 ? value : `${value.slice(0, 8)}…${value.slice(-4)}`;
+}
+
+export function ReportHeader({
+  report,
+  analysedAt,
+  actions,
+}: {
+  report: Report;
+  analysedAt?: string | null;
+  actions?: ReactNode;
+}) {
   const input = report.input ?? {};
   const sha256 = input.sha256 ?? null;
   const [copied, setCopied] = useState(false);
@@ -54,32 +66,26 @@ export function ReportHeader({ report }: { report: Report }) {
   }
 
   return (
-    <section aria-labelledby="report-heading" className="card">
-      <h1 id="report-heading" className="text-3xl break-all">
-        {display(input.package_name)}
-      </h1>
-      <dl className="mt-3 grid grid-cols-[max-content_1fr] gap-x-4 gap-y-1">
-        <dt className="font-semibold">Version</dt>
-        <dd>
-          {display(input.version_name)} (version code {display(input.version_code)})
-        </dd>
-        <dt className="font-semibold">Min SDK</dt>
-        <dd>{display(input.min_sdk)}</dd>
-        <dt className="font-semibold">Target SDK</dt>
-        <dd>{display(input.target_sdk)}</dd>
-        <dt className="font-semibold">File size</dt>
-        <dd>{formatBytes(input.file_size)}</dd>
-        <dt className="font-semibold">SHA-256</dt>
-        <dd className="flex flex-wrap items-center gap-2">
-          <code className="break-all">{display(sha256)}</code>
+    <section aria-labelledby="report-heading" className="card identity-bar">
+      <div className="identity-meta">
+        <h1 id="report-heading" className="m-0 font-mono text-sm break-all">
+          {display(input.package_name)}
+        </h1>
+        <span>{display(input.version_name)}</span>
+        <span>{formatBytes(input.file_size)}</span>
+        <span className="inline-flex items-center gap-1 font-mono">
+          <code title={sha256 ?? undefined}>{sha256 ? truncateSha(sha256) : display(sha256)}</code>
           {sha256 ? (
-            <button type="button" onClick={copySha} className="btn-secondary inline-flex items-center gap-2 text-sm">
+            <button type="button" onClick={copySha} className="btn-secondary inline-flex items-center gap-1 text-sm">
               <AnimatePresence mode="wait">{copied ? <CheckIcon /> : <CopyIcon />}</AnimatePresence>
-              {copied ? "Copied" : "Copy SHA-256"}
+              <span>{copied ? "Copied" : "Copy"}</span>
             </button>
           ) : null}
-        </dd>
-      </dl>
+        </span>
+        <span>{analysedAt ? analysedAt : "—"}</span>
+        <span>{display(report.engine?.version)}</span>
+      </div>
+      <div className="identity-actions">{actions}</div>
     </section>
   );
 }

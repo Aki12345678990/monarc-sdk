@@ -1,17 +1,17 @@
 import { PACKAGE_CATEGORIES } from "@/lib/package-categories";
 import type { IndicatorResult } from "@/lib/report-types";
-import { asNumber, asRecord, asString, formatPercent, rawFact } from "@/lib/report-access";
+import { asNumber, asRecord, formatPercent, rawFact } from "@/lib/report-access";
 import { KeyValueTable } from "./controls";
 import { IndicatorCard } from "./IndicatorCard";
 
-// Neutral shades of charcoal on cream; ordering only, no meaning attached.
-const SEGMENT_CLASSES = [
-  "bg-charcoal",
-  "bg-charcoal/80",
-  "bg-charcoal/60",
-  "bg-charcoal/40",
-  "bg-charcoal/20",
-  "bg-cream",
+// Silver data ramp; ordering only, no meaning attached.
+const SEGMENT_FILLS = [
+  "var(--data-1)",
+  "var(--data-2)",
+  "var(--data-3)",
+  "var(--data-4)",
+  "rgba(230,233,238,0.10)",
+  "rgba(230,233,238,0.06)",
 ];
 
 const OTHER_MEASURES = [
@@ -24,7 +24,6 @@ const OTHER_MEASURES = [
 export function FootprintD({ indicator }: { indicator: IndicatorResult | undefined }) {
   const details = asRecord(indicator?.details);
   const value = asNumber(indicator?.value);
-  const note = asString(details.note);
   const counts = PACKAGE_CATEGORIES.map((category) => ({
     category,
     count: asNumber(details[`n_packages_${category}`]),
@@ -33,7 +32,7 @@ export function FootprintD({ indicator }: { indicator: IndicatorResult | undefin
 
   return (
     <IndicatorCard letter="D" title="SDK footprint" indicator={indicator}>
-      <p className="text-3xl font-semibold" data-testid="d-value">
+      <p className="kpi text-3xl" data-testid="d-value">
         {formatPercent(value)}
       </p>
       {value !== null ? (
@@ -41,8 +40,6 @@ export function FootprintD({ indicator }: { indicator: IndicatorResult | undefin
           Reported value: <code>{String(value)}</code> (footprint_strict_pct)
         </p>
       ) : null}
-      {note ? <p className="mt-1">Note: {note}</p> : null}
-
       <h3 className="mt-4 text-xl">Package categories</h3>
       {total > 0 ? (
         <div
@@ -50,14 +47,16 @@ export function FootprintD({ indicator }: { indicator: IndicatorResult | undefin
           aria-label={`Package categories: ${counts
             .map((item) => `${item.category} ${item.count ?? "—"}`)
             .join(", ")}`}
-          className="mt-2 flex h-6 w-full overflow-hidden rounded border border-charcoal"
+          className="mt-2 flex h-6 w-full overflow-hidden rounded border border-edge-lo"
         >
           {counts.map((item, index) =>
             item.count ? (
               <div
                 key={item.category}
-                className={SEGMENT_CLASSES[index]}
-                style={{ width: `${(item.count / total) * 100}%` }}
+                style={{
+                  width: `${(item.count / total) * 100}%`,
+                  background: SEGMENT_FILLS[index],
+                }}
               />
             ) : null,
           )}
@@ -70,7 +69,8 @@ export function FootprintD({ indicator }: { indicator: IndicatorResult | undefin
           <li key={item.category} className="flex items-center gap-2">
             <span
               aria-hidden="true"
-              className={`inline-block h-3 w-3 border border-charcoal ${SEGMENT_CLASSES[index]}`}
+              className="inline-block h-3 w-3 border border-edge-lo"
+              style={{ background: SEGMENT_FILLS[index] }}
             />
             <span className="font-mono">{item.category}</span>
             <span>{item.count ?? "—"}</span>

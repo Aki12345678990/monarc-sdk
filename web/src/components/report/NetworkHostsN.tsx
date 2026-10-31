@@ -3,40 +3,27 @@
 import { useState } from "react";
 import type { IndicatorResult } from "@/lib/report-types";
 import { asArray, asRecord, display, matchesFilter, rawFact } from "@/lib/report-access";
-import { FilterInput, KeyValueTable, PAGE_SIZE, ShowMore } from "./controls";
+import { FilterInput, KeyValueTable } from "./controls";
 import { IndicatorCard } from "./IndicatorCard";
 
-export function NetworkHostsN({ indicator }: { indicator: IndicatorResult | undefined }) {
+export function NetworkHostsTable({ indicator }: { indicator: IndicatorResult | undefined }) {
   const [filter, setFilter] = useState("");
-  const [shown, setShown] = useState(PAGE_SIZE);
   const details = asRecord(indicator?.details);
   const hosts = asArray(details.hosts).map(asRecord);
   const filtered = hosts.filter((host) =>
     matchesFilter(filter, host.host, host.attribution, host.sdk_name),
   );
 
-  function onFilter(value: string) {
-    setFilter(value);
-    setShown(PAGE_SIZE);
-  }
-
   return (
-    <IndicatorCard letter="N" title="Network hosts" indicator={indicator}>
-      <p className="text-3xl font-semibold" data-testid="n-value">
-        {display(indicator?.value)}
-      </p>
-      <p className="text-sm">Distinct hosts (hosts_distinct_all)</p>
-      <KeyValueTable
-        caption="Host counts"
-        rows={[
-          ["hosts_distinct_sdk", rawFact(details.hosts_distinct_sdk)],
-          ["hosts_distinct_first_party", rawFact(details.hosts_distinct_first_party)],
-          ["n_urls_unparseable", rawFact(details.n_urls_unparseable)],
-        ]}
-      />
-      <h3 className="mt-4 text-xl">Hosts</h3>
-      <FilterInput label="Filter hosts" value={filter} onChange={onFilter} />
-      <div className="overflow-x-auto">
+    <section aria-labelledby="hosts-table-heading" className="card table-panel table-hosts">
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <h2 id="hosts-table-heading" className="section-title">
+          Network host references
+        </h2>
+        <p className="text-sm">{filtered.length} / {hosts.length}</p>
+      </div>
+      <FilterInput label="Filter hosts" value={filter} onChange={setFilter} />
+      <div className="table-scroll">
         <table className="data-table">
           <caption className="sr-only">Network hosts</caption>
           <thead>
@@ -53,7 +40,7 @@ export function NetworkHostsN({ indicator }: { indicator: IndicatorResult | unde
                 <td colSpan={4}>—</td>
               </tr>
             ) : (
-              filtered.slice(0, shown).map((host, index) => (
+              filtered.map((host, index) => (
                 <tr key={`${display(host.host)}-${display(host.caller_package)}-${index}`}>
                   <td className="font-mono text-sm break-all">{display(host.host)}</td>
                   <td>{display(host.attribution)}</td>
@@ -65,11 +52,25 @@ export function NetworkHostsN({ indicator }: { indicator: IndicatorResult | unde
           </tbody>
         </table>
       </div>
-      <ShowMore
-        shown={shown}
-        total={filtered.length}
-        noun="hosts"
-        onMore={() => setShown((value) => value + PAGE_SIZE)}
+    </section>
+  );
+}
+
+export function NetworkHostsN({ indicator }: { indicator: IndicatorResult | undefined }) {
+  const details = asRecord(indicator?.details);
+  return (
+    <IndicatorCard letter="N" title="Network hosts" indicator={indicator}>
+      <p className="kpi" data-testid="n-value">
+        {display(indicator?.value)}
+      </p>
+      <p className="text-sm">Distinct hosts (hosts_distinct_all)</p>
+      <KeyValueTable
+        caption="Host counts"
+        rows={[
+          ["hosts_distinct_sdk", rawFact(details.hosts_distinct_sdk)],
+          ["hosts_distinct_first_party", rawFact(details.hosts_distinct_first_party)],
+          ["n_urls_unparseable", rawFact(details.n_urls_unparseable)],
+        ]}
       />
     </IndicatorCard>
   );

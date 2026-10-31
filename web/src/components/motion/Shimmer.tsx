@@ -10,7 +10,7 @@ export function Shimmer({ className }: { className?: string }) {
       {reduce ? null : (
         <motion.div
           aria-hidden
-          className="absolute inset-y-0 w-1/3 bg-orange/30"
+          className="absolute inset-y-0 w-1/3 bg-white/10"
           animate={{ x: ["-120%", "320%"] }}
           transition={{ duration: LOOP.shimmer, repeat: Infinity, ease: EASE_LOOP }}
         />

@@ -1,13 +1,11 @@
-/** Categorical chart colours from the brand family. Index only — no meaning. */
+/** Silver data ramp. Index only — no meaning attached. */
 export const CHART_PALETTE = [
-  "#303030",
-  "#5a5a5a",
-  "#8a8a8a",
-  "#b8b6ae",
-  "#df5022",
-  "#f0a587",
+  "#e6e9ee",
+  "#e6e9ee9e",
+  "#e6e9ee5c",
+  "#e6e9ee2e",
+  "#e6e9ee1a",
+  "#e6e9ee0f",
 ] as const;
 
-export const CHART_ORANGE = "#df5022";
-export const CHART_CHARCOAL = "#303030";
-export const CHART_MUTED = "#8a8a8a";
+export const CHART_ACCENT = "#9ec5ff";

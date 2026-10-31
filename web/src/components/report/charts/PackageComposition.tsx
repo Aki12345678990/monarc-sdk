@@ -32,19 +32,6 @@ export function PackageComposition({ indicator }: { indicator: IndicatorResult |
           ])}
         />
       }
-      legend={
-        <ul className="mt-2 grid grid-cols-1 gap-1 text-sm sm:grid-cols-2">
-          {rows.map((row) => (
-            <li key={row.category} className="flex items-center gap-2">
-              <span className="inline-block h-3 w-3 border border-charcoal" style={{ background: row.fill }} />
-              <span className="font-mono">{row.category}</span>
-              <span>
-                {row.count} ({((row.count / total) * 100).toFixed(1)}%)
-              </span>
-            </li>
-          ))}
-        </ul>
-      }
     >
       <ResponsiveContainer width="100%" height="100%">
         <PieChart>
@@ -64,7 +51,14 @@ export function PackageComposition({ indicator }: { indicator: IndicatorResult |
               <Cell key={row.category} fill={row.fill} />
             ))}
           </Pie>
-          <Tooltip />
+          <Tooltip
+            contentStyle={{
+              background: "var(--bg-2)",
+              border: "1px solid var(--edge-hi)",
+              borderRadius: 12,
+              color: "var(--text)",
+            }}
+          />
         </PieChart>
       </ResponsiveContainer>
     </ChartFrame>

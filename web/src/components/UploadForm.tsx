@@ -1,11 +1,12 @@
 "use client";
 
 import { motion } from "motion/react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useId, useState, type DragEvent, type FormEvent } from "react";
-import { CountUp } from "@/components/motion/CountUp";
+import { useId, useState, useSyncExternalStore, type DragEvent, type FormEvent } from "react";
 import { createJob, uploadFile } from "@/lib/api";
-import { DURATION, EASE, SPRING, scaleIn } from "@/lib/motion";
+import { DURATION, EASE, SPRING } from "@/lib/motion";
+import { readRecentJobs } from "@/lib/recent-jobs";
 import { formatBytes } from "@/lib/report-access";
 
 type Phase = "idle" | "creating" | "uploading" | "redirecting";
@@ -80,7 +81,7 @@ export function UploadForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} className="card space-y-4" aria-describedby={`${inputId}-help`}>
+    <form onSubmit={onSubmit} className="space-y-4" aria-describedby={`${inputId}-help`}>
       <motion.div
         onDragOver={(event) => {
           event.preventDefault();
@@ -90,10 +91,9 @@ export function UploadForm() {
         onDrop={onDrop}
         animate={{ scale: dragging ? 1.01 : 1 }}
         transition={{ duration: DURATION.fast, ease: EASE }}
-        className={`rounded border-2 border-dashed p-6 text-center ${
-          dragging ? "border-orange" : "border-charcoal/40"
-        }`}
+        className={`panel dropzone ${dragging ? "is-over" : ""}`}
       >
+        <span className="dropzone-ring" aria-hidden />
         <p className="mb-3">Drag and drop an APK here, or choose a file.</p>
         <label htmlFor={inputId} className="mb-2 block font-semibold">
           APK file
@@ -104,32 +104,20 @@ export function UploadForm() {
           accept=".apk"
           disabled={busy}
           onChange={(event) => choose(event.target.files?.[0] ?? null)}
-          className="mx-auto block text-sm file:mr-3 file:cursor-pointer file:rounded file:border-0 file:bg-charcoal file:px-3 file:py-2 file:text-cream"
+          className="mx-auto block text-sm file:mr-3 file:cursor-pointer file:rounded file:border-0 file:bg-bg-2 file:px-3 file:py-2 file:text-text"
         />
         <p id={`${inputId}-help`} className="mt-2 text-sm">
           {file ? (
-            <motion.span
-              key={file.name}
-              variants={scaleIn}
-              initial="hidden"
-              animate="show"
-              className="inline-block rounded-full border border-orange px-3 py-1"
-            >
+            <span className="chip font-mono">
               Selected: {file.name} ({formatBytes(file.size)})
-            </motion.span>
+            </span>
           ) : (
             "No file selected."
           )}
         </p>
       </motion.div>
 
-      <motion.button
-        type="submit"
-        disabled={!file || busy}
-        className="btn-primary"
-        whileHover={{ y: -1 }}
-        whileTap={{ scale: 0.98 }}
-      >
+      <button type="submit" disabled={!file || busy} className="btn-primary">
         {phase === "creating"
           ? "Creating job…"
           : phase === "uploading"
@@ -137,7 +125,7 @@ export function UploadForm() {
             : phase === "redirecting"
               ? "Opening job…"
               : "Upload and analyse"}
-      </motion.button>
+      </button>
 
       {phase === "uploading" || phase === "redirecting" ? (
         <div>
@@ -147,17 +135,17 @@ export function UploadForm() {
             aria-valuemin={0}
             aria-valuemax={100}
             aria-valuenow={progress}
-            className="h-3 w-full overflow-hidden rounded border border-charcoal"
+            className="progress-track"
           >
             <motion.div
-              className="h-full origin-left bg-orange"
+              className="progress-fill"
               initial={{ scaleX: 0 }}
               animate={{ scaleX: progress / 100 }}
               transition={SPRING}
             />
           </div>
           <p className="mt-1 text-sm">
-            <CountUp value={progress} format={(n) => `${Math.round(n)}`} />% uploaded
+            {progress}% uploaded
           </p>
         </div>
       ) : null}
@@ -166,5 +154,32 @@ export function UploadForm() {
         {error}
       </p>
     </form>
+  );
+}
+
+function subscribeRecent(onStoreChange: () => void) {
+  if (typeof window === "undefined") return () => {};
+  window.addEventListener("storage", onStoreChange);
+  return () => window.removeEventListener("storage", onStoreChange);
+}
+
+export function RecentAnalyses() {
+  const jobs = useSyncExternalStore(subscribeRecent, readRecentJobs, () => []);
+  if (jobs.length === 0) return null;
+  return (
+    <section aria-labelledby="recent-heading" className="card span-12">
+      <h2 id="recent-heading" className="section-title">
+        Your recent analyses
+      </h2>
+      <ul className="mt-2 space-y-1">
+        {jobs.map((job) => (
+          <li key={job.id}>
+            <Link href={`/jobs/${job.id}`} className="font-mono text-sm">
+              {job.label}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </section>
   );
 }

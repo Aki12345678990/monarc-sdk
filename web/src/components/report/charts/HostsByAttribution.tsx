@@ -1,15 +1,15 @@
 "use client";
 
 import { Bar, BarChart, Cell, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
-import { CHART_PALETTE } from "@/lib/chart-palette";
 import { RECHARTS_DURATION_MS, RECHARTS_EASING } from "@/lib/motion";
 import { asArray, asRecord, asString } from "@/lib/report-access";
 import type { IndicatorResult } from "@/lib/report-types";
-import { ChartFrame, HiddenTable } from "./ChartFrame";
+import { BarSilverDefs, ChartFrame, HiddenTable, useBarSilverId } from "./ChartFrame";
 
 const GROUPS = ["sdk", "first_party", "other"] as const;
 
 export function HostsByAttribution({ indicator }: { indicator: IndicatorResult | undefined }) {
+  const silverId = useBarSilverId();
   const hosts = asArray(asRecord(indicator?.details).hosts).map(asRecord);
   const buckets = { sdk: new Set<string>(), first_party: new Set<string>(), other: new Set<string>() };
   for (const row of hosts) {
@@ -20,10 +20,9 @@ export function HostsByAttribution({ indicator }: { indicator: IndicatorResult |
     else if (attribution === "first_party") buckets.first_party.add(host);
     else buckets.other.add(host);
   }
-  const rows = GROUPS.map((group, index) => ({
+  const rows = GROUPS.map((group) => ({
     group,
     count: buckets[group].size,
-    fill: CHART_PALETTE[index],
   }));
   const empty = hosts.length === 0;
 
@@ -42,6 +41,7 @@ export function HostsByAttribution({ indicator }: { indicator: IndicatorResult |
     >
       <ResponsiveContainer width="100%" height="100%">
         <BarChart data={rows}>
+          <BarSilverDefs id={silverId} />
           <XAxis dataKey="group" />
           <YAxis allowDecimals={false} />
           <Tooltip />
@@ -51,9 +51,10 @@ export function HostsByAttribution({ indicator }: { indicator: IndicatorResult |
             animationDuration={RECHARTS_DURATION_MS}
             animationEasing={RECHARTS_EASING}
             name="distinct hosts"
+            fill={`url(#${silverId})`}
           >
             {rows.map((row) => (
-              <Cell key={row.group} fill={row.fill} />
+              <Cell key={row.group} fill={`url(#${silverId})`} />
             ))}
           </Bar>
         </BarChart>

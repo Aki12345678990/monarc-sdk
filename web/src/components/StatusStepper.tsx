@@ -2,49 +2,40 @@
 
 import { motion, useReducedMotion } from "motion/react";
 import type { JobStatus } from "@/lib/api";
-import { DURATION, EASE, EASE_LOOP, LOOP } from "@/lib/motion";
+import { JOB_STATUS_LABELS } from "@/lib/labels";
+import { DURATION, EASE } from "@/lib/motion";
+import { Shimmer } from "./motion/Shimmer";
 
-const PIPELINE = ["upload", "queued", "analysing", "done"] as const;
-type PipelineStep = (typeof PIPELINE)[number];
-
-const LABELS: Record<PipelineStep | "rejected" | "failed" | "expired", string> = {
-  upload: "Upload",
-  queued: "Queued",
-  analysing: "Analysing",
-  done: "Done",
-  rejected: "Rejected",
-  failed: "Failed",
-  expired: "Expired",
-};
+const SUCCESS_PIPELINE: JobStatus[] = ["awaiting_upload", "queued", "running", "done"];
 
 export function stepperModel(status: JobStatus): {
-  steps: Array<PipelineStep | "rejected" | "failed" | "expired">;
-  active: string;
-  completed: string[];
+  steps: JobStatus[];
+  active: JobStatus;
+  completed: JobStatus[];
 } {
   if (status === "awaiting_upload") {
-    return { steps: [...PIPELINE], active: "upload", completed: [] };
+    return { steps: [...SUCCESS_PIPELINE], active: "awaiting_upload", completed: [] };
   }
   if (status === "queued") {
-    return { steps: [...PIPELINE], active: "queued", completed: ["upload"] };
+    return { steps: [...SUCCESS_PIPELINE], active: "queued", completed: ["awaiting_upload"] };
   }
   if (status === "running") {
-    return { steps: [...PIPELINE], active: "analysing", completed: ["upload", "queued"] };
+    return { steps: [...SUCCESS_PIPELINE], active: "running", completed: ["awaiting_upload", "queued"] };
   }
   if (status === "done") {
-    return { steps: [...PIPELINE], active: "done", completed: ["upload", "queued", "analysing", "done"] };
+    return { steps: [...SUCCESS_PIPELINE], active: "done", completed: [...SUCCESS_PIPELINE] };
   }
   if (status === "rejected") {
-    return { steps: ["upload", "rejected"], active: "rejected", completed: ["upload"] };
+    return { steps: ["awaiting_upload", "rejected"], active: "rejected", completed: ["awaiting_upload"] };
   }
   if (status === "failed") {
     return {
-      steps: ["upload", "queued", "analysing", "failed"],
+      steps: ["awaiting_upload", "queued", "running", "failed"],
       active: "failed",
-      completed: ["upload", "queued", "analysing"],
+      completed: ["awaiting_upload", "queued", "running"],
     };
   }
-  return { steps: ["upload", "expired"], active: "expired", completed: [] };
+  return { steps: ["awaiting_upload", "expired"], active: "expired", completed: [] };
 }
 
 function Check() {
@@ -65,7 +56,7 @@ function Check() {
   );
 }
 
-export function StatusStepper({ status }: { status: JobStatus }) {
+export function StatusStepper({ status, elapsed }: { status: JobStatus; elapsed?: string }) {
   const reduce = useReducedMotion();
   const model = stepperModel(status);
   return (
@@ -73,30 +64,33 @@ export function StatusStepper({ status }: { status: JobStatus }) {
       {model.steps.map((step) => {
         const done = model.completed.includes(step);
         const active = model.active === step && !done;
+        const running = active && step === "running";
         return (
           <li
             key={step}
             data-testid={`step-${step}`}
             data-active={active ? "true" : "false"}
             data-complete={done ? "true" : "false"}
-            className="relative flex items-center gap-2 rounded-full border border-charcoal/30 px-3 py-1 text-sm"
+            className={`step-pill ${active ? "step-pill-active" : ""}`}
           >
-            {active ? (
+            {running ? <Shimmer className="pointer-events-none absolute inset-0 rounded-full" /> : null}
+            <span className="relative z-[1] flex h-5 w-5 items-center justify-center rounded-full border border-edge-hi">
+              {done ? <Check /> : <span className="h-1.5 w-1.5 rounded-full bg-text" />}
+            </span>
+            <span className="relative z-[1]">{JOB_STATUS_LABELS[step]}</span>
+            {running && elapsed ? (
+              <span className="relative z-[1] text-sm text-muted" data-testid="step-elapsed">
+                {elapsed}
+              </span>
+            ) : null}
+            {active && !running && !reduce ? (
               <motion.span
                 aria-hidden
-                className="pointer-events-none absolute inset-0 rounded-full border-2 border-orange"
-                animate={reduce ? { opacity: 1 } : { opacity: [0.35, 1, 0.35] }}
-                transition={
-                  reduce
-                    ? { duration: 0 }
-                    : { duration: LOOP.breathe, repeat: Infinity, ease: EASE_LOOP }
-                }
+                className="pointer-events-none absolute inset-0 rounded-full border-2 border-accent"
+                animate={{ opacity: [0.35, 1, 0.35] }}
+                transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
               />
             ) : null}
-            <span className="relative z-[1] flex h-5 w-5 items-center justify-center rounded-full border border-charcoal/40">
-              {done ? <Check /> : <span className="h-1.5 w-1.5 rounded-full bg-charcoal" />}
-            </span>
-            <span className="relative z-[1]">{LABELS[step]}</span>
           </li>
         );
       })}

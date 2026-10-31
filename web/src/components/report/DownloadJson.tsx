@@ -13,8 +13,11 @@ export function DownloadJson({ json, filename }: { json: string; filename: strin
   }
 
   return (
-    <button type="button" onClick={download} className="btn-primary">
-      Download report JSON
+    <button type="button" onClick={download} className="btn-primary inline-flex items-center gap-2" aria-label="Download JSON report">
+      <svg viewBox="0 0 24 24" className="h-4 w-4" aria-hidden>
+        <path d="M12 4v10m0 0-4-4m4 4 4-4M5 18h14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      </svg>
+      <span className="max-sm:hidden">Download JSON report</span>
     </button>
   );
 }

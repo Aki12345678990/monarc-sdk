@@ -25,7 +25,7 @@ export function FilterInput({
         type="search"
         value={value}
         onChange={(event) => onChange(event.target.value)}
-        className="min-w-64 rounded border border-charcoal/40 bg-white/60 px-2 py-1"
+        className="filter-input"
       />
     </div>
   );

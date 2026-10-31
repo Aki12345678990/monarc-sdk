@@ -32,7 +32,7 @@ export function Frameworks({ report }: { report: Report }) {
         </ul>
       )}
       {report.visibility_caveat ? (
-        <p className="mt-3 border-l-4 border-charcoal pl-3">
+        <p className="mt-3 border-l-4 border-edge-hi pl-3">
           <span className="font-semibold">Visibility caveat: </span>
           {report.visibility_caveat}
         </p>
