@@ -1,19 +1,28 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import { Anton, Source_Sans_3 } from "next/font/google";
+import { Inter, Inter_Tight, JetBrains_Mono } from "next/font/google";
 import Link from "next/link";
 import { MotionRoot } from "@/components/motion/MotionRoot";
 import "./globals.css";
 
-const anton = Anton({
-  variable: "--font-anton",
-  weight: "400",
+const interTight = Inter_Tight({
+  variable: "--font-inter-tight",
+  weight: ["600", "700"],
   subsets: ["latin"],
+  display: "swap",
 });
 
-const sourceSans = Source_Sans_3({
-  variable: "--font-source-sans",
+const inter = Inter({
+  variable: "--font-inter",
+  weight: ["400", "500", "600"],
   subsets: ["latin"],
+  display: "swap",
+});
+
+const jetbrains = JetBrains_Mono({
+  variable: "--font-jetbrains",
+  subsets: ["latin"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -24,24 +33,53 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" className={`${anton.variable} ${sourceSans.variable} h-full antialiased`}>
+    <html
+      lang="en"
+      className={`${interTight.variable} ${inter.variable} ${jetbrains.variable} h-full antialiased`}
+    >
       <body className="flex min-h-full flex-col">
-        <header className="border-b border-charcoal/20">
-          <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-4">
-            <Link href="/" className="font-display text-2xl text-charcoal no-underline">
-              APK SDK footprint analyser
-            </Link>
-            <span className="text-sm">Research prototype</span>
-          </div>
-        </header>
-        <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-8">
-          <MotionRoot>{children}</MotionRoot>
-        </main>
-        <footer className="border-t border-charcoal/20">
-          <p className="mx-auto max-w-5xl px-4 py-4 text-sm">
-            MSc Cyber Security dissertation prototype. Static analysis only.
-          </p>
-        </footer>
+        <div className="bg-scene" aria-hidden>
+          <div className="blob blob-a" />
+          <div className="blob blob-b" />
+          <div className="blob blob-c" />
+          <div className="noise" />
+        </div>
+        <svg aria-hidden width="0" height="0" className="absolute">
+          <defs>
+            <linearGradient id="bar-silver" x1="0" y1="1" x2="0" y2="0">
+              <stop offset="0%" stopColor="var(--data-4)" />
+              <stop offset="55%" stopColor="var(--data-2)" />
+              <stop offset="100%" stopColor="var(--data-1)" />
+            </linearGradient>
+          </defs>
+        </svg>
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "(function(){var r=document.documentElement;function v(){r.classList.toggle('is-paused',document.hidden);}v();document.addEventListener('visibilitychange',v);document.addEventListener('pointermove',function(e){var t=e.target;if(!t||!t.closest)return;var p=t.closest('.panel, .card');if(!p)return;var b=p.getBoundingClientRect();p.style.setProperty('--spot-x',(e.clientX-b.left)+'px');p.style.setProperty('--spot-y',(e.clientY-b.top)+'px');},{passive:true});})();",
+          }}
+        />
+        <div className="site-shell flex min-h-full flex-1 flex-col">
+          <header className="sticky top-3 z-20 mx-4">
+            <div className="panel site-measure mx-auto flex items-center justify-between !py-3">
+              <Link href="/" className="chrome-text font-display text-2xl no-underline">
+                Monarc
+              </Link>
+              <nav className="flex items-center gap-4 text-sm">
+                <Link href="/method">Method</Link>
+                <span className="text-muted">Research prototype</span>
+              </nav>
+            </div>
+          </header>
+          <main className="site-measure mx-auto w-full flex-1 px-4 py-8">
+            <MotionRoot>{children}</MotionRoot>
+          </main>
+          <footer className="mt-4 border-t border-edge-lo">
+            <p className="site-measure mx-auto px-4 py-4 text-sm text-muted">
+              MSc Cyber Security dissertation prototype. Static analysis only.
+            </p>
+          </footer>
+        </div>
       </body>
     </html>
   );

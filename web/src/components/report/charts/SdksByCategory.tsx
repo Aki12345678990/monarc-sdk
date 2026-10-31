@@ -7,7 +7,7 @@ import { asArray, asRecord, asString } from "@/lib/report-access";
 import type { Report } from "@/lib/report-types";
 import { ChartFrame, HiddenTable } from "./ChartFrame";
 
-export function SdksByCategory({ report }: { report: Report }) {
+export function SdksByCategory({ report, className }: { report: Report; className?: string }) {
   const counts = new Map<string, { sdks: number; packages: number }>();
   for (const entry of asArray(report.sdk_inventory).map(asRecord)) {
     const category = asString(entry.sdk_category) ?? "—";
@@ -25,6 +25,7 @@ export function SdksByCategory({ report }: { report: Report }) {
       title="SDKs by category"
       caption="Number of distinct SDKs in this app's inventory, grouped by sdk_category. The label is the package count."
       empty={rows.length === 0}
+      className={className}
       table={
         <HiddenTable
           caption="SDKs by category"
@@ -34,9 +35,9 @@ export function SdksByCategory({ report }: { report: Report }) {
       }
     >
       <ResponsiveContainer width="100%" height="100%">
-        <BarChart data={rows} layout="vertical" margin={{ left: 8, right: 16 }}>
-          <XAxis type="number" allowDecimals={false} />
-          <YAxis type="category" dataKey="category" width={120} />
+        <BarChart data={rows} layout="vertical" margin={{ left: 4, right: 8, top: 4, bottom: 0 }}>
+          <XAxis type="number" allowDecimals={false} tick={{ fontSize: 11, fill: "var(--text-faint)" }} axisLine={false} tickLine={false} />
+          <YAxis type="category" dataKey="category" width={88} tick={{ fontSize: 11, fill: "var(--text-faint)" }} axisLine={false} tickLine={false} />
           <Tooltip />
           <Bar
             dataKey="sdks"

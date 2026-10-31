@@ -79,12 +79,12 @@ export function StatusStepper({ status }: { status: JobStatus }) {
             data-testid={`step-${step}`}
             data-active={active ? "true" : "false"}
             data-complete={done ? "true" : "false"}
-            className="relative flex items-center gap-2 rounded-full border border-charcoal/30 px-3 py-1 text-sm"
+            className={`step-pill ${active ? "step-pill-active" : ""}`}
           >
             {active ? (
               <motion.span
                 aria-hidden
-                className="pointer-events-none absolute inset-0 rounded-full border-2 border-orange"
+                className="pointer-events-none absolute inset-0 rounded-full border-2 border-accent"
                 animate={reduce ? { opacity: 1 } : { opacity: [0.35, 1, 0.35] }}
                 transition={
                   reduce
@@ -93,8 +93,8 @@ export function StatusStepper({ status }: { status: JobStatus }) {
                 }
               />
             ) : null}
-            <span className="relative z-[1] flex h-5 w-5 items-center justify-center rounded-full border border-charcoal/40">
-              {done ? <Check /> : <span className="h-1.5 w-1.5 rounded-full bg-charcoal" />}
+            <span className="relative z-[1] flex h-5 w-5 items-center justify-center rounded-full border border-edge-hi">
+              {done ? <Check /> : <span className="h-1.5 w-1.5 rounded-full bg-text" />}
             </span>
             <span className="relative z-[1]">{LABELS[step]}</span>
           </li>

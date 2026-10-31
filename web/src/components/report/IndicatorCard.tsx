@@ -22,7 +22,7 @@ export function IndicatorCard({
     <motion.section
       aria-labelledby={headingId}
       className="card"
-      whileHover={{ y: -2, borderColor: "var(--border-strong)" }}
+      whileHover={{ y: -2 }}
       transition={{ duration: DURATION.fast, ease: EASE }}
     >
       <h2 id={headingId} className="text-2xl">

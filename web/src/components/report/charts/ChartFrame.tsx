@@ -5,32 +5,31 @@ export function ChartFrame({
   caption,
   empty,
   table,
-  legend,
+  className,
   children,
 }: {
   title: string;
   caption: string;
   empty: boolean;
   table: ReactNode;
-  legend?: ReactNode;
+  className?: string;
   children: ReactNode;
 }) {
   const captionId = useId();
   const headingId = useId();
   return (
-    <section aria-labelledby={headingId} className="card">
-      <h3 id={headingId} className="text-xl">
+    <section aria-labelledby={headingId} className={`card chart-panel ${className ?? ""}`.trim()}>
+      <h3 id={headingId} className="section-title">
         {title}
       </h3>
       {empty ? (
         <p className="mt-2">No data</p>
       ) : (
         <>
-          <div className="mt-2 h-56 w-full" aria-describedby={captionId}>
+          <div className="chart-body mt-2 w-full" aria-describedby={captionId}>
             {children}
           </div>
-          {legend}
-          <p id={captionId} className="mt-2 text-sm">
+          <p id={captionId} className="sr-only">
             {caption}
           </p>
           <div className="sr-only">{table}</div>

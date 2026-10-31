@@ -8,7 +8,10 @@
     "start": "next start",
     "lint": "eslint",
     "test": "vitest",
-    "gen:types": "node scripts/gen-types.mjs"
+    "gen:types": "node scripts/gen-types.mjs",
+    "check:contrast": "node scripts/check-contrast.mjs",
+    "check:materials": "node scripts/check-materials.mjs",
+    "check:first-load": "node scripts/first-load.mjs"
   },
   "dependencies": {
     "motion": "14.8.0",

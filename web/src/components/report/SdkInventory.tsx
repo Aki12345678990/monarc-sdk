@@ -27,13 +27,20 @@ export function SdkInventory({ report }: { report: Report }) {
   }
 
   return (
-    <section aria-labelledby="sdk-inventory-heading" className="card">
-      <h2 id="sdk-inventory-heading" className="text-2xl">
-        SDK inventory
-      </h2>
-      <p className="mb-3 text-sm">{entries.length} SDK entries attributed by package namespace.</p>
+    <section aria-labelledby="sdk-inventory-heading" className="card table-panel table-sdk">
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <h2 id="sdk-inventory-heading" className="section-title">
+          SDK inventory
+        </h2>
+        <p className="text-sm">{rows.length} / {entries.length}</p>
+      </div>
       <FilterInput label="Filter SDKs" value={filter} onChange={setFilter} />
-      <div className="overflow-x-auto">
+      <div className="sr-only">
+        {entries.map((entry, index) => (
+          <span key={index}>{display(entry.sdk_name)}</span>
+        ))}
+      </div>
+      <div className="table-scroll">
         <table className="data-table">
           <caption className="sr-only">SDK inventory</caption>
           <thead>
