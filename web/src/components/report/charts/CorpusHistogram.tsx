@@ -2,11 +2,11 @@
 
 import { motion } from "motion/react";
 import { Bar, BarChart, Cell, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
-import { CHART_ACCENT, CHART_PALETTE } from "@/lib/chart-palette";
+import { CHART_ACCENT } from "@/lib/chart-palette";
 import { DURATION, EASE, STAGGER } from "@/lib/motion";
 import { formatPercentile } from "@/lib/report-access";
 import type { MetricComparison } from "@/lib/report-types";
-import { ChartFrame, HiddenTable } from "./ChartFrame";
+import { BarSilverDefs, ChartFrame, HiddenTable, useBarSilverId } from "./ChartFrame";
 
 export type CorpusHistogramProps = {
   title: string;
@@ -60,6 +60,7 @@ export function CorpusHistogram({
   metricKey,
 }: CorpusHistogramProps) {
   const key = metricKey ?? title;
+  const silverId = useBarSilverId();
   const counts = metric?.histogram.counts ?? [];
   const appBin = metric?.histogram.app_bin;
   const rows = counts.map((count, index) => ({
@@ -107,6 +108,7 @@ export function CorpusHistogram({
       </p>
       <ResponsiveContainer width="100%" height="100%">
         <BarChart data={rows} margin={{ top: 4, right: 4, left: 0, bottom: 0 }}>
+          <BarSilverDefs id={silverId} />
           <XAxis dataKey="bin" tick={{ fontSize: 11, fill: "var(--text-faint)" }} axisLine={false} tickLine={false} />
           <YAxis allowDecimals={false} tick={{ fontSize: 11, fill: "var(--text-faint)" }} axisLine={false} tickLine={false} width={28} />
           <Tooltip />
@@ -114,7 +116,7 @@ export function CorpusHistogram({
             {rows.map((row) => (
               <Cell
                 key={row.bin}
-                fill={row.highlight ? CHART_ACCENT : CHART_PALETTE[0]}
+                fill={row.highlight ? CHART_ACCENT : `url(#${silverId})`}
                 data-testid={`histogram-bin-${row.bin}`}
                 data-app-bin={row.highlight ? "true" : "false"}
               />

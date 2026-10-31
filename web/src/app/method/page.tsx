@@ -17,9 +17,9 @@ export default function MethodPage() {
       <p>The UI shows indicators exactly as the report states them.</p>
       <h2 className="section-title">What this does not do</h2>
       <ul className="list-disc pl-6">
-        <li>No risk score.</li>
+        <li>Does not combine indicators into one number.</li>
         <li>No rating.</li>
-        <li>No malware verdict.</li>
+        <li>This is not a malware verdict.</li>
       </ul>
       <h2 className="section-title">Data handling</h2>
       <p>

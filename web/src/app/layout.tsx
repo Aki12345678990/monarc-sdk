@@ -44,15 +44,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <div className="blob blob-c" />
           <div className="noise" />
         </div>
-        <svg aria-hidden width="0" height="0" className="absolute">
-          <defs>
-            <linearGradient id="bar-silver" x1="0" y1="1" x2="0" y2="0">
-              <stop offset="0%" stopColor="var(--data-4)" />
-              <stop offset="55%" stopColor="var(--data-2)" />
-              <stop offset="100%" stopColor="var(--data-1)" />
-            </linearGradient>
-          </defs>
-        </svg>
         <script
           dangerouslySetInnerHTML={{
             __html:

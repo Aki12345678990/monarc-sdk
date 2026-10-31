@@ -48,9 +48,9 @@ export default function Home() {
             What it does not do
           </h2>
           <ul className="mt-2 list-disc pl-6">
-            <li>No risk score.</li>
+            <li>Does not combine indicators into one number.</li>
             <li>No rating.</li>
-            <li>No malware verdict.</li>
+            <li>This is not a malware verdict.</li>
           </ul>
         </section>
       </div>

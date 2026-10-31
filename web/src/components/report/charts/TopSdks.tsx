@@ -1,13 +1,13 @@
 "use client";
 
 import { Bar, BarChart, Cell, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
-import { CHART_PALETTE } from "@/lib/chart-palette";
 import { RECHARTS_DURATION_MS, RECHARTS_EASING } from "@/lib/motion";
 import { asArray, asRecord, asString } from "@/lib/report-access";
 import type { Report } from "@/lib/report-types";
-import { ChartFrame, HiddenTable } from "./ChartFrame";
+import { BarSilverDefs, ChartFrame, HiddenTable, useBarSilverId } from "./ChartFrame";
 
 export function TopSdks({ report }: { report: Report }) {
+  const silverId = useBarSilverId();
   const rows = asArray(report.sdk_inventory)
     .map(asRecord)
     .map((entry) => ({
@@ -32,6 +32,7 @@ export function TopSdks({ report }: { report: Report }) {
     >
       <ResponsiveContainer width="100%" height="100%">
         <BarChart data={rows} layout="vertical" margin={{ left: 8, right: 16 }}>
+          <BarSilverDefs id={silverId} />
           <XAxis type="number" allowDecimals={false} />
           <YAxis type="category" dataKey="name" width={140} />
           <Tooltip />
@@ -41,9 +42,10 @@ export function TopSdks({ report }: { report: Report }) {
             animationDuration={RECHARTS_DURATION_MS}
             animationEasing={RECHARTS_EASING}
             name="packages"
+            fill={`url(#${silverId})`}
           >
-            {rows.map((row, index) => (
-              <Cell key={row.name} fill={CHART_PALETTE[index % CHART_PALETTE.length]} />
+            {rows.map((row) => (
+              <Cell key={row.name} fill={`url(#${silverId})`} />
             ))}
           </Bar>
         </BarChart>

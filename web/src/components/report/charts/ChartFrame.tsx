@@ -1,5 +1,21 @@
 import { useId, type ReactNode } from "react";
 
+export function BarSilverDefs({ id }: { id: string }) {
+  return (
+    <defs>
+      <linearGradient id={id} x1="0" y1="1" x2="0" y2="0">
+        <stop offset="0%" stopColor="var(--data-4)" />
+        <stop offset="55%" stopColor="var(--data-2)" />
+        <stop offset="100%" stopColor="var(--data-1)" />
+      </linearGradient>
+    </defs>
+  );
+}
+
+export function useBarSilverId(): string {
+  return `bar-silver-${useId().replace(/:/g, "")}`;
+}
+
 export function ChartFrame({
   title,
   caption,

@@ -2,14 +2,21 @@ const KEY = "monarc-recent-jobs";
 
 export type RecentJob = { id: string; label: string; at: string };
 
+const EMPTY: RecentJob[] = [];
+let cachedRaw: string | null | undefined;
+let cached: RecentJob[] = EMPTY;
+
 export function readRecentJobs(): RecentJob[] {
-  if (typeof localStorage === "undefined") return [];
+  if (typeof localStorage === "undefined") return EMPTY;
   try {
     const raw = localStorage.getItem(KEY);
+    if (raw === cachedRaw) return cached;
+    cachedRaw = raw;
     const parsed = raw ? (JSON.parse(raw) as unknown) : [];
-    return Array.isArray(parsed) ? (parsed as RecentJob[]) : [];
+    cached = Array.isArray(parsed) ? (parsed as RecentJob[]) : EMPTY;
+    return cached;
   } catch {
-    return [];
+    return EMPTY;
   }
 }
 
@@ -19,5 +26,8 @@ export function rememberRecentJob(id: string, label: string): void {
     0,
     8,
   );
-  localStorage.setItem(KEY, JSON.stringify(next));
+  const raw = JSON.stringify(next);
+  localStorage.setItem(KEY, raw);
+  cachedRaw = raw;
+  cached = next;
 }

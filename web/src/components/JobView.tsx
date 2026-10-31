@@ -8,7 +8,6 @@ import { messageForErrorCode } from "@/lib/error-messages";
 import { jobStatusLabel } from "@/lib/labels";
 import { DURATION, EASE } from "@/lib/motion";
 import type { Report } from "@/lib/report-types";
-import { ScanCard } from "./ScanCard";
 import { StatusStepper } from "./StatusStepper";
 import { rememberRecentJob } from "@/lib/recent-jobs";
 import { ReportView } from "./report/ReportView";
@@ -115,10 +114,14 @@ export function JobView({ jobId }: { jobId: string }) {
                 <p className="text-xl">
                   Status: <span className="font-semibold">{jobStatusLabel(job.status)}</span>
                 </p>
-                <StatusStepper status={job.status} />
-                {running && now !== null && Number.isFinite(startedAt) ? (
-                  <ScanCard elapsed={formatElapsed(now - startedAt)} />
-                ) : null}
+                <StatusStepper
+                  status={job.status}
+                  elapsed={
+                    running && now !== null && Number.isFinite(startedAt)
+                      ? formatElapsed(now - startedAt)
+                      : undefined
+                  }
+                />
               </motion.div>
             </AnimatePresence>
           ) : (
