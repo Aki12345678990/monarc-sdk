@@ -1,0 +1,10 @@
+.git
+.venv
+web/
+var/
+tests/
+docs/
+scripts/
+*.apk
+**/__pycache__
+.env*

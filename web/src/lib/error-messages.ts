@@ -24,6 +24,11 @@ const MESSAGES: Record<EngineErrorCode | ServiceErrorCode, string> = {
     "The analysis worker stopped before finishing this job, and the retry limit has been reached.",
 };
 
+export function messageForHttpStatus(status: number): string | null {
+  if (status === 401) return "Access code missing or incorrect.";
+  return null;
+}
+
 export function messageForErrorCode(code: string | null | undefined): string {
   if (code && Object.prototype.hasOwnProperty.call(MESSAGES, code)) {
     return MESSAGES[code as keyof typeof MESSAGES];

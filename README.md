@@ -91,6 +91,10 @@ Service environment variables (prefix `ANALYZER_SVC_`):
 | `ANALYZER_SVC_MAX_ATTEMPTS` | `2` |
 | `ANALYZER_SVC_UPLOAD_TTL_S` | `900` |
 | `ANALYZER_SVC_CORS_ORIGINS` | `http://localhost:3000` (comma-separated) |
+| `ANALYZER_SVC_ACCESS_CODE` | unset (job creation is open for local dev) |
+| `ANALYZER_SVC_HOST` | `127.0.0.1` |
+
+`PORT` has no `ANALYZER_SVC_` prefix. It defaults to `8000` when unset, so a platform can inject it.
 
 Web environment variable: `NEXT_PUBLIC_API_BASE` (default `http://localhost:8000`) in `web\.env.local`.
 
@@ -98,4 +102,19 @@ Retention: uploaded APKs are deleted after analysis, rejection or failure. Uploa
 
 The UI shows indicators exactly as the report states them. It shows no composite score, rating, tier or malware verdict.
 
-Deployment (R2, Postgres, Railway, Vercel, Docker) is a separate step.
+## Deployment (Railway)
+
+One service runs the API and the worker together (`python -m analyzer_service serve`). Attach a volume mounted at `/data`. Use a single replica only: the active-upload set lives in that process, and SQLite has a single writer.
+
+| Variable | Purpose |
+| --- | --- |
+| `ANALYZER_SVC_ACCESS_CODE` | Shared access code. The browser sends it as `X-Access-Code`. |
+| `ANALYZER_SVC_CORS_ORIGINS` | Allowed browser origin, for example `https://sdk.usemonarc.com`. |
+
+The upload cap is 150 MiB (`ANALYZER_MAX_APK_BYTES=157286400`). Railway requires request bodies to finish uploading within 5 minutes.
+
+The access code exists because ethics approval covers offline corpus analysis only.
+
+The image runs as root. Railway volumes mount as root; that is a known limitation.
+
+Teardown: delete the Railway service and its volume, and remove the DNS record.

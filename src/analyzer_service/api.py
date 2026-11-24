@@ -1,5 +1,6 @@
 """FastAPI job API: create job, stream upload, intake, job status, reports, health."""
 
+import hmac
 import json
 import threading
 import time
@@ -99,7 +100,7 @@ def create_app(
         CORSMiddleware,
         allow_origins=list(settings.cors_origins),
         allow_methods=["GET", "POST", "PUT"],
-        allow_headers=["Content-Type"],
+        allow_headers=["Content-Type", "X-Access-Code"],
     )
 
     def run_cleanup() -> None:
@@ -128,7 +129,13 @@ def create_app(
         return job
 
     @app.post("/api/jobs")
-    def create_job(body: CreateJobRequest) -> dict:
+    def create_job(body: CreateJobRequest, request: Request) -> dict:
+        # When an access code is configured, require it. Never log the code or the header.
+        expected = settings.access_code
+        if expected is not None:
+            provided = request.headers.get("x-access-code", "")
+            if not hmac.compare_digest(provided.encode(), expected.encode()):
+                raise HTTPException(status_code=401, detail="Access code required.")
         job = db.create_job(body.filename, settings.upload_ttl_s)
         return {
             "job_id": job.id,
@@ -251,16 +258,20 @@ def create_app(
         return Response(content=payload, media_type="application/json")
 
     @app.get("/api/health")
-    def health() -> dict:
+    def health() -> JSONResponse:
         try:
             reference_status = verify()["status"]
         except (OSError, UnicodeError) as exc:
             reference_status = f"ERROR: {type(exc).__name__}"
-        return {
-            "ok": reference_status == "OK",
-            "engine_version": engine_version,
-            "androguard_version": package_version("androguard"),
-            "reference_status": reference_status,
-        }
+        ok = reference_status == "OK"
+        return JSONResponse(
+            status_code=200 if ok else 503,
+            content={
+                "ok": ok,
+                "engine_version": engine_version,
+                "androguard_version": package_version("androguard"),
+                "reference_status": reference_status,
+            },
+        )
 
     return app

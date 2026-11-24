@@ -46,10 +46,10 @@ async function readJson<T>(response: Response): Promise<T> {
   return (await response.json()) as T;
 }
 
-export async function createJob(filename: string): Promise<CreateJobResponse> {
+export async function createJob(filename: string, accessCode: string): Promise<CreateJobResponse> {
   const response = await fetch(apiUrl("/api/jobs"), {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json", "X-Access-Code": accessCode },
     body: JSON.stringify({ filename }),
   });
   return readJson<CreateJobResponse>(response);
