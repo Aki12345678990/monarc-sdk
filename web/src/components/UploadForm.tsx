@@ -3,23 +3,55 @@
 import { motion } from "motion/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useId, useState, useSyncExternalStore, type DragEvent, type FormEvent } from "react";
-import { createJob, uploadFile } from "@/lib/api";
+import { useEffect, useId, useState, useSyncExternalStore, type DragEvent, type FormEvent } from "react";
+import { ApiError, createJob, uploadFile } from "@/lib/api";
+import { messageForHttpStatus } from "@/lib/error-messages";
 import { DURATION, EASE, SPRING } from "@/lib/motion";
 import { readRecentJobs } from "@/lib/recent-jobs";
 import { formatBytes } from "@/lib/report-access";
 
 type Phase = "idle" | "creating" | "uploading" | "redirecting";
 
+const ACCESS_CODE_KEY = "monarc_sdk_access_code";
+
+function readAccessCode(): string {
+  try {
+    return sessionStorage.getItem(ACCESS_CODE_KEY) ?? "";
+  } catch {
+    return "";
+  }
+}
+
+function storeAccessCode(value: string): void {
+  try {
+    sessionStorage.setItem(ACCESS_CODE_KEY, value);
+  } catch {
+    // sessionStorage can throw when storage is blocked.
+  }
+}
+
 export function UploadForm() {
   const router = useRouter();
   const inputId = useId();
+  const accessId = useId();
   const [file, setFile] = useState<File | null>(null);
+  const [accessCode, setAccessCode] = useState("");
   const [dragging, setDragging] = useState(false);
   const [phase, setPhase] = useState<Phase>("idle");
   const [progress, setProgress] = useState(0);
   const [error, setError] = useState<string | null>(null);
   const busy = phase !== "idle";
+  const accessReady = accessCode.trim() !== "";
+
+  useEffect(() => {
+    const stored = readAccessCode();
+    if (stored) setAccessCode(stored);
+  }, []);
+
+  function updateAccessCode(value: string) {
+    setAccessCode(value);
+    storeAccessCode(value);
+  }
 
   function choose(candidate: File | null) {
     setError(null);
@@ -41,11 +73,11 @@ export function UploadForm() {
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (!file || busy) return;
+    if (!file || busy || !accessReady) return;
     setError(null);
     setPhase("creating");
     try {
-      const job = await createJob(file.name);
+      const job = await createJob(file.name, accessCode.trim());
       if (file.size > job.max_bytes) {
         setError(
           `This file is ${formatBytes(file.size)}; the upload limit is ${formatBytes(job.max_bytes)}.`,
@@ -71,10 +103,12 @@ export function UploadForm() {
       setError(reasons[status] ?? `The upload failed (HTTP ${status}).`);
       setPhase("idle");
     } catch (caught) {
+      const known = caught instanceof ApiError ? messageForHttpStatus(caught.status) : null;
       setError(
-        caught instanceof Error
-          ? `${caught.message} Is the API running?`
-          : "The upload failed. Is the API running?",
+        known ??
+          (caught instanceof Error
+            ? `${caught.message} Is the API running?`
+            : "The upload failed. Is the API running?"),
       );
       setPhase("idle");
     }
@@ -117,7 +151,21 @@ export function UploadForm() {
         </p>
       </motion.div>
 
-      <button type="submit" disabled={!file || busy} className="btn-primary">
+      <div>
+        <label htmlFor={accessId} className="mb-2 block font-semibold">
+          Access code
+        </label>
+        <input
+          id={accessId}
+          type="password"
+          value={accessCode}
+          autoComplete="off"
+          onChange={(event) => updateAccessCode(event.target.value)}
+          className="filter-input"
+        />
+      </div>
+
+      <button type="submit" disabled={!file || busy || !accessReady} className="btn-primary">
         {phase === "creating"
           ? "Creating job…"
           : phase === "uploading"

@@ -1,5 +1,10 @@
 import { describe, expect, test } from "vitest";
-import { isKnownErrorCode, messageForErrorCode, SERVICE_ERROR_CODES } from "./error-messages";
+import {
+  isKnownErrorCode,
+  messageForErrorCode,
+  messageForHttpStatus,
+  SERVICE_ERROR_CODES,
+} from "./error-messages";
 import { JOB_STATUS_LABELS } from "./labels";
 import { ENGINE_ERROR_CODES } from "./report-types";
 
@@ -25,6 +30,13 @@ describe("messageForErrorCode", () => {
 
   test("missing code gets the generic message", () => {
     expect(messageForErrorCode(null)).toContain("does not recognise");
+  });
+
+  test("401 means the access code is missing or incorrect", () => {
+    const message = messageForHttpStatus(401);
+    expect(message).toBe("Access code missing or incorrect.");
+    expect(message?.match(FORBIDDEN)).toBeNull();
+    expect(messageForHttpStatus(403)).toBeNull();
   });
 
   test("job status labels use plain words", () => {

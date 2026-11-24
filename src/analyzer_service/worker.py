@@ -81,3 +81,14 @@ def run_forever(settings: Settings | None = None, stop: threading.Event | None =
     while not stop.is_set():
         if run_once(db, storage) is None:
             stop.wait(IDLE_SLEEP_S)
+
+
+def run_worker_process() -> None:
+    """Child-process entry for ``serve``.
+
+    Spawn re-imports this module. The target cannot live in ``__main__``,
+    because the child would not be able to unpickle it.
+    """
+
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s %(message)s")
+    run_forever()

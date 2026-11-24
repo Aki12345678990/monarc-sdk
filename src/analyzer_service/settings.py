@@ -20,6 +20,9 @@ class Settings:
     max_attempts: int
     upload_ttl_s: int
     cors_origins: tuple[str, ...]
+    access_code: str | None = None
+    host: str = "127.0.0.1"
+    port: int = 8000
 
     @property
     def staging_dir(self) -> Path:
@@ -42,6 +45,15 @@ def _env_int(name: str, default: int) -> int:
     return default if raw is None else int(raw)
 
 
+def _port() -> int:
+    """Railway injects ``PORT`` with no ``ANALYZER_SVC_`` prefix."""
+
+    raw = os.environ.get("PORT")
+    if raw is None or raw.strip() == "":
+        return 8000
+    return int(raw.strip())
+
+
 def load_settings() -> Settings:
     """Read settings from the environment at call time."""
 
@@ -62,4 +74,7 @@ def load_settings() -> Settings:
         max_attempts=_env_int("MAX_ATTEMPTS", 2),
         upload_ttl_s=_env_int("UPLOAD_TTL_S", 900),
         cors_origins=origins,
+        access_code=_env("ACCESS_CODE"),
+        host=_env("HOST") or "127.0.0.1",
+        port=_port(),
     )
