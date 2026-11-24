@@ -6,7 +6,10 @@ Androguard objects never leave this process. The returned dict is picklable.
 import ipaddress
 import os
 import re
+import shutil
+import subprocess
 import sys
+import tempfile
 from collections import defaultdict
 from urllib.parse import urlsplit
 
@@ -26,6 +29,8 @@ from analyzer_core.indicators.manifest import compute_M
 from analyzer_core.indicators.permissions import compute_P
 from analyzer_core.v2_constants import ANDROID_NS, SERVICE_SDK_CATEGORIES
 
+JAVA_EXE = r"C:\Program Files\Android\Android Studio\jbr\bin\java.exe"
+APKTOOL_JAR = r"E:\AndroZoo\tools\apktool\apktool_2.12.1.jar"
 URL_RE = re.compile(r"""(?i)\b(?:https?|wss?)://[^\s"'<>\\]+""")
 HOST_RE = re.compile(
     r"^(?=.{1,253}$)([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}$"
@@ -137,6 +142,114 @@ def resolve_component_name(raw, application_id):
     return name
 
 
+def local_name(tag):
+    if tag is None:
+        return ""
+    text = tag if isinstance(tag, str) else str(tag)
+    if "}" in text:
+        return text.rsplit("}", 1)[1]
+    return text
+
+
+def _attr_local(elem, name):
+    if elem is None:
+        return None
+    value = elem.get("{%s}%s" % (ANDROID_NS, name))
+    if value is not None:
+        return value
+    value = elem.get(name)
+    if value is not None:
+        return value
+    for key, item in elem.attrib.items():
+        if local_name(key) == name:
+            return item
+    return None
+
+
+def _cleartext_of(elem):
+    value = _attr_local(elem, "cleartextTrafficPermitted")
+    if value is None:
+        return "absent"
+    if value == "true":
+        return "true"
+    if value == "false":
+        return "false"
+    return value
+
+
+def parse_nsc_facts(root):
+    """NSC facts used by F_cleartext. Ported from extract_nsc_v2.py parse_nsc_xml."""
+
+    bases = []
+    domains = []
+    for elem in root.iter():
+        tag = local_name(elem.tag)
+        if tag == "base-config":
+            bases.append(elem)
+        elif tag == "domain-config":
+            domains.append(elem)
+    out = {
+        "base_config_present": "True" if bases else "False",
+        "base_config_cleartext": "absent",
+        "n_domain_config_cleartext_true": 0,
+    }
+    if len(bases) == 1:
+        out["base_config_cleartext"] = _cleartext_of(bases[0])
+    elif len(bases) > 1:
+        vals = [_cleartext_of(elem) for elem in bases]
+        out["base_config_cleartext"] = vals[0] if len(set(vals)) == 1 else "ambiguous"
+    for elem in domains:
+        if _cleartext_of(elem) == "true":
+            out["n_domain_config_cleartext_true"] += 1
+    return out
+
+
+def recover_nsc_with_apktool(apk_path):
+    """Decode with apktool 2.12.1 when androguard cannot read the NSC resource.
+
+    Ported from indicators_v2.py apktool_decode and recover_nsc_facts.
+    """
+
+    from xml.etree import ElementTree
+
+    if not os.path.isfile(JAVA_EXE) or not os.path.isfile(APKTOOL_JAR):
+        return None
+    tmp = tempfile.mkdtemp(prefix="monarc-apktool-")
+    try:
+        proc = subprocess.run(
+            [JAVA_EXE, "-jar", APKTOOL_JAR, "d", "-s", "-f", "-o", tmp, apk_path],
+            capture_output=True,
+            text=True,
+        )
+        if proc.returncode != 0:
+            return None
+        manifest = os.path.join(tmp, "AndroidManifest.xml")
+        if not os.path.isfile(manifest):
+            return None
+        root = ElementTree.parse(manifest).getroot()
+        app = None
+        for elem in root.iter():
+            if local_name(elem.tag) == "application":
+                app = elem
+                break
+        if app is None:
+            return None
+        ref = _attr_local(app, "networkSecurityConfig")
+        if not ref or not str(ref).strip().startswith("@xml/"):
+            return None
+        stem = str(ref).strip()[len("@xml/"):]
+        if stem.endswith(".xml"):
+            stem = stem[:-4]
+        src = os.path.join(tmp, "res", "xml", stem + ".xml")
+        if not os.path.isfile(src):
+            return None
+        return parse_nsc_facts(ElementTree.parse(src).getroot())
+    except (OSError, ElementTree.ParseError):
+        return None
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
 def parse_nsc_cleartext(root):
     """True iff any NSC base-config/domain-config permits cleartext.
 
@@ -224,21 +337,36 @@ def _parse_manifest_v2b(a, application_id, errors):
         "nsc_cleartextTrafficPermitted_true": None,
         "nsc_resolve_call": None,
         "components": None,
+        "permission_declarations": [],
+        "nsc_facts": None,
         "ns_fallback_manifest_count": 0,
     }
     try:
         manifest = a.get_android_manifest_xml()
         app = manifest.find("application")
         if app is None:
-            out["debuggable_explicit"] = None
-            out["allowBackup_explicit"] = None
-            out["usesCleartextTraffic_explicit"] = None
-            out["networkSecurityConfig"] = None
+            out["debuggable_explicit"] = ""
+            out["allowBackup_explicit"] = ""
+            out["usesCleartextTraffic_explicit"] = ""
+            out["networkSecurityConfig"] = ""
         else:
-            out["debuggable_explicit"] = android_attr(app, "debuggable", stats)
-            out["allowBackup_explicit"] = android_attr(app, "allowBackup", stats)
-            out["usesCleartextTraffic_explicit"] = android_attr(app, "usesCleartextTraffic", stats)
-            out["networkSecurityConfig"] = android_attr(app, "networkSecurityConfig", stats)
+            # Absent attributes are empty strings. The frozen indicator run read
+            # them that way from apk_level.csv; None would make the flag missing.
+            out["debuggable_explicit"] = android_attr(app, "debuggable", stats) or ""
+            out["allowBackup_explicit"] = android_attr(app, "allowBackup", stats) or ""
+            out["usesCleartextTraffic_explicit"] = android_attr(app, "usesCleartextTraffic", stats) or ""
+            out["networkSecurityConfig"] = android_attr(app, "networkSecurityConfig", stats) or ""
+        declarations = []
+        for elem in manifest.iter():
+            tag = local_name(elem.tag)
+            if tag not in ("uses-permission", "uses-permission-sdk-23"):
+                continue
+            declarations.append({
+                "tag": tag,
+                "name": android_attr(elem, "name", stats) or "",
+                "max_sdk_version": android_attr(elem, "maxSdkVersion", stats) or "",
+            })
+        out["permission_declarations"] = declarations
         components = []
         for tag in COMPONENT_TAGS:
             for el in manifest.findall(".//" + tag):
@@ -275,6 +403,7 @@ def _parse_manifest_v2b(a, application_id, errors):
             out["nsc_parsed"] = True
             out["nsc_error"] = None
             out["nsc_cleartextTrafficPermitted_true"] = parse_nsc_cleartext(root)
+            out["nsc_facts"] = parse_nsc_facts(root)
     except Exception as e:
         if out.get("networkSecurityConfig"):
             out["nsc_parsed"] = False
@@ -512,6 +641,10 @@ def measure_apk(apk_path: str) -> dict:
 
     manifest_out = _parse_manifest_v2b(a, application_id, errors)
     raw.update(manifest_out)
+    if (raw.get("networkSecurityConfig") or "").strip() and not raw.get("nsc_facts"):
+        recovered = recover_nsc_with_apktool(apk_path)
+        if recovered is not None:
+            raw["nsc_facts"] = recovered
 
     try:
         call_counts = defaultdict(int)
@@ -534,11 +667,24 @@ def measure_apk(apk_path: str) -> dict:
             for k, n in sorted(call_counts.items())
         ]
         raw["n_call_rows"] = len(call_rows)
+        raw["call_rows"] = call_rows
     except Exception as e:
         record_error(errors, "raw_calls", e)
 
     catalog = load_catalog()
     agg = _aggregate(raw, catalog)
+    component_cache = {}
+    attributed = []
+    for component in raw.get("components") or []:
+        package = package_of_class(component.get("name") or "")
+        cat, sdk_name, _sdk_cat, _fw = classify_cached(
+            package, application_id, catalog, component_cache
+        )
+        attributed.append({
+            **component,
+            "attribution": cat,
+            "sdk_name": sdk_name,
+        })
 
     fw_names = agg["frameworks_detected_names"]
     fw_ev = agg["frameworks_evidence"]
@@ -569,16 +715,20 @@ def measure_apk(apk_path: str) -> dict:
         "python_version": raw.get("python_version"),
         "androguard_version": raw.get("androguard_version"),
         "indicators": {
-            "P": compute_P(raw.get("permissions_requested")),
-            "A": compute_A(raw.get("n_call_rows")),
+            "P": compute_P(raw.get("permission_declarations"), raw.get("min_sdk")),
+            "A": compute_A(raw.get("call_rows"), application_id, catalog),
             "N": compute_N(
+                host_recs=raw.get("hosts") or [],
+                app_id=application_id,
+                catalog=catalog,
                 hosts_distinct_all=agg["hosts_distinct_all"],
-                hosts_distinct_sdk=agg["hosts_distinct_sdk"],
-                hosts_distinct_first_party=agg["hosts_distinct_first_party"],
-                n_urls_unparseable=raw.get("n_urls_unparseable"),
-                hosts=agg["hosts"],
             ),
-            "M": compute_M(raw),
+            "M": compute_M(
+                attributed,
+                raw.get("target_sdk"),
+                raw,
+                raw.get("nsc_facts"),
+            ),
             "D": compute_D(agg),
         },
         "parity": {

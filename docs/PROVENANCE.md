@@ -77,6 +77,24 @@ Metrics (non-null values, sorted ascending, floats rounded to 6 decimals):
 
 Univariate only. No association between indicators is computed or displayed by the analyzer.
 
+## Indicator reference files (2026-11-24)
+
+| File | Frozen source | SHA256 |
+| --- | --- | --- |
+| `sensitive_api_map_v1.csv` | `E:\AndroZoo\analyzer\definitions\sensitive_api_map_v1.csv` | `2719a3b9d377abccbc0e3d2d8fd09683d8120e112fcf5e84460b348b7a920e7b` |
+| `dangerous_permissions_v2.csv` | `E:\AndroZoo\analyzer\definitions\dangerous_permissions_v2.csv` | `5a5cbb4c9a5755f92724d4f0d91cee28ceb15adef30369b756f2b8184073fe8a` |
+| `public_suffix_list_9dfbe81.dat` | `E:\AndroZoo\analyzer\definitions\public_suffix_list_9dfbe81.dat` | `d3e6243b51695327984abb3e2a5aa7077096867f75121e031e6a5a3840ca8bcd` |
+| `n_host_extension_denylist_v1.csv` | `E:\AndroZoo\analyzer\definitions\n_host_extension_denylist_v1.csv` | `97e64ec8976f2def78eb549eae9f340a577f795f651e61ad876f9caffb4ebd92` |
+| `corpus_v2_values.json` | built from `E:\AndroZoo\analyzer\results_v2\stats\analysis_dataset.csv` (the table `stats_v2.load_dataset_rows` reads for `hypotheses.csv`), included rows only | see `MANIFEST.sha256` |
+
+The sensitive API map is derived from AOSP signature files (Apache 2.0).
+
+`stats_v2.py` writes `hypotheses.csv` from `analysis_dataset.csv`. For the 1,260 included apps, indicator columns in that file are copied from `indicators_v2.csv`. On the 30 parity APKs those two frozen tables agree on P, A, N, N_all, D, M_exp, M_exp_sdk, F_debug, F_backup, F_cleartext, M_flags, R and R_minusD.
+
+Percentile rank: `(L + (E + 1) / 2) / n` on the frozen 1,260-value array. For corpus apps this equals the frozen rankdata(average)/n exactly; a new app is placed by the same rule against the unchanged frozen corpus.
+
+Reported N is `indicators_v2.compute_n` (SDK-attributed hosts). Reported N_all is the same filter over every caller. The extract column `hosts_distinct_all` stays in the parity block; it is not the frozen `N_all` column.
+
 ## Known v2 defects (not fixed)
 
 - D9: overlay `nsc_error` is not copied into `obj["errors"]`, so `apk_level` and `errors_long` disagree (78 vs 77).

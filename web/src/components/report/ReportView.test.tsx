@@ -1,6 +1,7 @@
 import { fireEvent, render, screen, within } from "@testing-library/react";
 import { describe, expect, test } from "vitest";
 import { MotionRoot } from "@/components/motion/MotionRoot";
+import { EXPOSURE_DISCLAIMER } from "@/lib/exposure-copy";
 import fixture from "@/test/fixtures/report.json";
 import type { Report } from "@/lib/report-types";
 import { ReportView } from "./ReportView";
@@ -34,12 +35,12 @@ describe("ReportView", () => {
     expect(screen.getByText("203.0.113.7")).toBeTruthy();
     expect(screen.getAllByText("Acme Analytics").length).toBeGreaterThanOrEqual(2);
     expect(screen.getAllByText("Fabrikam Crash Reporter").length).toBeGreaterThanOrEqual(1);
-    expect(screen.getByTestId("indicator-P-status").textContent).toBe("Not implemented");
-    expect(screen.getByTestId("indicator-A-status").textContent).toBe("Unavailable");
-    expect(screen.getByTestId("indicator-M-status").textContent).toBe("Not implemented");
+    expect(screen.getByTestId("indicator-P-status").textContent).toBe("OK");
+    expect(screen.getByTestId("indicator-A-status").textContent).toBe("OK");
+    expect(screen.getByTestId("indicator-M-status").textContent).toBe("OK");
     expect(screen.getByTestId("indicator-D-status").textContent).toBe("OK");
     expect(screen.getByTestId("indicator-N-status").textContent).toBe("OK");
-    expect(screen.getByText("Requested permissions (raw, unclassified)")).toBeTruthy();
+    expect(screen.getAllByText("Counted dangerous permissions").length).toBeGreaterThan(0);
     expect(screen.getByText("android.permission.CAMERA")).toBeTruthy();
     expect(screen.getByText("org.example.synthetic.MainActivity")).toBeTruthy();
   });
@@ -60,9 +61,9 @@ describe("ReportView", () => {
       "higher than 15.0% of corpus apps",
     );
     expect(screen.getByTestId("tile-frameworks").textContent).toBe("flutter");
-    expect(screen.getByTestId("chip-p").textContent).toBe("P Not implemented");
-    expect(screen.getByTestId("chip-a").textContent).toBe("A Unavailable");
-    expect(screen.getByTestId("chip-m").textContent).toBe("M Not implemented");
+    expect(screen.getByTestId("chip-p").textContent).toBe("P 1");
+    expect(screen.getByTestId("chip-a").textContent).toBe("A 1");
+    expect(screen.getByTestId("chip-m").textContent).toBe("M 1");
     expect(screen.getByTestId("exposure-caption").textContent).toContain(
       "Percentile compares this app with the corpus one measure at a time. It is not a risk measure.",
     );
@@ -125,11 +126,35 @@ describe("ReportView", () => {
     expect(screen.queryByText("api.example.org")).toBeNull();
   });
 
+  test("exposure index renders the value, formula and disclaimer", () => {
+    renderReport();
+    expect(screen.getByTestId("exposure-index-r").textContent).toBe("42.0");
+    expect(screen.getByTestId("exposure-index-formula").textContent).toContain("¼·pr(P)");
+    expect(screen.getByTestId("exposure-index-disclaimer").textContent).toBe(EXPOSURE_DISCLAIMER);
+    expect(screen.getAllByText("Indicator percentiles").length).toBeGreaterThan(0);
+    expect(screen.getAllByText("Sensitive APIs by SDK").length).toBeGreaterThan(0);
+  });
+
+  test("a null exposure index shows the reason and no number", () => {
+    renderReport({
+      ...report,
+      composite: {
+        ...report.composite!,
+        R: null,
+        R_minusD: null,
+        reason: "Missing indicator: P",
+      },
+    });
+    expect(screen.queryByTestId("exposure-index-r")).toBeNull();
+    expect(screen.getByTestId("exposure-index-reason").textContent).toBe("Missing indicator: P");
+  });
+
   test("rendered text contains no grading language", () => {
     const { container } = renderReport();
     const text = container.textContent ?? "";
     expect(text).toContain(ALLOWED_LIMITATION);
-    const withoutAllowed = text.split(ALLOWED_LIMITATION).join(" ");
+    expect(text).toContain(EXPOSURE_DISCLAIMER);
+    const withoutAllowed = text.split(ALLOWED_LIMITATION).join(" ").split(EXPOSURE_DISCLAIMER).join(" ");
     expect(withoutAllowed.match(FORBIDDEN)).toBeNull();
   });
 

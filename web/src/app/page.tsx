@@ -22,34 +22,35 @@ export default function Home() {
       </section>
 
       <div className="span-12 landing-cards">
-        <section aria-labelledby="measure-sdk-heading" className="card">
-          <h2 id="measure-sdk-heading" className="section-title">
-            What it measures
-          </h2>
+        <section className="card">
+          <h2 className="section-title">P</h2>
+          <p className="mt-2">Distinct dangerous permissions declared by the app.</p>
+        </section>
+        <section className="card">
+          <h2 className="section-title">A</h2>
+          <p className="mt-2">Distinct sensitive APIs called from SDK code.</p>
+        </section>
+        <section className="card">
+          <h2 className="section-title">N</h2>
+          <p className="mt-2">Distinct network hosts referenced in SDK code (indicator N).</p>
+        </section>
+        <section className="card">
+          <h2 className="section-title">D</h2>
           <p className="mt-2">Third-party SDK footprint from package namespaces (indicator D).</p>
         </section>
-        <section aria-labelledby="measure-hosts-heading" className="card">
-          <h2 id="measure-hosts-heading" className="section-title">
-            What it measures
-          </h2>
-          <p className="mt-2">Distinct network host references found in the APK (indicator N).</p>
+        <section className="card">
+          <h2 className="section-title">M</h2>
+          <p className="mt-2">Exported components in SDK code, with manifest flags listed separately.</p>
         </section>
-        <section aria-labelledby="measure-corpus-heading" className="card">
-          <h2 id="measure-corpus-heading" className="section-title">
-            What it measures
-          </h2>
-          <p className="mt-2">
-            Univariate corpus comparison: a percentile and histogram per measure. No pairing of
-            indicators.
-          </p>
+        <section className="card">
+          <h2 className="section-title">Exposure index</h2>
+          <p className="mt-2">Ordinal ranking of P, A, N and D against the research corpus.</p>
         </section>
         <section aria-labelledby="not-heading" className="card">
           <h2 id="not-heading" className="section-title">
             What it does not do
           </h2>
           <ul className="mt-2 list-disc pl-6">
-            <li>Does not combine indicators into one number.</li>
-            <li>No rating.</li>
             <li>This is not a malware verdict.</li>
           </ul>
         </section>

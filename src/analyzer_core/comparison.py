@@ -10,6 +10,7 @@ from typing import Any
 
 from analyzer_core.config import reference_dir
 from analyzer_core.reference import verify
+from analyzer_core.composite import load_values
 from analyzer_core.report import (
     COMPARISON_NOTE,
     COMPARISON_UNAVAILABLE,
@@ -94,7 +95,10 @@ def load_corpus() -> tuple[dict[str, Any], str] | None:
     return payload, digest
 
 
-def compare_indicator_block(indicators: IndicatorBlock) -> tuple[Comparison | None, str | None]:
+def compare_indicator_block(
+    indicators: IndicatorBlock,
+    composite=None,
+) -> tuple[Comparison | None, str | None]:
     """Build a comparison block, or (None, COMPARISON_UNAVAILABLE) if the corpus cannot be loaded."""
 
     loaded = load_corpus()
@@ -102,8 +106,15 @@ def compare_indicator_block(indicators: IndicatorBlock) -> tuple[Comparison | No
         return None, COMPARISON_UNAVAILABLE
     payload, digest = loaded
     metrics_src = payload.get("metrics") or {}
+    value_metrics = {}
+    values = load_values()
+    if values is not None:
+        value_metrics = values[0].get("metrics") or {}
     d_ok = indicators.D.status == "ok"
     n_ok = indicators.N.status == "ok"
+    p_ok = indicators.P.status == "ok"
+    a_ok = indicators.A.status == "ok"
+    m_ok = indicators.M.status == "ok"
     return (
         Comparison(
             corpus=CorpusInfo(
@@ -114,7 +125,15 @@ def compare_indicator_block(indicators: IndicatorBlock) -> tuple[Comparison | No
             ),
             metrics=ComparisonMetrics(
                 D=_metric(indicators.D, "footprint_strict_pct", metrics_src) if d_ok else None,
-                N=_metric(indicators.N, "hosts_distinct_all", metrics_src) if n_ok else None,
+                N=_value_metric(indicators.N.value if n_ok else None, "N", value_metrics),
+                N_all=_value_metric(_detail(indicators.N, "N_all") if n_ok else None, "N_all", value_metrics),
+                P=_value_metric(indicators.P.value if p_ok else None, "P", value_metrics),
+                A=_value_metric(indicators.A.value if a_ok else None, "A", value_metrics),
+                M_exp=_value_metric(_detail(indicators.M, "M_exp") if m_ok else None, "M_exp", value_metrics),
+                M_exp_sdk=_value_metric(
+                    _detail(indicators.M, "M_exp_sdk") if m_ok else None, "M_exp_sdk", value_metrics
+                ),
+                R=_value_metric(getattr(composite, "R", None), "R", value_metrics),
                 n_sdk_distinct=_sdk_distinct_metric(indicators.D, metrics_src) if d_ok else None,
             ),
             note=COMPARISON_NOTE,
@@ -127,6 +146,26 @@ def _series(metrics_src: dict, field: str) -> list[float]:
     block = metrics_src.get(field) or {}
     raw = block.get("values") or []
     return [float(item) for item in raw]
+
+
+def _detail(indicator: IndicatorResult, key: str):
+    raw = (indicator.details or {}).get(key)
+    if isinstance(raw, (int, float)):
+        return raw
+    return None
+
+
+def _value_metric(value, field: str, metrics_src: dict) -> MetricComparison | None:
+    values = _series(metrics_src, field)
+    if not values:
+        return None
+    return MetricComparison(
+        source_field=field,
+        value=value,
+        percentile=percentile_midrank(value, values),
+        n=len(values),
+        histogram=histogram(values, value),
+    )
 
 
 def _metric(indicator: IndicatorResult, field: str, metrics_src: dict) -> MetricComparison | None:

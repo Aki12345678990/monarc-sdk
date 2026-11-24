@@ -120,7 +120,7 @@ def test_comparison_on_synthetic_ok_report():
     assert comparison is not None
     report = Report(status="ok", indicators=indicators, comparison=comparison, comparison_reason=reason)
     payload = json.loads(report.to_json())
-    assert payload["schema_version"] == "1.1.0"
+    assert payload["schema_version"] == "1.2.0"
     assert payload["comparison"] is not None
     assert payload["comparison_reason"] is None
     assert payload["comparison"]["note"] == COMPARISON_NOTE
@@ -128,7 +128,7 @@ def test_comparison_on_synthetic_ok_report():
     n = payload["comparison"]["metrics"]["N"]
     sdk = payload["comparison"]["metrics"]["n_sdk_distinct"]
     assert d["source_field"] == "footprint_strict_pct"
-    assert n["source_field"] == "hosts_distinct_all"
+    assert n["source_field"] == "N"
     assert sdk["source_field"] == "n_sdk_distinct"
     for metric in (d, n, sdk):
         assert 0.0 <= metric["percentile"] <= 100.0
@@ -154,8 +154,15 @@ def test_comparison_unavailable_when_reference_dir_empty(tmp_path, monkeypatch):
 
 
 def test_report_key_includes_engine_version():
+    from analyzer_service.storage import report_key
+
     key = current_report_key("0" * 64)
     assert f"__{__version__}__" in key
+    other = report_key("0" * 64, "0.1.0a3", "ab" * 32)
+    bumped = report_key("0" * 64, "0.2.0", "cd" * 32)
+    assert other != bumped
+    assert other.endswith("ab" * 6)
+    assert bumped.endswith("cd" * 6)
 
 
 def _assert_clean(obj) -> None:

@@ -1,0 +1,48 @@
+{
+  "percentile_formula": "(L + (E + 1) / 2) / n",
+  "percentile_note": "For corpus apps this equals the frozen rankdata(average)/n exactly; a new app is placed by the same rule against the unchanged frozen corpus.",
+  "n_apps": 1260,
+  "hypotheses": {
+    "H01": {
+      "outcome": "R_minusD",
+      "n": 1260,
+      "rho_p": 0.2664512706098681,
+      "ci95_low": 0.2171492556024175,
+      "ci95_high": 0.3150861074742537,
+      "significant": true
+    },
+    "H02": {
+      "outcome": "P",
+      "n": 1260,
+      "rho_p": -0.24009668959973302,
+      "ci95_low": -0.2907193051276009,
+      "ci95_high": -0.18729488778611372,
+      "significant": true
+    },
+    "H03": {
+      "outcome": "A",
+      "n": 1260,
+      "rho_p": 0.3424911975312031,
+      "ci95_low": 0.2928146081287913,
+      "ci95_high": 0.390572808557521,
+      "significant": true
+    },
+    "H04": {
+      "outcome": "N",
+      "n": 1260,
+      "rho_p": 0.43668042315695155,
+      "ci95_low": 0.3894154744197348,
+      "ci95_high": 0.48170436254606647,
+      "significant": true
+    },
+    "H06": {
+      "outcome": "M_exp_sdk",
+      "n": 1260,
+      "rho_p": 0.06079492701645808,
+      "ci95_low": 0.006415391160339553,
+      "ci95_high": 0.11543946644858659,
+      "significant": false
+    }
+  },
+  "parity": "30/30 APKs, all indicators identical to the research pipeline."
+}

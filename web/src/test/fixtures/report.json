@@ -1,8 +1,8 @@
 {
-  "schema_version": "1.1.0",
+  "schema_version": "1.2.0",
   "engine": {
     "name": "analyzer_core",
-    "version": "0.1.0a3",
+    "version": "0.2.0",
     "androguard_version": "3.3.5",
     "reference_status": "OK"
   },
@@ -20,7 +20,10 @@
   "frameworks": [
     {
       "name": "flutter",
-      "evidence": ["lib/arm64-v8a/libflutter.so", "io.flutter.embedding"]
+      "evidence": [
+        "lib/arm64-v8a/libflutter.so",
+        "io.flutter.embedding"
+      ]
     }
   ],
   "visibility_caveat": "Code compiled outside DEX (Dart AOT, IL2CPP, JavaScript bundles) is not visible to the extractor; A and N are lower bounds for framework apps.",
@@ -28,47 +31,71 @@
     {
       "sdk_name": "Acme Analytics",
       "sdk_category": "analytics",
-      "packages": ["com.acme.analytics", "com.acme.analytics.internal"]
+      "packages": [
+        "com.acme.analytics",
+        "com.acme.analytics.internal"
+      ]
     },
     {
       "sdk_name": "Contoso Maps",
       "sdk_category": "maps",
-      "packages": ["com.contoso.maps"]
+      "packages": [
+        "com.contoso.maps"
+      ]
     },
     {
       "sdk_name": "Fabrikam Crash Reporter",
       "sdk_category": "crash_reporting",
-      "packages": ["com.fabrikam.crash", "com.fabrikam.crash.ndk", "com.fabrikam.common"]
+      "packages": [
+        "com.fabrikam.crash",
+        "com.fabrikam.crash.ndk",
+        "com.fabrikam.common"
+      ]
     }
   ],
   "indicators": {
     "P": {
-      "status": "not_implemented",
-      "value": null,
-      "reason": "No dangerous-permission definition exists in the frozen v2 pipeline",
-      "definition_source": null,
+      "status": "ok",
+      "value": 1,
+      "reason": null,
+      "definition_source": "indicators_v2.py:compute_p",
       "details": {
-        "permissions_requested": [
-          "android.permission.ACCESS_NETWORK_STATE",
-          "android.permission.CAMERA",
-          "android.permission.INTERNET"
+        "permissions": [
+          {
+            "name": "android.permission.CAMERA",
+            "tags": [
+              "uses-permission"
+            ]
+          }
         ]
       }
     },
     "A": {
-      "status": "unavailable",
-      "value": null,
-      "reason": "Sensitive API map (API 28–33) not finalised",
-      "definition_source": "extract_v2.py:363-384",
+      "status": "ok",
+      "value": 1,
+      "reason": null,
+      "definition_source": "indicators_v2.py:compute_a",
       "details": {
-        "n_call_rows": 412
+        "pairs": [
+          {
+            "class": "android.hardware.Camera",
+            "method": "open",
+            "permission": "CAMERA",
+            "callers": [
+              {
+                "sdk_name": "Acme Analytics",
+                "n_callsites": 3
+              }
+            ]
+          }
+        ]
       }
     },
     "N": {
       "status": "ok",
       "value": 4,
       "reason": null,
-      "definition_source": "extract_v2.py:272-304, aggregate_v2.py:201-225",
+      "definition_source": "indicators_v2.py:compute_n",
       "details": {
         "hosts_distinct_all": 4,
         "hosts_distinct_sdk": 2,
@@ -103,54 +130,29 @@
             "sdk_name": null,
             "ip_literal": true
           }
-        ]
+        ],
+        "N_all": 6
       }
     },
     "M": {
-      "status": "not_implemented",
-      "value": null,
-      "reason": "v2 records raw manifest facts only; no misconfiguration flags are defined",
-      "definition_source": null,
+      "status": "ok",
+      "value": 1,
+      "reason": null,
+      "definition_source": "indicators_v2.py:m_exp_decision",
       "details": {
-        "debuggable_explicit": null,
-        "allowBackup_explicit": "true",
-        "usesCleartextTraffic_explicit": null,
-        "networkSecurityConfig": "@xml/network_config",
-        "nsc_parsed": true,
-        "nsc_error": null,
-        "nsc_cleartextTrafficPermitted_true": false,
-        "nsc_resolve_call": "zip_name_@xml",
-        "ns_fallback_manifest_count": 0,
+        "M_exp": 1,
+        "M_exp_sdk": 1,
+        "F_debug": 0,
+        "F_backup": 1,
+        "F_cleartext": 0,
+        "M_flags": 1,
         "components": [
           {
-            "type": "activity",
             "name": "org.example.synthetic.MainActivity",
-            "exported_explicit": "true",
-            "has_intent_filter": true,
-            "permission": null,
-            "readPermission": null,
-            "writePermission": null,
-            "is_launcher": true
-          },
-          {
-            "type": "service",
-            "name": "com.acme.analytics.UploadService",
-            "exported_explicit": "false",
-            "has_intent_filter": false,
-            "permission": null,
-            "readPermission": null,
-            "writePermission": null,
-            "is_launcher": false
-          },
-          {
-            "type": "receiver",
-            "name": "org.example.synthetic.BootReceiver",
-            "exported_explicit": null,
-            "has_intent_filter": true,
-            "permission": "android.permission.RECEIVE_BOOT_COMPLETED",
-            "readPermission": null,
-            "writePermission": null,
-            "is_launcher": false
+            "type": "activity",
+            "sdk_name": "",
+            "attribution": "first_party",
+            "protection": "none"
           }
         ]
       }
@@ -177,6 +179,32 @@
       }
     }
   },
+  "composite": {
+    "R": 0.42,
+    "R_minusD": 0.36,
+    "reason": null,
+    "percentiles": {
+      "P": 0.5,
+      "A": 0.25,
+      "N": 0.4,
+      "D": 0.53,
+      "M_exp": 0.2,
+      "M_exp_sdk": 0.15,
+      "n_methods_defined": 0.61
+    },
+    "size_percentile": 0.61,
+    "formula_R": "0.25*pr(P)+0.25*pr(A)+0.25*pr(N)+0.25*pr(D)",
+    "formula_R_minusD": "(pr(P)+pr(A)+pr(N))/3",
+    "percentile_formula": "(L + (E + 1) / 2) / n",
+    "corpus_n": 1260,
+    "reference_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "n_by_indicator": {
+      "P": 1260,
+      "A": 1260,
+      "N": 1260,
+      "D": 1260
+    }
+  },
   "comparison": {
     "corpus": {
       "name": "Synthetic univariate fixture corpus",
@@ -191,8 +219,51 @@
         "percentile": 22.5,
         "n": 100,
         "histogram": {
-          "edges": [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100],
-          "counts": [2, 3, 5, 8, 12, 10, 9, 8, 7, 6, 5, 5, 4, 4, 3, 3, 2, 2, 1, 1],
+          "edges": [
+            0,
+            5,
+            10,
+            15,
+            20,
+            25,
+            30,
+            35,
+            40,
+            45,
+            50,
+            55,
+            60,
+            65,
+            70,
+            75,
+            80,
+            85,
+            90,
+            95,
+            100
+          ],
+          "counts": [
+            2,
+            3,
+            5,
+            8,
+            12,
+            10,
+            9,
+            8,
+            7,
+            6,
+            5,
+            5,
+            4,
+            4,
+            3,
+            3,
+            2,
+            2,
+            1,
+            1
+          ],
           "app_bin": 2
         }
       },
@@ -202,8 +273,51 @@
         "percentile": 15.0,
         "n": 100,
         "histogram": {
-          "edges": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
-          "counts": [2, 3, 5, 8, 12, 10, 9, 8, 7, 6, 5, 5, 4, 4, 3, 3, 2, 2, 1, 1],
+          "edges": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20
+          ],
+          "counts": [
+            2,
+            3,
+            5,
+            8,
+            12,
+            10,
+            9,
+            8,
+            7,
+            6,
+            5,
+            5,
+            4,
+            4,
+            3,
+            3,
+            2,
+            2,
+            1,
+            1
+          ],
           "app_bin": 4
         }
       },
@@ -213,9 +327,106 @@
         "percentile": 8.0,
         "n": 100,
         "histogram": {
-          "edges": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
-          "counts": [2, 3, 5, 8, 12, 10, 9, 8, 7, 6, 5, 5, 4, 4, 3, 3, 2, 2, 1, 1],
+          "edges": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20
+          ],
+          "counts": [
+            2,
+            3,
+            5,
+            8,
+            12,
+            10,
+            9,
+            8,
+            7,
+            6,
+            5,
+            5,
+            4,
+            4,
+            3,
+            3,
+            2,
+            2,
+            1,
+            1
+          ],
           "app_bin": 3
+        }
+      },
+      "R": {
+        "source_field": "R",
+        "value": 0.42,
+        "percentile": 40.0,
+        "n": 100,
+        "histogram": {
+          "edges": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20
+          ],
+          "counts": [
+            2,
+            3,
+            5,
+            8,
+            12,
+            10,
+            9,
+            8,
+            7,
+            6,
+            5,
+            5,
+            4,
+            4,
+            3,
+            3,
+            2,
+            2,
+            1,
+            1
+          ],
+          "app_bin": 4
         }
       }
     },

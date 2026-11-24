@@ -63,14 +63,13 @@ export function NetworkHostsN({ indicator }: { indicator: IndicatorResult | unde
       <p className="kpi" data-testid="n-value">
         {display(indicator?.value)}
       </p>
-      <p className="text-sm">Distinct hosts (hosts_distinct_all)</p>
+      <p className="text-sm">Distinct network hosts referenced in SDK code (indicator N).</p>
+      <p className="text-sm" data-testid="n-all-value">
+        All distinct hosts in the APK (exploratory): {display(details.N_all)}
+      </p>
       <KeyValueTable
         caption="Host counts"
-        rows={[
-          ["hosts_distinct_sdk", rawFact(details.hosts_distinct_sdk)],
-          ["hosts_distinct_first_party", rawFact(details.hosts_distinct_first_party)],
-          ["n_urls_unparseable", rawFact(details.n_urls_unparseable)],
-        ]}
+        rows={[["hosts_distinct_all", rawFact(details.hosts_distinct_all)]]}
       />
     </IndicatorCard>
   );

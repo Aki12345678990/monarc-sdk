@@ -3,6 +3,8 @@
 import os
 
 from analyzer_core.comparison import compare_indicator_block
+from analyzer_core.composite import build_composite
+from analyzer_core.report import Composite
 from analyzer_core.config import parse_timeout_s
 from analyzer_core.errors import AnalyzerError, ErrorCode
 from analyzer_core.intake import validate
@@ -28,7 +30,10 @@ def analyze(apk_path: str | os.PathLike[str]) -> Report:
         file_size = accepted.file_size
         measured = run_isolated(measure_apk, (os.fspath(apk_path),), parse_timeout_s())
         indicators = _indicator_block(measured.get("indicators") or {})
-        comparison, comparison_reason = compare_indicator_block(indicators)
+        composite = Composite.model_validate(
+            build_composite(indicators, measured.get("n_methods_defined"))
+        )
+        comparison, comparison_reason = compare_indicator_block(indicators, composite)
         return Report(
             status="ok",
             errors=[],
@@ -45,6 +50,7 @@ def analyze(apk_path: str | os.PathLike[str]) -> Report:
             visibility_caveat=measured.get("visibility_caveat"),
             sdk_inventory=measured.get("sdk_inventory") or [],
             indicators=indicators,
+            composite=composite,
             comparison=comparison,
             comparison_reason=comparison_reason,
         )
