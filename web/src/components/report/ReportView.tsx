@@ -5,6 +5,7 @@ import { AboutSheet, Tabs } from "@/components/ui/overlay";
 import type { Report } from "@/lib/report-types";
 import { display, formatPercent1 } from "@/lib/report-access";
 import { ApisA } from "./ApisA";
+import { ExposureIndex } from "./ExposureIndex";
 import { CorpusPosition } from "./CorpusPosition";
 import { DownloadJson } from "./DownloadJson";
 import { EngineInfo } from "./EngineInfo";
@@ -18,7 +19,9 @@ import { PermissionsP } from "./PermissionsP";
 import { ReportHeader } from "./ReportHeader";
 import { SdkInventory } from "./SdkInventory";
 import { CorpusHistogram } from "./charts/CorpusHistogram";
+import { IndicatorPercentiles } from "./charts/IndicatorPercentiles";
 import { SdksByCategory } from "./charts/SdksByCategory";
+import { SensitiveApisBySdk } from "./charts/SensitiveApisBySdk";
 
 export function ReportView({
   report,
@@ -58,10 +61,29 @@ export function ReportView({
     />
   );
   const categoryChart = hasCategory ? <SdksByCategory report={report} /> : null;
+  const exposureChart = (
+    <CorpusHistogram
+      title="Exposure index vs reference set"
+      metricKey="R"
+      metric={comparison?.metrics.R}
+      valueLabel={
+        typeof comparison?.metrics.R?.value === "number"
+          ? (comparison.metrics.R.value * 100).toFixed(1)
+          : "—"
+      }
+      comparisonReason={reason}
+    />
+  );
 
   return (
     <div className="space-y-3">
       <div className="report-bento">
+        <div className="span-7">
+          <ExposureIndex report={report} />
+        </div>
+        <div className="span-5">
+          <IndicatorPercentiles report={report} />
+        </div>
         <div className="span-12">
           <ReportHeader
             report={report}
@@ -97,6 +119,7 @@ export function ReportView({
           <Tabs
             className="span-12 report-bento"
             tabs={[
+              { id: "exposure", label: "Exposure index", className: chartSpan, node: exposureChart },
               { id: "footprint", label: "Footprint", className: chartSpan, node: footprintChart },
               { id: "hosts", label: "Hosts", className: chartSpan, node: hostsChart },
               ...(categoryChart
@@ -109,6 +132,7 @@ export function ReportView({
           className="span-12 report-bento"
           tabs={[
             { id: "sdks", label: "SDKs", className: "table-sdk", node: <SdkInventory report={report} /> },
+            { id: "apis", label: "APIs", className: "table-sdk", node: <SensitiveApisBySdk indicator={indicators?.A} /> },
             { id: "host-table", label: "Hosts", className: "table-hosts", node: <NetworkHostsTable indicator={indicators?.N} /> },
           ]}
         />

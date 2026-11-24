@@ -26,6 +26,23 @@ BOOL_COLS = {
     "nsc_cleartextTrafficPermitted_true",
 }
 
+INDICATOR_COLS = [
+    "P",
+    "A",
+    "N",
+    "N_all",
+    "D",
+    "M_exp",
+    "M_exp_sdk",
+    "F_debug",
+    "F_backup",
+    "F_cleartext",
+    "M_flags",
+    "R",
+    "R_minusD",
+]
+FLOAT_INDICATORS = {"D", "R", "R_minusD"}
+
 COMPARE_COLS = [
     "min_sdk",
     "target_sdk",
@@ -136,18 +153,68 @@ def sample_shas(apk_rows, analytic_rows, validation_path, n_per_stratum, seed):
     return picked
 
 
+def indicator_live(measured):
+    indicators = measured["indicators"]
+    from analyzer_core.report import IndicatorBlock, IndicatorResult
+    from analyzer_core.composite import build_composite
+
+    block = IndicatorBlock(
+        **{name: IndicatorResult(**indicators[name]) for name in "PANDM"}
+    )
+    composite = build_composite(block, measured.get("n_methods_defined"))
+    details_n = indicators["N"].get("details") or {}
+    details_m = indicators["M"].get("details") or {}
+    return {
+        "P": indicators["P"].get("value"),
+        "A": indicators["A"].get("value"),
+        "N": indicators["N"].get("value"),
+        "N_all": details_n.get("N_all"),
+        "D": indicators["D"].get("value"),
+        "M_exp": details_m.get("M_exp"),
+        "M_exp_sdk": details_m.get("M_exp_sdk"),
+        "F_debug": details_m.get("F_debug"),
+        "F_backup": details_m.get("F_backup"),
+        "F_cleartext": details_m.get("F_cleartext"),
+        "M_flags": details_m.get("M_flags"),
+        "R": composite.get("R"),
+        "R_minusD": composite.get("R_minusD"),
+    }
+
+
+def as_number(raw):
+    if raw is None or str(raw).strip() == "":
+        return None
+    return float(raw)
+
+
+def indicators_agree(left, right, sha):
+    mismatches = []
+    for col in INDICATOR_COLS:
+        a = as_number(left.get(col))
+        b = as_number(right.get(col))
+        if a is None and b is None:
+            continue
+        if a is None or b is None or abs(a - b) > 1e-9:
+            mismatches.append((sha, col, left.get(col), right.get(col)))
+    return mismatches
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--apk-level", required=True)
     parser.add_argument("--analytic", required=True)
     parser.add_argument("--validation", required=True)
     parser.add_argument("--apk-dir", required=True)
+    parser.add_argument("--dataset", required=True)
+    parser.add_argument("--indicators", required=True)
     parser.add_argument("--n-per-stratum", type=int, default=2)
     parser.add_argument("--seed", type=int, default=42)
     args = parser.parse_args()
 
     apk_rows = load_csv(args.apk_level)
     analytic_rows = load_csv(args.analytic)
+    dataset = {(r.get("sha256") or "").upper(): r for r in load_csv(args.dataset)}
+    frozen_indicators = {(r.get("sha256") or "").upper(): r for r in load_csv(args.indicators)}
     picked = sample_shas(
         apk_rows, analytic_rows, args.validation, args.n_per_stratum, args.seed
     )
@@ -161,17 +228,33 @@ def main():
         encoding="utf-8",
     )
 
+    table_disagreements = []
+    for sha in picked:
+        table_disagreements.extend(
+            indicators_agree(dataset.get(sha, {}), frozen_indicators.get(sha, {}), sha)
+        )
+    if table_disagreements:
+        print("frozen tables disagree; stopping before the engine run")
+        for sha, col, left, right in table_disagreements:
+            print("%s %s analysis_dataset=%r indicators_v2=%r" % (sha[:12], col, left, right))
+        return 2
+
     timeout_s = parse_timeout_s()
     matched = {col: 0 for col in COMPARE_COLS}
     total = {col: 0 for col in COMPARE_COLS}
+    ind_matched = {col: 0 for col in INDICATOR_COLS}
+    ind_total = {col: 0 for col in INDICATOR_COLS}
+    ind_max = {col: 0.0 for col in INDICATOR_COLS}
     mismatches = []
     result_rows = []
 
     for sha in picked:
         v2 = by_sha[sha]
+        truth = dataset[sha]
         apk_path = os.path.join(args.apk_dir, sha + ".apk")
         measured = run_isolated(measure_apk, (apk_path,), timeout_s)
         engine = measured["parity"]
+        live = indicator_live(measured)
         row = {"sha256": sha}
         for col in COMPARE_COLS:
             total[col] += 1
@@ -185,6 +268,29 @@ def main():
             row[col + "_v2"] = v2_val
             row[col + "_engine"] = eng_val
             row[col + "_match"] = ok
+        for col in INDICATOR_COLS:
+            ind_total[col] += 1
+            frozen = as_number(truth.get(col))
+            got = live.get(col)
+            got_num = None if got is None else float(got)
+            if frozen is None and got_num is None:
+                diff = 0.0
+                ok_ind = True
+            elif frozen is None or got_num is None:
+                diff = float("inf")
+                ok_ind = False
+            else:
+                diff = abs(got_num - frozen)
+                ok_ind = diff <= 1e-9
+            if ok_ind:
+                ind_matched[col] += 1
+            else:
+                mismatches.append((sha, col, truth.get(col), got))
+            if diff != float("inf") and diff > ind_max[col]:
+                ind_max[col] = diff
+            row[col + "_dataset"] = truth.get(col)
+            row[col + "_engine"] = got
+            row[col + "_match"] = ok_ind
         result_rows.append(row)
         print("done", sha, flush=True)
 
@@ -193,20 +299,27 @@ def main():
     print("column matched/total")
     for col in COMPARE_COLS:
         print("%s %s/%s" % (col, matched[col], total[col]))
+    print("indicator column n_compared n_matching max_abs_diff")
+    for col in INDICATOR_COLS:
+        print("%s %s %s %s" % (col, ind_total[col], ind_matched[col], ind_max[col]))
     print("mismatches")
     for sha, col, v2_val, eng_val in mismatches:
-        print("%s %s v2=%r engine=%r" % (sha, col, v2_val, eng_val))
-
+        print("%s %s v2=%r engine=%r" % (sha[:12], col, v2_val, eng_val))
     result_path = out_dir / "parity_result.csv"
     fieldnames = ["sha256"]
     for col in COMPARE_COLS:
         fieldnames.extend([col + "_v2", col + "_engine", col + "_match"])
+    for col in INDICATOR_COLS:
+        fieldnames.extend([col + "_dataset", col + "_engine", col + "_match"])
     with result_path.open("w", encoding="utf-8", newline="") as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
         for row in result_rows:
             writer.writerow(row)
+    if any(ind_matched[col] != ind_total[col] for col in INDICATOR_COLS):
+        return 1
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())

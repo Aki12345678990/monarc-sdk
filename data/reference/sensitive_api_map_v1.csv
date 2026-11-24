@@ -1,0 +1,243 @@
+class,method,dangerous_permissions,api_levels_annotated,conditional,source
+android.accounts.AccountManager,addOnAccountsUpdatedListener,GET_ACCOUNTS,29 30 31 32 33,False,signature_29_33
+android.accounts.AccountManager,getAccounts,GET_ACCOUNTS,29 30 31 32 33,False,signature_29_33
+android.accounts.AccountManager,getAccountsByType,GET_ACCOUNTS,29 30 31 32 33,False,signature_29_33
+android.app.WallpaperManager,getDrawable,READ_EXTERNAL_STORAGE,31 32 33,False,signature_29_33
+android.app.WallpaperManager,getFastDrawable,READ_EXTERNAL_STORAGE,28 29 30 31 32 33,False,signature_29_33|source_28
+android.app.WallpaperManager,getWallpaperFile,READ_EXTERNAL_STORAGE,28 29 30 31 32 33,False,signature_29_33|source_28
+android.app.WallpaperManager,peekFastDrawable,READ_EXTERNAL_STORAGE,28 29 30 31 32 33,False,signature_29_33|source_28
+android.bluetooth.BluetoothA2dp,getConnectedDevices,BLUETOOTH_CONNECT,31 32,False,signature_29_33
+android.bluetooth.BluetoothA2dp,getConnectionState,BLUETOOTH_CONNECT,31 32,False,signature_29_33
+android.bluetooth.BluetoothA2dp,getDevicesMatchingConnectionStates,BLUETOOTH_CONNECT,31 32,False,signature_29_33
+android.bluetooth.BluetoothA2dp,isA2dpPlaying,BLUETOOTH_CONNECT,31 32,False,signature_29_33
+android.bluetooth.BluetoothAdapter,cancelDiscovery,BLUETOOTH_SCAN,29 30 31 32,False,signature_29_33
+android.bluetooth.BluetoothAdapter,disable,BLUETOOTH_CONNECT,29 30 31 32,False,signature_29_33
+android.bluetooth.BluetoothAdapter,enable,BLUETOOTH_CONNECT,29 30 31 32,False,signature_29_33
+android.bluetooth.BluetoothAdapter,getAddress,BLUETOOTH_CONNECT,29 30 31 32,False,signature_29_33
+android.bluetooth.BluetoothAdapter,getBondedDevices,BLUETOOTH_CONNECT,29 30 31 32,False,signature_29_33
+android.bluetooth.BluetoothAdapter,getName,BLUETOOTH_CONNECT,31 32,False,signature_29_33
+android.bluetooth.BluetoothAdapter,getProfileConnectionState,BLUETOOTH_CONNECT,29 30 31 32,False,signature_29_33
+android.bluetooth.BluetoothAdapter,getScanMode,BLUETOOTH_SCAN,29 30 31 32,False,signature_29_33
+android.bluetooth.BluetoothAdapter,isDiscovering,BLUETOOTH_SCAN,29 30 31 32,False,signature_29_33
+android.bluetooth.BluetoothAdapter,listenUsingInsecureL2capChannel,BLUETOOTH_CONNECT,29 30 31 32,False,signature_29_33
+android.bluetooth.BluetoothAdapter,listenUsingInsecureRfcommWithServiceRecord,BLUETOOTH_CONNECT,29 30 31 32,False,signature_29_33
+android.bluetooth.BluetoothAdapter,listenUsingL2capChannel,BLUETOOTH_CONNECT,29 30 31 32,False,signature_29_33
+android.bluetooth.BluetoothAdapter,listenUsingRfcommWithServiceRecord,BLUETOOTH_CONNECT,29 30 31 32,False,signature_29_33
+android.bluetooth.BluetoothAdapter,setName,BLUETOOTH_CONNECT,29 30 31 32,False,signature_29_33
+android.bluetooth.BluetoothAdapter,startDiscovery,BLUETOOTH_SCAN,29 30 31 32,False,signature_29_33
+android.bluetooth.BluetoothAdapter,startLeScan,BLUETOOTH_SCAN,29 30 31 32,False,signature_29_33
+android.bluetooth.BluetoothAdapter,stopLeScan,BLUETOOTH_SCAN,29 30 31 32,False,signature_29_33
+android.bluetooth.BluetoothDevice,connectGatt,BLUETOOTH_CONNECT,31 32,False,signature_29_33
+android.bluetooth.BluetoothDevice,createBond,BLUETOOTH_CONNECT,29 30 31 32,False,signature_29_33
+android.bluetooth.BluetoothDevice,createInsecureL2capChannel,BLUETOOTH_CONNECT,29 30 31 32,False,signature_29_33
+android.bluetooth.BluetoothDevice,createInsecureRfcommSocketToServiceRecord,BLUETOOTH_CONNECT,29 30 31 32,False,signature_29_33
+android.bluetooth.BluetoothDevice,createL2capChannel,BLUETOOTH_CONNECT,29 30 31 32,False,signature_29_33
+android.bluetooth.BluetoothDevice,createRfcommSocketToServiceRecord,BLUETOOTH_CONNECT,29 30 31 32,False,signature_29_33
+android.bluetooth.BluetoothDevice,fetchUuidsWithSdp,BLUETOOTH_CONNECT,29 30 31 32,False,signature_29_33
+android.bluetooth.BluetoothDevice,getAlias,BLUETOOTH_CONNECT,30 31 32,False,signature_29_33
+android.bluetooth.BluetoothDevice,getBluetoothClass,BLUETOOTH_CONNECT,29 30 31 32,False,signature_29_33
+android.bluetooth.BluetoothDevice,getBondState,BLUETOOTH_CONNECT,29 30 31 32,False,signature_29_33
+android.bluetooth.BluetoothDevice,getName,BLUETOOTH_CONNECT,29 30 31 32,False,signature_29_33
+android.bluetooth.BluetoothDevice,getType,BLUETOOTH_CONNECT,29 30 31 32,False,signature_29_33
+android.bluetooth.BluetoothDevice,getUuids,BLUETOOTH_CONNECT,29 30 31 32,False,signature_29_33
+android.bluetooth.BluetoothDevice,setAlias,BLUETOOTH_CONNECT,31 32,False,signature_29_33
+android.bluetooth.BluetoothDevice,setPairingConfirmation,BLUETOOTH_CONNECT,29 30 31 32,False,signature_29_33
+android.bluetooth.BluetoothDevice,setPin,BLUETOOTH_CONNECT,31 32,False,signature_29_33
+android.bluetooth.BluetoothGatt,abortReliableWrite,BLUETOOTH_CONNECT,31 32,False,signature_29_33
+android.bluetooth.BluetoothGatt,beginReliableWrite,BLUETOOTH_CONNECT,31 32,False,signature_29_33
+android.bluetooth.BluetoothGatt,close,BLUETOOTH_CONNECT,31 32,False,signature_29_33
+android.bluetooth.BluetoothGatt,connect,BLUETOOTH_CONNECT,31 32,False,signature_29_33
+android.bluetooth.BluetoothGatt,disconnect,BLUETOOTH_CONNECT,31 32,False,signature_29_33
+android.bluetooth.BluetoothGatt,discoverServices,BLUETOOTH_CONNECT,31 32,False,signature_29_33
+android.bluetooth.BluetoothGatt,executeReliableWrite,BLUETOOTH_CONNECT,31 32,False,signature_29_33
+android.bluetooth.BluetoothGatt,readCharacteristic,BLUETOOTH_CONNECT,31 32,False,signature_29_33
+android.bluetooth.BluetoothGatt,readDescriptor,BLUETOOTH_CONNECT,31 32,False,signature_29_33
+android.bluetooth.BluetoothGatt,readPhy,BLUETOOTH_CONNECT,31 32,False,signature_29_33
+android.bluetooth.BluetoothGatt,readRemoteRssi,BLUETOOTH_CONNECT,31 32,False,signature_29_33
+android.bluetooth.BluetoothGatt,requestConnectionPriority,BLUETOOTH_CONNECT,31 32,False,signature_29_33
+android.bluetooth.BluetoothGatt,requestMtu,BLUETOOTH_CONNECT,31 32,False,signature_29_33
+android.bluetooth.BluetoothGatt,setCharacteristicNotification,BLUETOOTH_CONNECT,31 32,False,signature_29_33
+android.bluetooth.BluetoothGatt,setPreferredPhy,BLUETOOTH_CONNECT,31 32,False,signature_29_33
+android.bluetooth.BluetoothGatt,writeCharacteristic,BLUETOOTH_CONNECT,31 32,False,signature_29_33
+android.bluetooth.BluetoothGatt,writeDescriptor,BLUETOOTH_CONNECT,31 32,False,signature_29_33
+android.bluetooth.BluetoothGattServer,addService,BLUETOOTH_CONNECT,31 32,False,signature_29_33
+android.bluetooth.BluetoothGattServer,cancelConnection,BLUETOOTH_CONNECT,31 32,False,signature_29_33
+android.bluetooth.BluetoothGattServer,clearServices,BLUETOOTH_CONNECT,31 32,False,signature_29_33
+android.bluetooth.BluetoothGattServer,close,BLUETOOTH_CONNECT,31 32,False,signature_29_33
+android.bluetooth.BluetoothGattServer,connect,BLUETOOTH_CONNECT,31 32,False,signature_29_33
+android.bluetooth.BluetoothGattServer,notifyCharacteristicChanged,BLUETOOTH_CONNECT,31 32,False,signature_29_33
+android.bluetooth.BluetoothGattServer,readPhy,BLUETOOTH_CONNECT,31 32,False,signature_29_33
+android.bluetooth.BluetoothGattServer,removeService,BLUETOOTH_CONNECT,31 32,False,signature_29_33
+android.bluetooth.BluetoothGattServer,sendResponse,BLUETOOTH_CONNECT,31 32,False,signature_29_33
+android.bluetooth.BluetoothGattServer,setPreferredPhy,BLUETOOTH_CONNECT,31 32,False,signature_29_33
+android.bluetooth.BluetoothHeadset,connectChannelToSource,BLUETOOTH_CONNECT,31 32,False,signature_29_33
+android.bluetooth.BluetoothHeadset,disconnectChannel,BLUETOOTH_CONNECT,31 32,False,signature_29_33
+android.bluetooth.BluetoothHeadset,getConnectedDevices,BLUETOOTH_CONNECT,31 32,False,signature_29_33
+android.bluetooth.BluetoothHeadset,getConnectionState,BLUETOOTH_CONNECT,31 32,False,signature_29_33
+android.bluetooth.BluetoothHeadset,getDevicesMatchingConnectionStates,BLUETOOTH_CONNECT,31 32,False,signature_29_33
+android.bluetooth.BluetoothHeadset,getMainChannelFd,BLUETOOTH_CONNECT,31 32,False,signature_29_33
+android.bluetooth.BluetoothHeadset,isAudioConnected,BLUETOOTH_CONNECT,31 32,False,signature_29_33
+android.bluetooth.BluetoothHeadset,isNoiseReductionSupported,BLUETOOTH_CONNECT,31 32,False,signature_29_33
+android.bluetooth.BluetoothHeadset,isVoiceRecognitionSupported,BLUETOOTH_CONNECT,31 32,False,signature_29_33
+android.bluetooth.BluetoothHeadset,registerSinkAppConfiguration,BLUETOOTH_CONNECT,31 32,False,signature_29_33
+android.bluetooth.BluetoothHeadset,sendVendorSpecificResultCode,BLUETOOTH_CONNECT,31 32,False,signature_29_33
+android.bluetooth.BluetoothHeadset,startVoiceRecognition,BLUETOOTH_CONNECT,31 32,False,signature_29_33
+android.bluetooth.BluetoothHeadset,stopVoiceRecognition,BLUETOOTH_CONNECT,31 32,False,signature_29_33
+android.bluetooth.BluetoothHeadset,unregisterAppConfiguration,BLUETOOTH_CONNECT,31 32,False,signature_29_33
+android.bluetooth.BluetoothHearingAid,getConnectedDevices,BLUETOOTH_CONNECT,31 32,False,signature_29_33
+android.bluetooth.BluetoothHearingAid,getConnectionState,BLUETOOTH_CONNECT,31 32,False,signature_29_33
+android.bluetooth.BluetoothHearingAid,getDevicesMatchingConnectionStates,BLUETOOTH_CONNECT,31 32,False,signature_29_33
+android.bluetooth.BluetoothHidDevice,connect,BLUETOOTH_CONNECT,31 32,False,signature_29_33
+android.bluetooth.BluetoothHidDevice,disconnect,BLUETOOTH_CONNECT,31 32,False,signature_29_33
+android.bluetooth.BluetoothHidDevice,getConnectedDevices,BLUETOOTH_CONNECT,31 32,False,signature_29_33
+android.bluetooth.BluetoothHidDevice,getConnectionState,BLUETOOTH_CONNECT,31 32,False,signature_29_33
+android.bluetooth.BluetoothHidDevice,getDevicesMatchingConnectionStates,BLUETOOTH_CONNECT,31 32,False,signature_29_33
+android.bluetooth.BluetoothHidDevice,registerApp,BLUETOOTH_CONNECT,31 32,False,signature_29_33
+android.bluetooth.BluetoothHidDevice,replyReport,BLUETOOTH_CONNECT,31 32,False,signature_29_33
+android.bluetooth.BluetoothHidDevice,reportError,BLUETOOTH_CONNECT,31 32,False,signature_29_33
+android.bluetooth.BluetoothHidDevice,sendReport,BLUETOOTH_CONNECT,31 32,False,signature_29_33
+android.bluetooth.BluetoothHidDevice,unregisterApp,BLUETOOTH_CONNECT,31 32,False,signature_29_33
+android.bluetooth.BluetoothLeAudio,getConnectedDevices,BLUETOOTH_CONNECT,31 32,False,signature_29_33
+android.bluetooth.BluetoothLeAudio,getConnectionState,BLUETOOTH_CONNECT,31 32,False,signature_29_33
+android.bluetooth.BluetoothLeAudio,getDevicesMatchingConnectionStates,BLUETOOTH_CONNECT,31 32,False,signature_29_33
+android.bluetooth.BluetoothManager,getConnectedDevices,BLUETOOTH_CONNECT,29 30 31 32,False,signature_29_33
+android.bluetooth.BluetoothManager,getConnectionState,BLUETOOTH_CONNECT,29 30 31 32,False,signature_29_33
+android.bluetooth.BluetoothManager,getDevicesMatchingConnectionStates,BLUETOOTH_CONNECT,29 30 31 32,False,signature_29_33
+android.bluetooth.BluetoothManager,openGattServer,BLUETOOTH_CONNECT,31 32,False,signature_29_33
+android.bluetooth.BluetoothSocket,connect,BLUETOOTH_CONNECT,31 32,False,signature_29_33
+android.bluetooth.le.AdvertisingSet,enableAdvertising,BLUETOOTH_ADVERTISE,31 32,False,signature_29_33
+android.bluetooth.le.AdvertisingSet,setAdvertisingData,BLUETOOTH_ADVERTISE,31 32,False,signature_29_33
+android.bluetooth.le.AdvertisingSet,setAdvertisingParameters,BLUETOOTH_ADVERTISE,31 32,False,signature_29_33
+android.bluetooth.le.AdvertisingSet,setPeriodicAdvertisingData,BLUETOOTH_ADVERTISE,31 32,False,signature_29_33
+android.bluetooth.le.AdvertisingSet,setPeriodicAdvertisingEnabled,BLUETOOTH_ADVERTISE,31 32,False,signature_29_33
+android.bluetooth.le.AdvertisingSet,setPeriodicAdvertisingParameters,BLUETOOTH_ADVERTISE,31 32,False,signature_29_33
+android.bluetooth.le.AdvertisingSet,setScanResponseData,BLUETOOTH_ADVERTISE,31 32,False,signature_29_33
+android.bluetooth.le.BluetoothLeAdvertiser,startAdvertising,BLUETOOTH_ADVERTISE,31 32,False,signature_29_33
+android.bluetooth.le.BluetoothLeAdvertiser,startAdvertisingSet,BLUETOOTH_ADVERTISE,31 32,False,signature_29_33
+android.bluetooth.le.BluetoothLeAdvertiser,stopAdvertising,BLUETOOTH_ADVERTISE,31 32,False,signature_29_33
+android.bluetooth.le.BluetoothLeAdvertiser,stopAdvertisingSet,BLUETOOTH_ADVERTISE,31 32,False,signature_29_33
+android.bluetooth.le.BluetoothLeScanner,flushPendingScanResults,BLUETOOTH_SCAN,31 32,False,signature_29_33
+android.bluetooth.le.BluetoothLeScanner,startScan,BLUETOOTH_SCAN,29 30 31 32,False,signature_29_33
+android.bluetooth.le.BluetoothLeScanner,stopScan,BLUETOOTH_SCAN,29 30 31 32,False,signature_29_33
+android.hardware.camera2.CameraManager,isConcurrentSessionConfigurationSupported,CAMERA,30 31 32 33,False,signature_29_33
+android.hardware.camera2.CameraManager,openCamera,CAMERA,28 29 30 31 32 33,False,signature_29_33|source_28
+android.location.LocationManager,addGpsStatusListener,ACCESS_FINE_LOCATION,28 29 30 31 32 33,False,signature_29_33|source_28
+android.location.LocationManager,addNmeaListener,ACCESS_FINE_LOCATION,28 29 30 31 32 33,False,signature_29_33|source_28
+android.location.LocationManager,addProximityAlert,ACCESS_COARSE_LOCATION|ACCESS_FINE_LOCATION,28 29 30 31 32 33,False,signature_29_33|source_28
+android.location.LocationManager,getCurrentLocation,ACCESS_COARSE_LOCATION|ACCESS_FINE_LOCATION,30 31 32 33,False,signature_29_33
+android.location.LocationManager,getGpsStatus,ACCESS_FINE_LOCATION,28 29 30 31 32 33,False,signature_29_33|source_28
+android.location.LocationManager,getLastKnownLocation,ACCESS_COARSE_LOCATION|ACCESS_FINE_LOCATION,28 29 30 31 32 33,False,signature_29_33|source_28
+android.location.LocationManager,registerAntennaInfoListener,ACCESS_FINE_LOCATION,30,False,signature_29_33
+android.location.LocationManager,registerGnssMeasurementsCallback,ACCESS_FINE_LOCATION,28 29 30 31 32 33,False,signature_29_33|source_28
+android.location.LocationManager,registerGnssNavigationMessageCallback,ACCESS_FINE_LOCATION,28 29 30 31 32 33,False,signature_29_33|source_28
+android.location.LocationManager,registerGnssStatusCallback,ACCESS_FINE_LOCATION,28 29 30 31 32 33,False,signature_29_33|source_28
+android.location.LocationManager,removeProximityAlert,ACCESS_COARSE_LOCATION|ACCESS_FINE_LOCATION,29 30 31 32 33,False,signature_29_33
+android.location.LocationManager,removeUpdates,ACCESS_COARSE_LOCATION|ACCESS_FINE_LOCATION,29 30 31 32 33,False,signature_29_33
+android.location.LocationManager,requestLocationUpdates,ACCESS_COARSE_LOCATION|ACCESS_FINE_LOCATION,28 29 30 31 32 33,False,signature_29_33|source_28
+android.location.LocationManager,requestSingleUpdate,ACCESS_COARSE_LOCATION|ACCESS_FINE_LOCATION,28 29 30 31 32 33,False,signature_29_33|source_28
+android.media.AudioRecord,<init>,RECORD_AUDIO,31 32 33,False,signature_29_33
+android.media.AudioRecord$Builder,build,RECORD_AUDIO,31 32 33,False,signature_29_33
+android.net.wifi.WifiManager,addSuggestionConnectionStatusListener,ACCESS_FINE_LOCATION,30,False,signature_29_33
+android.net.wifi.WifiManager,getConfiguredNetworks,ACCESS_FINE_LOCATION,29 30,False,signature_29_33
+android.net.wifi.WifiManager,startLocalOnlyHotspot,ACCESS_FINE_LOCATION,30,False,signature_29_33
+android.net.wifi.p2p.WifiP2pManager,addLocalService,ACCESS_FINE_LOCATION,29 30,False,signature_29_33
+android.net.wifi.p2p.WifiP2pManager,connect,ACCESS_FINE_LOCATION,29 30,False,signature_29_33
+android.net.wifi.p2p.WifiP2pManager,createGroup,ACCESS_FINE_LOCATION,29 30,False,signature_29_33
+android.net.wifi.p2p.WifiP2pManager,discoverPeers,ACCESS_FINE_LOCATION,29 30,False,signature_29_33
+android.net.wifi.p2p.WifiP2pManager,discoverServices,ACCESS_FINE_LOCATION,29 30,False,signature_29_33
+android.net.wifi.p2p.WifiP2pManager,requestDeviceInfo,ACCESS_FINE_LOCATION,29 30,False,signature_29_33
+android.net.wifi.p2p.WifiP2pManager,requestGroupInfo,ACCESS_FINE_LOCATION,29 30,False,signature_29_33
+android.net.wifi.p2p.WifiP2pManager,requestPeers,ACCESS_FINE_LOCATION,29 30,False,signature_29_33
+android.net.wifi.rtt.WifiRttManager,startRanging,ACCESS_FINE_LOCATION,28 29 30,False,signature_29_33|source_28
+android.os.Build,getSerial,READ_PHONE_STATE,28,False,source_28
+android.telecom.TelecomManager,acceptRingingCall,ANSWER_PHONE_CALLS,28 29 30 31 32 33,False,signature_29_33|source_28
+android.telecom.TelecomManager,endCall,ANSWER_PHONE_CALLS,28 29 30 31 32 33,False,signature_29_33|source_28
+android.telecom.TelecomManager,getCallCapablePhoneAccounts,READ_PHONE_STATE,28 29 30 31 32 33,False,signature_29_33|source_28
+android.telecom.TelecomManager,getDefaultOutgoingPhoneAccount,READ_PHONE_STATE,28 29 30 31 32 33,False,signature_29_33|source_28
+android.telecom.TelecomManager,getLine1Number,READ_PHONE_NUMBERS|READ_PHONE_STATE|READ_SMS,28 29 30 31 32 33,True,signature_29_33|source_28
+android.telecom.TelecomManager,getSelfManagedPhoneAccounts,READ_PHONE_STATE,28 29 30 31 32 33,False,signature_29_33|source_28
+android.telecom.TelecomManager,getUserSelectedOutgoingPhoneAccount,READ_PHONE_STATE,29 30 31 32 33,False,signature_29_33
+android.telecom.TelecomManager,getVoiceMailNumber,READ_PHONE_STATE,28 29 30 31 32 33,False,signature_29_33|source_28
+android.telecom.TelecomManager,isInCall,READ_PHONE_STATE,28 29 30 31 32 33,False,signature_29_33|source_28
+android.telecom.TelecomManager,isInManagedCall,READ_PHONE_STATE,28 29 30 31 32 33,False,signature_29_33|source_28
+android.telecom.TelecomManager,isTtySupported,READ_PHONE_STATE,28 29 30 31 32 33,False,signature_29_33|source_28
+android.telecom.TelecomManager,isVoiceMailNumber,READ_PHONE_STATE,28 29 30 31 32 33,False,signature_29_33|source_28
+android.telecom.TelecomManager,placeCall,CALL_PHONE,28 29 30 31 32 33,False,signature_29_33|source_28
+android.telecom.TelecomManager,showInCallScreen,READ_PHONE_STATE,28 29 30 31 32 33,False,signature_29_33|source_28
+android.telecom.TelecomManager,startConference,CALL_PHONE,31 32 33,False,signature_29_33
+android.telephony.CarrierConfigManager,getConfig,READ_PHONE_STATE,33,False,signature_29_33
+android.telephony.CarrierConfigManager,getConfigByComponentForSubId,READ_PHONE_STATE,33,False,signature_29_33
+android.telephony.CarrierConfigManager,getConfigForSubId,READ_PHONE_STATE,33,False,signature_29_33
+android.telephony.PhoneNumberUtils,onActiveDataSubscriptionIdChanged,READ_PHONE_STATE,31 32 33,False,signature_29_33
+android.telephony.PhoneNumberUtils,onBarringInfoChanged,ACCESS_FINE_LOCATION,31 32 33,False,signature_29_33
+android.telephony.PhoneNumberUtils,onCallForwardingIndicatorChanged,READ_PHONE_STATE,31 32 33,False,signature_29_33
+android.telephony.PhoneNumberUtils,onCallStateChanged,READ_PHONE_STATE,31 32 33,True,signature_29_33
+android.telephony.PhoneNumberUtils,onCellInfoChanged,ACCESS_FINE_LOCATION|READ_PHONE_STATE,31 32 33,False,signature_29_33
+android.telephony.PhoneNumberUtils,onCellLocationChanged,ACCESS_FINE_LOCATION,31 32 33,False,signature_29_33
+android.telephony.PhoneNumberUtils,onDisplayInfoChanged,READ_PHONE_STATE,31 32 33,False,signature_29_33
+android.telephony.PhoneNumberUtils,onEmergencyNumberListChanged,READ_PHONE_STATE,31 32 33,False,signature_29_33
+android.telephony.PhoneNumberUtils,onMessageWaitingIndicatorChanged,READ_PHONE_STATE,31 32 33,False,signature_29_33
+android.telephony.PhoneNumberUtils,onRegistrationFailed,ACCESS_FINE_LOCATION,31 32 33,False,signature_29_33
+android.telephony.PhoneStateListener,onDisplayInfoChanged,READ_PHONE_STATE,30,False,signature_29_33
+android.telephony.ServiceState,getCdmaNetworkId,ACCESS_COARSE_LOCATION|ACCESS_FINE_LOCATION,33,False,signature_29_33
+android.telephony.ServiceState,getCdmaSystemId,ACCESS_COARSE_LOCATION|ACCESS_FINE_LOCATION,33,False,signature_29_33
+android.telephony.ServiceState,getOperatorAlphaLong,ACCESS_COARSE_LOCATION|ACCESS_FINE_LOCATION,33,False,signature_29_33
+android.telephony.ServiceState,getOperatorAlphaShort,ACCESS_COARSE_LOCATION|ACCESS_FINE_LOCATION,33,False,signature_29_33
+android.telephony.ServiceState,getOperatorNumeric,ACCESS_COARSE_LOCATION|ACCESS_FINE_LOCATION,33,False,signature_29_33
+android.telephony.SmsManager,getSmsCapacityOnIcc,READ_PHONE_STATE,31 32 33,False,signature_29_33
+android.telephony.SmsManager,sendTextMessageWithoutPersisting,SEND_SMS,28 29 30 31 32 33,False,signature_29_33|source_28
+android.telephony.SubscriptionManager,getActiveSubscriptionInfo,READ_PHONE_STATE,28 29 30 31 32 33,False,signature_29_33|source_28
+android.telephony.SubscriptionManager,getActiveSubscriptionInfoCount,READ_PHONE_STATE,28 29 30 31 32 33,False,signature_29_33|source_28
+android.telephony.SubscriptionManager,getActiveSubscriptionInfoForSimSlotIndex,READ_PHONE_STATE,28 29 30 31 32 33,False,signature_29_33|source_28
+android.telephony.SubscriptionManager,getActiveSubscriptionInfoList,READ_PHONE_STATE,28 29 30 31 32 33,False,signature_29_33|source_28
+android.telephony.SubscriptionManager,getOpportunisticSubscriptions,READ_PHONE_STATE,29 30 31 32 33,False,signature_29_33
+android.telephony.SubscriptionManager,getPhoneNumber,READ_PHONE_NUMBERS,33,False,signature_29_33
+android.telephony.SubscriptionManager,getSubscriptionsInGroup,READ_PHONE_STATE,29 30 31 32 33,False,signature_29_33
+android.telephony.SubscriptionManager,isActiveSubscriptionId,READ_PHONE_STATE,29 30 31 32 33,False,signature_29_33
+android.telephony.TelephonyCallback$ActiveDataSubscriptionIdListener,onActiveDataSubscriptionIdChanged,READ_PHONE_STATE,31 32 33,False,signature_29_33
+android.telephony.TelephonyCallback$BarringInfoListener,onBarringInfoChanged,ACCESS_FINE_LOCATION,31 32 33,False,signature_29_33
+android.telephony.TelephonyCallback$CallForwardingIndicatorListener,onCallForwardingIndicatorChanged,READ_PHONE_STATE,31 32 33,False,signature_29_33
+android.telephony.TelephonyCallback$CallStateListener,onCallStateChanged,READ_PHONE_STATE,31 32 33,False,signature_29_33
+android.telephony.TelephonyCallback$CellInfoListener,onCellInfoChanged,ACCESS_FINE_LOCATION|READ_PHONE_STATE,31 32 33,False,signature_29_33
+android.telephony.TelephonyCallback$CellLocationListener,onCellLocationChanged,ACCESS_FINE_LOCATION,31 32 33,False,signature_29_33
+android.telephony.TelephonyCallback$EmergencyNumberListListener,onEmergencyNumberListChanged,READ_PHONE_STATE,31 32 33,False,signature_29_33
+android.telephony.TelephonyCallback$MessageWaitingIndicatorListener,onMessageWaitingIndicatorChanged,READ_PHONE_STATE,31 32 33,False,signature_29_33
+android.telephony.TelephonyCallback$RegistrationFailedListener,onRegistrationFailed,ACCESS_FINE_LOCATION,31 32 33,False,signature_29_33
+android.telephony.TelephonyManager,doesSwitchMultiSimConfigTriggerReboot,READ_PHONE_STATE,29 30 31 32 33,False,signature_29_33
+android.telephony.TelephonyManager,getAllCellInfo,ACCESS_COARSE_LOCATION|ACCESS_FINE_LOCATION,28 29 30 31 32 33,False,signature_29_33|source_28
+android.telephony.TelephonyManager,getCallState,READ_PHONE_STATE,31 32 33,True,signature_29_33
+android.telephony.TelephonyManager,getCallStateForSubscription,READ_PHONE_STATE,31 32 33,False,signature_29_33
+android.telephony.TelephonyManager,getCarrierConfig,READ_PHONE_STATE,28 29 30 31 32 33,False,signature_29_33|source_28
+android.telephony.TelephonyManager,getCellLocation,ACCESS_COARSE_LOCATION|ACCESS_FINE_LOCATION,28 29 30 31 32 33,False,signature_29_33|source_28
+android.telephony.TelephonyManager,getDataNetworkType,READ_PHONE_STATE,28 29 30 31 32 33,False,signature_29_33|source_28
+android.telephony.TelephonyManager,getDeviceId,READ_PHONE_STATE,28,False,source_28
+android.telephony.TelephonyManager,getDeviceSoftwareVersion,READ_PHONE_STATE,28 29 30 31 32 33,False,signature_29_33|source_28
+android.telephony.TelephonyManager,getEmergencyNumberList,READ_PHONE_STATE,29 30 31 32 33,False,signature_29_33
+android.telephony.TelephonyManager,getEquivalentHomePlmns,READ_PHONE_STATE,31 32 33,False,signature_29_33
+android.telephony.TelephonyManager,getForbiddenPlmns,READ_PHONE_STATE,28 29 30 31 32 33,False,signature_29_33|source_28
+android.telephony.TelephonyManager,getGroupIdLevel1,READ_PHONE_STATE,28 29 30 31 32 33,False,signature_29_33|source_28
+android.telephony.TelephonyManager,getImei,READ_PHONE_STATE,28,False,source_28
+android.telephony.TelephonyManager,getLine1Number,READ_PHONE_NUMBERS|READ_PHONE_STATE|READ_SMS,28 29 30 31 32 33,False,signature_29_33|source_28
+android.telephony.TelephonyManager,getMeid,READ_PHONE_STATE,28,False,source_28
+android.telephony.TelephonyManager,getNai,READ_PHONE_STATE,28 29 30 31 32 33,False,signature_29_33|source_28
+android.telephony.TelephonyManager,getNeighboringCellInfo,ACCESS_COARSE_LOCATION,28,False,source_28
+android.telephony.TelephonyManager,getNetworkType,READ_PHONE_STATE,28 30 31 32 33,False,signature_29_33|source_28
+android.telephony.TelephonyManager,getPreferredOpportunisticDataSubscription,READ_PHONE_STATE,29 30 31 32 33,False,signature_29_33
+android.telephony.TelephonyManager,getServiceState,ACCESS_COARSE_LOCATION|READ_PHONE_STATE,28 29 30 31 32 33,False,signature_29_33|source_28
+android.telephony.TelephonyManager,getSimSerialNumber,READ_PHONE_STATE,28,False,source_28
+android.telephony.TelephonyManager,getSubscriberId,READ_PHONE_STATE,28,False,source_28
+android.telephony.TelephonyManager,getSubscriptionId,READ_PHONE_STATE,30 31 32 33,False,signature_29_33
+android.telephony.TelephonyManager,getVisualVoicemailPackageName,READ_PHONE_STATE,28 29 30 31 32 33,False,signature_29_33|source_28
+android.telephony.TelephonyManager,getVoiceMailAlphaTag,READ_PHONE_STATE,28 29 30 31 32 33,False,signature_29_33|source_28
+android.telephony.TelephonyManager,getVoiceMailNumber,READ_PHONE_STATE,28 29 30 31 32 33,False,signature_29_33|source_28
+android.telephony.TelephonyManager,getVoiceNetworkType,READ_PHONE_STATE,28 29 30 31 32 33,False,signature_29_33|source_28
+android.telephony.TelephonyManager,isDataConnectionAllowed,READ_PHONE_STATE,31 32 33,False,signature_29_33
+android.telephony.TelephonyManager,isDataEnabled,READ_PHONE_STATE,29 30 31 32 33,False,signature_29_33
+android.telephony.TelephonyManager,isDataEnabledForReason,READ_PHONE_STATE,31 32 33,False,signature_29_33
+android.telephony.TelephonyManager,isDataRoamingEnabled,READ_PHONE_STATE,29 30 31 32 33,False,signature_29_33
+android.telephony.TelephonyManager,isModemEnabledForSlot,READ_PHONE_STATE,30 31 32 33,False,signature_29_33
+android.telephony.TelephonyManager,isMultiSimSupported,READ_PHONE_STATE,29 30 31 32 33,False,signature_29_33
+android.telephony.TelephonyManager,requestCellInfoUpdate,ACCESS_FINE_LOCATION,29 30 31 32 33,False,signature_29_33
+android.telephony.TelephonyManager,requestNetworkScan,ACCESS_FINE_LOCATION,29 30 31 32 33,False,signature_29_33
+android.telephony.TelephonyManager,sendUssdRequest,CALL_PHONE,28 29 30 31 32 33,False,signature_29_33|source_28
+android.telephony.ims.RcsUceAdapter,isUceSettingEnabled,READ_PHONE_STATE,30 31 32 33,False,signature_29_33

@@ -41,7 +41,7 @@ def test_analyze_test_apk():
         "limitations",
     ):
         assert key in payload
-    assert payload["schema_version"] == "1.1.0"
+    assert payload["schema_version"] == "1.2.0"
     assert payload["comparison"] is not None
     assert payload["comparison_reason"] is None
     d_pct = payload["comparison"]["metrics"]["D"]["percentile"]
@@ -52,9 +52,9 @@ def test_analyze_test_apk():
     indicators = payload["indicators"]
     assert indicators["D"]["status"] == "ok"
     assert indicators["N"]["status"] == "ok"
-    assert indicators["P"]["status"] == "not_implemented"
-    assert indicators["M"]["status"] == "not_implemented"
-    assert indicators["A"]["status"] == "unavailable"
+    assert indicators["P"]["status"] == "ok"
+    assert indicators["M"]["status"] == "ok"
+    assert indicators["A"]["status"] == "ok"
     _assert_clean(payload)
 
 

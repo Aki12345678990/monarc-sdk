@@ -97,7 +97,7 @@ def main() -> int:
         log(f"    done in {elapsed_a:.1f}s; report_url={job['report_url']}")
         log(f"    report status={data['status']} indicators={statuses}")
         log(f"    package={data['input']['package_name']} D={data['indicators']['D']['value']} N={data['indicators']['N']['value']}")
-        assert data["schema_version"] == "1.1.0"
+        assert data["schema_version"] == "1.2.0"
         comparison = data["comparison"]
         assert comparison is not None
         d_pct = comparison["metrics"]["D"]["percentile"]
@@ -109,9 +109,9 @@ def main() -> int:
         assert statuses == {
             "D": "ok",
             "N": "ok",
-            "A": "unavailable",
-            "P": "not_implemented",
-            "M": "not_implemented",
+            "A": "ok",
+            "P": "ok",
+            "M": "ok",
         }, statuses
         hits = forbidden_hits(data)
         assert hits == [], hits

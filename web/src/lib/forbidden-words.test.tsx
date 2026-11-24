@@ -8,6 +8,7 @@ import { MotionRoot } from "@/components/motion/MotionRoot";
 import { StatusStepper } from "@/components/StatusStepper";
 import { UploadForm } from "@/components/UploadForm";
 import { ReportView } from "@/components/report/ReportView";
+import { EXPOSURE_DISCLAIMER } from "@/lib/exposure-copy";
 import fixture from "@/test/fixtures/report.json";
 import type { JobStatus } from "./api";
 import type { Report } from "./report-types";
@@ -39,7 +40,7 @@ function walk(dir: string, acc: string[] = []): string[] {
 }
 
 function hitsIn(text: string): string[] {
-  const withoutAllowed = text.split(ALLOWED_LIMITATION).join(" ");
+  const withoutAllowed = text.split(ALLOWED_LIMITATION).join(" ").split(EXPOSURE_DISCLAIMER).join(" ");
   return withoutAllowed.match(new RegExp(FORBIDDEN.source, "gi")) ?? [];
 }
 
@@ -61,9 +62,10 @@ describe("forbidden words in rendered UI", () => {
     for (const node of surfaces) {
       const text = node.textContent ?? "";
       if (text.includes(ALLOWED_LIMITATION)) allowListed.push(ALLOWED_LIMITATION);
+      if (text.includes(EXPOSURE_DISCLAIMER)) allowListed.push(EXPOSURE_DISCLAIMER);
       hits.push(...hitsIn(text));
     }
-    expect(new Set(allowListed)).toEqual(new Set([ALLOWED_LIMITATION]));
+    expect(new Set(allowListed)).toEqual(new Set([ALLOWED_LIMITATION, EXPOSURE_DISCLAIMER]));
     expect(hits).toEqual([]);
   });
 

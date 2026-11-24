@@ -101,7 +101,27 @@ class MetricComparison(BaseModel):
 class ComparisonMetrics(BaseModel):
     D: MetricComparison | None = None
     N: MetricComparison | None = None
+    N_all: MetricComparison | None = None
+    P: MetricComparison | None = None
+    A: MetricComparison | None = None
+    M_exp: MetricComparison | None = None
+    M_exp_sdk: MetricComparison | None = None
+    R: MetricComparison | None = None
     n_sdk_distinct: MetricComparison | None = None
+
+
+class Composite(BaseModel):
+    R: float | None = None
+    R_minusD: float | None = None
+    reason: str | None = None
+    percentiles: dict[str, float | None] = Field(default_factory=dict)
+    size_percentile: float | None = None
+    formula_R: str = "0.25*pr(P)+0.25*pr(A)+0.25*pr(N)+0.25*pr(D)"
+    formula_R_minusD: str = "(pr(P)+pr(A)+pr(N))/3"
+    percentile_formula: str = "(L + (E + 1) / 2) / n"
+    corpus_n: int = 0
+    reference_sha256: str = ""
+    n_by_indicator: dict[str, int] = Field(default_factory=dict)
 
 
 class Comparison(BaseModel):
@@ -122,7 +142,7 @@ def _default_engine() -> EngineInfo:
 
 
 class Report(BaseModel):
-    schema_version: Literal["1.1.0"] = "1.1.0"
+    schema_version: Literal["1.2.0"] = "1.2.0"
     engine: EngineInfo = Field(default_factory=_default_engine)
     input: ReportInput = Field(default_factory=ReportInput)
     status: Literal["ok", "error"] = "ok"
@@ -131,6 +151,7 @@ class Report(BaseModel):
     visibility_caveat: str | None = None
     sdk_inventory: list[Any] = Field(default_factory=list)
     indicators: IndicatorBlock = Field(default_factory=IndicatorBlock.not_implemented)
+    composite: Composite | None = None
     comparison: Comparison | None = None
     comparison_reason: str | None = None
     limitations: list[str] = Field(default_factory=lambda: list(LIMITATIONS))

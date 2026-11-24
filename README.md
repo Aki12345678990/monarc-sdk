@@ -2,11 +2,11 @@
 
 analyzer_core is a static analyzer for Android APK files. It checks the archive, reads package and SDK metadata, and writes a JSON report and a Markdown report.
 
-It does not execute APK code. It does not produce a composite score, a 0–100 score, a tier, or a malware verdict.
+It does not execute APK code. The exposure index is an ordinal ranking against the research corpus. It is not a risk estimate or a malware verdict.
 
 ## Current state
 
-D and N implemented and parity-validated against the frozen v2 pipeline; A unavailable (API map not finalised); P and M not implemented (no v2 definition); report shows raw permissions and raw manifest facts. Schema 1.1.0 adds a univariate corpus comparison (percentile and histogram per metric; no pairing of indicators).
+P, A, N, D and M are implemented and parity-validated against the frozen v2 pipeline. N is distinct hosts in SDK-attributed code. The exposure index R and R₋D are corpus percentile ranks. Schema 1.2.0. Engine 0.2.0.
 
 ## Windows setup
 

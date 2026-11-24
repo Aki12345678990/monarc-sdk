@@ -3,7 +3,6 @@
 import type { ReactNode } from "react";
 import { CountUp } from "@/components/motion/CountUp";
 import { InfoTooltip } from "@/components/ui/overlay";
-import { INDICATOR_STATUS_LABELS } from "@/lib/labels";
 import { asArray, asRecord, asString, display, formatPercent1 } from "@/lib/report-access";
 import type { Report } from "@/lib/report-types";
 
@@ -95,7 +94,7 @@ export function ExposureProfile({ report }: { report: Report }) {
           value={counted(nValue, (n) => String(Math.round(n)))}
           extra={percentileLine(nPct)}
           testId="tile-n"
-          description="Distinct hosts (hosts_distinct_all)"
+          description="Distinct network hosts referenced in SDK code (indicator N)."
         />
         <Tile
           label="Frameworks detected"
@@ -105,9 +104,12 @@ export function ExposureProfile({ report }: { report: Report }) {
         <div className="tile kpi-tile">
           <p className="text-sm font-semibold">Other indicators</p>
           <ul className="mt-1 space-y-1 text-sm">
-            <li data-testid="chip-p">P {INDICATOR_STATUS_LABELS[indicators?.P.status ?? "not_implemented"]}</li>
-            <li data-testid="chip-a">A {INDICATOR_STATUS_LABELS[indicators?.A.status ?? "unavailable"]}</li>
-            <li data-testid="chip-m">M {INDICATOR_STATUS_LABELS[indicators?.M.status ?? "not_implemented"]}</li>
+            <li data-testid="chip-p">P {display(indicators?.P.value)}</li>
+            <li data-testid="chip-a">A {display(indicators?.A.value)}</li>
+            <li data-testid="chip-m">M {display(indicators?.M.value)}</li>
+            <li data-testid="chip-n-all">
+              All distinct hosts in the APK (exploratory) {display(asRecord(indicators?.N.details).N_all)}
+            </li>
           </ul>
         </div>
       </div>
