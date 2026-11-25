@@ -95,6 +95,8 @@ Percentile rank: `(L + (E + 1) / 2) / n` on the frozen 1,260-value array. For co
 
 Reported N is `indicators_v2.compute_n` (SDK-attributed hosts). Reported N_all is the same filter over every caller. The extract column `hosts_distinct_all` stays in the parity block; it is not the frozen `N_all` column.
 
+NSC recovery uses apktool 2.12.1. The jar SHA-256 is `66cf4524a4a45a7f56567d08b2c9b6ec237bcdd78cee69fd4a59c8a0243aeafa`, the hash of `E:\AndroZoo\tools\apktool\apktool_2.12.1.jar` and of the official GitHub release jar. The service image installs `openjdk-17-jre-headless` (Java 17; Debian bookworm amd64 `17.0.21.1+2-1~deb12u1`) from the `python:3.12-slim` apt repository and runs that jar with `/usr/bin/java`. Local runs keep the Android Studio JBR path unless `ANALYZER_JAVA` and `ANALYZER_APKTOOL_JAR` are set.
+
 ## Known v2 defects (not fixed)
 
 - D9: overlay `nsc_error` is not copied into `obj["errors"]`, so `apk_level` and `errors_long` disagree (78 vs 77).
