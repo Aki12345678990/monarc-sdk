@@ -2,9 +2,10 @@ FROM python:3.12-slim
 
 WORKDIR /app
 
-# Headless JRE for apktool. python:3.12-slim's apt repo provides openjdk-17-jre-headless.
+# Headless JRE for apktool. python:3.12-slim is Debian trixie, whose apt
+# repo has no openjdk-17-jre-headless. The closest package is OpenJDK 21.
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends openjdk-17-jre-headless ca-certificates curl \
+    && apt-get install -y --no-install-recommends openjdk-21-jre-headless ca-certificates curl \
     && rm -rf /var/lib/apt/lists/*
 
 # Official apktool 2.12.1. The SHA-256 is the local frozen jar
