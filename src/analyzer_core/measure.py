@@ -29,8 +29,19 @@ from analyzer_core.indicators.manifest import compute_M
 from analyzer_core.indicators.permissions import compute_P
 from analyzer_core.v2_constants import ANDROID_NS, SERVICE_SDK_CATEGORIES
 
+# Local parity defaults. Railway sets ANALYZER_JAVA and ANALYZER_APKTOOL_JAR.
 JAVA_EXE = r"C:\Program Files\Android\Android Studio\jbr\bin\java.exe"
 APKTOOL_JAR = r"E:\AndroZoo\tools\apktool\apktool_2.12.1.jar"
+
+
+def java_exe():
+    return os.environ.get("ANALYZER_JAVA") or JAVA_EXE
+
+
+def apktool_jar():
+    return os.environ.get("ANALYZER_APKTOOL_JAR") or APKTOOL_JAR
+
+
 URL_RE = re.compile(r"""(?i)\b(?:https?|wss?)://[^\s"'<>\\]+""")
 HOST_RE = re.compile(
     r"^(?=.{1,253}$)([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}$"
@@ -212,12 +223,14 @@ def recover_nsc_with_apktool(apk_path):
 
     from xml.etree import ElementTree
 
-    if not os.path.isfile(JAVA_EXE) or not os.path.isfile(APKTOOL_JAR):
+    java = java_exe()
+    jar = apktool_jar()
+    if not os.path.isfile(java) or not os.path.isfile(jar):
         return None
     tmp = tempfile.mkdtemp(prefix="monarc-apktool-")
     try:
         proc = subprocess.run(
-            [JAVA_EXE, "-jar", APKTOOL_JAR, "d", "-s", "-f", "-o", tmp, apk_path],
+            [java, "-jar", jar, "d", "-s", "-f", "-o", tmp, apk_path],
             capture_output=True,
             text=True,
         )
